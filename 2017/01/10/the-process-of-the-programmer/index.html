@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="be honest, stay hungry.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="少平的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="自己负责的系统在新年凌晨上线了一个新功能，但是就目前的反馈来看，业务方不适应，屡次咨询，产品都忙得焦头烂额，我们更是各种修复bug和维护数据。任务多时间紧不能算是借口，这次开发暴露出系统的诸多问题，还需要好好反思。 反思一：事务执行过长或流程分段执行，缺少校验机制 表现出来就是（可能测试环境多一些），制单很长时间，提示制单失败，看后台日志发现，是事务超时了；还有一个表现就是，前不久给外部提供的几个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开发要进阶，一定要有产品的思维">
+<meta property="og:url" content="http://yoursite.com/2017/01/10/the-process-of-the-programmer/index.html">
 <meta property="og:site_name" content="少平的博客">
-<meta property="og:description" content="be honest, stay hungry.">
+<meta property="og:description" content="自己负责的系统在新年凌晨上线了一个新功能，但是就目前的反馈来看，业务方不适应，屡次咨询，产品都忙得焦头烂额，我们更是各种修复bug和维护数据。任务多时间紧不能算是借口，这次开发暴露出系统的诸多问题，还需要好好反思。 反思一：事务执行过长或流程分段执行，缺少校验机制 表现出来就是（可能测试环境多一些），制单很长时间，提示制单失败，看后台日志发现，是事务超时了；还有一个表现就是，前不久给外部提供的几个">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-08T14:59:17.993Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="少平的博客">
-<meta name="twitter:description" content="be honest, stay hungry.">
+<meta name="twitter:title" content="开发要进阶，一定要有产品的思维">
+<meta name="twitter:description" content="自己负责的系统在新年凌晨上线了一个新功能，但是就目前的反馈来看，业务方不适应，屡次咨询，产品都忙得焦头烂额，我们更是各种修复bug和维护数据。任务多时间紧不能算是借口，这次开发暴露出系统的诸多问题，还需要好好反思。 反思一：事务执行过长或流程分段执行，缺少校验机制 表现出来就是（可能测试环境多一些），制单很长时间，提示制单失败，看后台日志发现，是事务超时了；还有一个表现就是，前不久给外部提供的几个">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/10/the-process-of-the-programmer/"/>
 
 
 
 
 
-  <title>少平的博客</title>
+  <title>开发要进阶，一定要有产品的思维 | 少平的博客</title>
   
 
 
@@ -143,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -217,9 +217,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -249,9 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/01/10/the-process-of-the-programmer/" itemprop="url">开发要进阶，一定要有产品的思维</a></h1>
+          <h1 class="post-title" itemprop="name headline">开发要进阶，一定要有产品的思维</h1>
         
 
         <div class="post-meta">
@@ -301,9 +299,7 @@
       
 
       
-        
-          
-            <p>自己负责的系统在新年凌晨上线了一个新功能，但是就目前的反馈来看，业务方不适应，屡次咨询，产品都忙得焦头烂额，我们更是各种修复bug和维护数据。任务多时间紧不能算是借口，这次开发暴露出系统的诸多问题，还需要好好反思。</p>
+        <p>自己负责的系统在新年凌晨上线了一个新功能，但是就目前的反馈来看，业务方不适应，屡次咨询，产品都忙得焦头烂额，我们更是各种修复bug和维护数据。任务多时间紧不能算是借口，这次开发暴露出系统的诸多问题，还需要好好反思。</p>
 <p><strong>反思一：事务执行过长或流程分段执行，缺少校验机制</strong></p>
 <p>表现出来就是（可能测试环境多一些），制单很长时间，提示制单失败，看后台日志发现，是事务超时了；<br>还有一个表现就是，前不久给外部提供的几个接口，可能存在不一致性的问题。<br>从开发的角度来说，则是制单流程，从流程引擎启动到业务数据变更，中间执行过长过长，而且还有跨库操作（流程引擎在另外一个数据库），当数据库访问慢的时候这种方式的弊端就出现了；另一种则是设计上的缺陷，没有考虑到流程的一致性，或者说是缺少校验机制，目前只是加上了关键信息，后期必须完善。</p>
 <p><strong>反思二：数据查询效率低，耗时长，导致事务超时</strong></p>
@@ -316,8 +312,6 @@
 <p>表现出来就是，该单选的地方允许多选，其实用户根本不需要多选，设计多余，还有一些关键操作，没有任何提示，很容易点错其他报销单，这时候就只能修复数据了。<br>从开发的角度来说，则是开发很多时候并没有get到产品的点，只是按照自己的思维去开发设计，以为用户都是产品经理级别的水平，不会有任何误操作，就想当然地省去了很多校验或者提醒，加之需求急着上线，抱着先把流程跑通，以后再优化的思维，就上线了。然后用户就各种莫名地点错，然后就开始了修复各种边边角角的bug，甚至有时候一个迭代下来，发现什么也没做，净是改bug和修复数据了。</p>
 <p>这一点其实也是看了微信最近的界面体验设计以及最近刚刚发布的小程序功能，很多启发，产品设计好，有很多因素，但是开发要进阶，还是要有产品的思维。</p>
 
-          
-        
       
     </div>
     
@@ -334,12 +328,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -349,10 +343,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -360,6 +355,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -556,6 +555,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
