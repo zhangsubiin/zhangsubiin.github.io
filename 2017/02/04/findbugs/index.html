@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Life," />
+  <meta name="keywords" content="Program,WikiKnowledge," />
 
 
 
@@ -79,18 +79,24 @@
 
 
 
-<meta name="description" content="今天有幸去和一位前辈老乡见了一面，谈话两小时，收获良多，回到公司吃过中饭，仍难抚心中波澜，人生难得几个重要的时刻，记忆难免会有缺失，所以决定用文字记录下来。 本来打算去附近一个茶庄，可以绕了一圈发现有点远又不知道几点开门营业，所以就去了附近的一家星巴克，点了两杯拿铁，开始了本次的交谈。 都说见多才能识广，这位前辈（以下简称 M 叔）可算是印证了这句话，而且记忆很好，说起往事总是如数家珍，可还是谦虚">
-<meta name="keywords" content="Life">
+<meta name="description" content="在使用 Jenkins 构建 Java Web 项目时候，有一项叫做静态代码检查，是用内置的 findBugs 插件，对程序源代码进行检查，以分析程序行为的技术，应用于程序的正确性检查、安全缺陷检测、程序优化等，特点就是不执行程序。它有助于在项目早期发现以下问题：变量声明了但未使用、变量类型不匹配、变量在使用前未定义、不可达代码、死循环、数组越界、内存泄漏等。分为以下几种类型： 一、Bad Pra">
+<meta name="keywords" content="Program,WikiKnowledge">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拿什么来强大你的内心——M 叔的人格魅力">
-<meta property="og:url" content="http://zhangsubiin.com/2016/06/05/strong-your-heart/index.html">
+<meta property="og:title" content="知识百科系列 (一) —— FindBugs">
+<meta property="og:url" content="http://zhangsubiin.com/2017/02/04/findbugs/index.html">
 <meta property="og:site_name" content="少平的博客">
-<meta property="og:description" content="今天有幸去和一位前辈老乡见了一面，谈话两小时，收获良多，回到公司吃过中饭，仍难抚心中波澜，人生难得几个重要的时刻，记忆难免会有缺失，所以决定用文字记录下来。 本来打算去附近一个茶庄，可以绕了一圈发现有点远又不知道几点开门营业，所以就去了附近的一家星巴克，点了两杯拿铁，开始了本次的交谈。 都说见多才能识广，这位前辈（以下简称 M 叔）可算是印证了这句话，而且记忆很好，说起往事总是如数家珍，可还是谦虚">
+<meta property="og:description" content="在使用 Jenkins 构建 Java Web 项目时候，有一项叫做静态代码检查，是用内置的 findBugs 插件，对程序源代码进行检查，以分析程序行为的技术，应用于程序的正确性检查、安全缺陷检测、程序优化等，特点就是不执行程序。它有助于在项目早期发现以下问题：变量声明了但未使用、变量类型不匹配、变量在使用前未定义、不可达代码、死循环、数组越界、内存泄漏等。分为以下几种类型： 一、Bad Pra">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-08T16:11:00.515Z">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/findBugs1.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/findBugs2.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/findBugs3.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/findBugs4.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/findBugs5.png">
+<meta property="og:updated_time" content="2018-05-09T16:21:45.304Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拿什么来强大你的内心——M 叔的人格魅力">
-<meta name="twitter:description" content="今天有幸去和一位前辈老乡见了一面，谈话两小时，收获良多，回到公司吃过中饭，仍难抚心中波澜，人生难得几个重要的时刻，记忆难免会有缺失，所以决定用文字记录下来。 本来打算去附近一个茶庄，可以绕了一圈发现有点远又不知道几点开门营业，所以就去了附近的一家星巴克，点了两杯拿铁，开始了本次的交谈。 都说见多才能识广，这位前辈（以下简称 M 叔）可算是印证了这句话，而且记忆很好，说起往事总是如数家珍，可还是谦虚">
+<meta name="twitter:title" content="知识百科系列 (一) —— FindBugs">
+<meta name="twitter:description" content="在使用 Jenkins 构建 Java Web 项目时候，有一项叫做静态代码检查，是用内置的 findBugs 插件，对程序源代码进行检查，以分析程序行为的技术，应用于程序的正确性检查、安全缺陷检测、程序优化等，特点就是不执行程序。它有助于在项目早期发现以下问题：变量声明了但未使用、变量类型不匹配、变量在使用前未定义、不可达代码、死循环、数组越界、内存泄漏等。分为以下几种类型： 一、Bad Pra">
+<meta name="twitter:image" content="http://p8bc1hri5.bkt.clouddn.com/findBugs1.png">
 
 
 
@@ -120,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://zhangsubiin.com/2016/06/05/strong-your-heart/"/>
+  <link rel="canonical" href="http://zhangsubiin.com/2017/02/04/findbugs/"/>
 
 
 
 
 
-  <title>拿什么来强大你的内心——M 叔的人格魅力 | 少平的博客</title>
+  <title>知识百科系列 (一) —— FindBugs | 少平的博客</title>
   
 
 
@@ -262,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zhangsubiin.com/2016/06/05/strong-your-heart/">
+    <link itemprop="mainEntityOfPage" href="http://zhangsubiin.com/2017/02/04/findbugs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="shaoping">
@@ -279,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">拿什么来强大你的内心——M 叔的人格魅力</h1>
+          <h1 class="post-title" itemprop="name headline">知识百科系列 (一) —— FindBugs</h1>
         
 
         <div class="post-meta">
@@ -291,8 +297,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-05T00:04:13+08:00">
-                2016-06-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-04T23:39:50+08:00">
+                2017-02-04
               </time>
             
 
@@ -314,8 +320,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/智慧人生/" itemprop="url" rel="index">
-                    <span itemprop="name">智慧人生</span>
+                  <a href="/categories/效率插件/" itemprop="url" rel="index">
+                    <span itemprop="name">效率插件</span>
                   </a>
                 </span>
 
@@ -331,7 +337,7 @@
 
           
           
-             <span id="/2016/06/05/strong-your-heart/" class="leancloud_visitors" data-flag-title="拿什么来强大你的内心——M 叔的人格魅力">
+             <span id="/2017/02/04/findbugs/" class="leancloud_visitors" data-flag-title="知识百科系列 (一) —— FindBugs">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -362,14 +368,42 @@
       
 
       
-        <p>今天有幸去和一位前辈老乡见了一面，谈话两小时，收获良多，回到公司吃过中饭，仍难抚心中波澜，人生难得几个重要的时刻，记忆难免会有缺失，所以决定用文字记录下来。</p>
-<p>本来打算去附近一个茶庄，可以绕了一圈发现有点远又不知道几点开门营业，所以就去了附近的一家星巴克，点了两杯拿铁，开始了本次的交谈。</p>
-<p>都说见多才能识广，这位前辈（以下简称 M 叔）可算是印证了这句话，而且记忆很好，说起往事总是如数家珍，可还是谦虚地说记性不好。虽然说的都是琐事，但是在我看来确正是验证他所述之言的有力论证，恍惚间，感觉面前坐的是许子东老师，锵锵三人行中我最喜欢的嘉宾之一，将人生哲理处事经验娓娓道来。</p>
-<p>首先，他讲述了下自己年轻时候的故事，父亲对自己的言传身教，耳提面命，感慨自己有现在的生活多亏父亲当时的严苛。从医十多年，不昧良心做事，行走在复杂的社会仍能不忘初心，这几点都是常人很难坚持的东西，也是我所钦佩的地方。M 叔喜欢游遍祖国大江山川，某次骑行到海南，仍不忘家里年迈的父母，寄一些水果回去，他说，可能并不会那么好吃，但是没办法，家庭总是在自己内心占据首要位置，这一点不会忘也不能忘。直到前不久，年迈的老父亲驾鹤西去，老家村里前来吊唁的人们无不感叹，歌颂功德不敢讲，但是大家总能说起他的好。我听到这里，觉得这才是最值得骄傲的吧，不在于惊天动地，只坚信日积一德，终能无愧于心。</p>
-<p>M 叔喝了口咖啡，接着说起了自己的伴侣。他们是大学同学，听他的描述，当时的 M 叔应该是才华横溢，满腹经纶，两人是一见倾心，一起插队，一起下乡。当时的 M 叔一身抱负，发誓肩负男人的责任，保护自己的女人，这便是 M 叔内心强大的第二个动力。结婚生子之后，自己独自一人在北京打拼，妻子在家里照顾孩子的上学，任劳任怨，M 叔说到这里，眼睛有一些湿润， 说自己一辈子都会记着这些，永不背叛，永不分离。想起 M 叔自嘲文艺范，我想年轻时候的他们，也许也会曾对《致橡树》爱不释手吧，这段经历虽平淡无华，但确是对坚贞爱情的真实写照。</p>
-<p>常言道，父不言子之德，但 M 叔确对他们爱情的结晶大加褒奖，就像他说的那样，自己坚信的东西，坚守了一生，也终于换来了如此的馈赠，注定要继续延续下去。M 叔讲了很多关于这对姐妹花的求学和成长路上的故事，也是精彩万分，M 叔对她们无微不至的呵护，直到她们长大成人。说真的，我觉得她们一定会因为有如此的父母而自豪，都说父母是孩子的第一任也是最重要的一任老师，目的很简单，培养孩子有能力面对外面纷杂的世界，三观正，有见识，足矣。M 叔说了一句感动我的话，你能想象一下，全家待在一起，一个足浴盆里边有六只脚，是一种怎样的幸福么。所以我想，M 叔至今仍能永葆活力，仍对更美好生活充满向往，内心仍足够强大的第三个理由，就是她们吧。</p>
-<p>听着 M 叔的人生阅历，自己相比一下，真是相形见绌了。父母为了生计而奔波，非常辛苦，自己心里也特别感谢父母，坚持自己求学的这条路。最近在工作之余不断思索，深知我们不得不面对的事情，正是从一段时间学习到终身学习，从一个专业学习到跨界学习，从整块时间学习向碎片化时间学习。更重要的是，必须不断地发现问题，然后找到解决方案，这样你的能力才会成长，你的价值才能在认可。</p>
-<p>套用罗胖的话，这个世界就那么两个事：第一，找到目标，勇于、擅于行动；第二，在行动的过程中，让更多的人能够帮助你，这才是新时代的牛人。</p>
+        <p>在使用 Jenkins 构建 Java Web 项目时候，有一项叫做静态代码检查，是用内置的 findBugs 插件，对程序源代码进行检查，以分析程序行为的技术，应用于程序的正确性检查、安全缺陷检测、程序优化等，特点就是不执行程序。它有助于在项目早期发现以下问题：变量声明了但未使用、变量类型不匹配、变量在使用前未定义、不可达代码、死循环、数组越界、内存泄漏等。分为以下几种类型：</p>
+<p><strong>一、Bad Practice (糟糕的写法)</strong></p>
+<p><strong>二、Correctness (不太的当)</strong></p>
+<p><strong>三、Experimental (实验)</strong></p>
+<p><strong>四、Internationalization (国际化)</strong></p>
+<p><strong>五、Malicious code vulnerability (有漏洞的代码)</strong></p>
+<p><strong>六、Multithreaded correctness (多线程问题)</strong></p>
+<p><strong>七、Performance (执行)</strong></p>
+<p><strong>八、Security (安全性)</strong></p>
+<p><strong>九、Dodgy code (可疑代码)</strong></p>
+<p>具体描述，可以参加如下地址：<a href="http://findbugs.sourceforge.net/bugDescriptions.html" target="_blank" rel="noopener">FindBugs问题列表以及描述</a></p>
+<p>常见的比如：</p>
+<p>SBSC: Method concatenates strings using + in a loop (SBSC_USE_STRINGBUFFER_CONCATENATION)</p>
+<p>问题描述已经很清楚了，尽量不要在循环中使用 String，用 StringBuffer 来代替：</p>
+<p>The method seems to be building a String using concatenation in a loop. In each iteration, the String is converted to a StringBuffer/StringBuilder, appended to, and converted back to a String. This can lead to a cost quadratic in the number of iterations, as the growing string is recopied in each iteration.</p>
+<p>Better performance can be obtained by using a StringBuffer (or StringBuilder in Java 1.5) explicitly.</p>
+<p>For example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is bad</span></span><br><span class="line"></span><br><span class="line">String s = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; field.length; ++i) &#123;</span><br><span class="line"></span><br><span class="line">  s = s + field[i];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This is better</span></span><br><span class="line"></span><br><span class="line">StringBuffer buf = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; field.length; ++i) &#123;</span><br><span class="line"></span><br><span class="line">	buf.append(field[i]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">String s = buf.toString();</span><br></pre></td></tr></table></figure>
+<p>写段代码比较下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Long preSecond = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">String str = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> length = <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line"></span><br><span class="line">　　str += i;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"cost "</span> + (System.currentTimeMillis() - preSecond) + <span class="string">" seconds."</span>);</span><br><span class="line"></span><br><span class="line">Long posSecond = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">StringBuffer buffer = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line"></span><br><span class="line">　　buffer.append(i);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"cost "</span> + (System.currentTimeMillis() - posSecond) + <span class="string">" seconds."</span>);</span><br></pre></td></tr></table></figure>
+<p>输出结果为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cost <span class="number">363</span> seconds.</span><br><span class="line"></span><br><span class="line">cost <span class="number">3</span> seconds.</span><br></pre></td></tr></table></figure>
+<p><strong>还有个错误关于实体类的 setter 和 getter 方法的：</strong></p>
+<p>EI2: May expose internal representation by incorporating reference to mutable object (EI_EXPOSE_REP2)</p>
+<p>This code stores a reference to an externally mutable object into the internal representation of the object.  If instances are accessed by untrusted code, and unchecked changes to the mutable object would compromise security or other important properties, you will need to do something different. Storing a copy of the object is better approach in many situations.</p>
+<p>报的是这种比如 Date 类型的字段的 getter 和 setter 方法：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs1.png" alt=""></p>
+<p>这里的警告意思是，在进行 get 或者 set 时候，因为 Java 是引用传递，对象之间赋值，可能会导致其他对象的修改，所以建议的做法是，把对象的克隆对象赋值给需要赋值的对象。</p>
+<p>首先，该实体类要继承 Cloneable 接口，然后在对应的 getter 和 setter 方法更改如下即可：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs2.png" alt=""></p>
+<p>在一款优秀的 Java IDE —— IntellijIDEA 中，也可以安装对应的插件，来将这些问题扼杀在项目上线之前，避免不必要的麻烦。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs3.png" alt=""></p>
+<p>安装以后，右击要分析的 Java 文件，选择 Analyzed Files 即可</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs4.png" alt=""></p>
+<p>分析之后，如果有 bugs，就会显示，然后根据提示来修正即可</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs5.png" alt=""></p>
 
       
     </div>
@@ -387,7 +421,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Life/" rel="tag"># Life</a>
+            <a href="/tags/Program/" rel="tag"># Program</a>
+          
+            <a href="/tags/WikiKnowledge/" rel="tag"># WikiKnowledge</a>
           
         </div>
       
@@ -400,8 +436,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/23/two-interview-experiences-a-life-turning/" rel="next" title="两次面试经历，一个人生转折">
-                <i class="fa fa-chevron-left"></i> 两次面试经历，一个人生转折
+              <a href="/2017/01/10/the-process-of-the-programmer/" rel="next" title="开发要进阶，一定要有产品的思维">
+                <i class="fa fa-chevron-left"></i> 开发要进阶，一定要有产品的思维
               </a>
             
           </div>
@@ -410,8 +446,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/10/the-process-of-the-programmer/" rel="prev" title="开发要进阶，一定要有产品的思维">
-                开发要进阶，一定要有产品的思维 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/02/11/the-normal-characteristic-of-angular-1/" rel="prev" title="AngularJS 的常用特性 (一)">
+                AngularJS 的常用特性 (一) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

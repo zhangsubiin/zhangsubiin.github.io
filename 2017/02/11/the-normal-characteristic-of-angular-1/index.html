@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Program,前端," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言：AngularJS 是一款来自 Google 的前端 JS 框架，该框架已经被应用到了 Google 的多款产品中，这款框架最核心特性有：MVC、模块化、自动化双向数据绑定、语义化标签、依赖注入等待。而且，AngularJS 框架自身是通过 TDD（测试驱动）的方式开发的，从这个角度来看，AngularJS 是敏捷开发的一次成功实践。 引一段《AngularJS 深度剖析和最佳实践》中的话：">
+<meta name="keywords" content="Program,前端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AngularJS 的常用特性 (一)">
+<meta property="og:url" content="http://zhangsubiin.com/2017/02/11/the-normal-characteristic-of-angular-1/index.html">
+<meta property="og:site_name" content="少平的博客">
+<meta property="og:description" content="前言：AngularJS 是一款来自 Google 的前端 JS 框架，该框架已经被应用到了 Google 的多款产品中，这款框架最核心特性有：MVC、模块化、自动化双向数据绑定、语义化标签、依赖注入等待。而且，AngularJS 框架自身是通过 TDD（测试驱动）的方式开发的，从这个角度来看，AngularJS 是敏捷开发的一次成功实践。 引一段《AngularJS 深度剖析和最佳实践》中的话：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-1.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-2.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-3.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-4.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-5.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-6.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-7.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-8.jpg">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-9.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-10.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-11.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-12.png">
+<meta property="og:updated_time" content="2018-05-09T16:19:55.807Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AngularJS 的常用特性 (一)">
+<meta name="twitter:description" content="前言：AngularJS 是一款来自 Google 的前端 JS 框架，该框架已经被应用到了 Google 的多款产品中，这款框架最核心特性有：MVC、模块化、自动化双向数据绑定、语义化标签、依赖注入等待。而且，AngularJS 框架自身是通过 TDD（测试驱动）的方式开发的，从这个角度来看，AngularJS 是敏捷开发的一次成功实践。 引一段《AngularJS 深度剖析和最佳实践》中的话：">
+<meta name="twitter:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhangsubiin.com/2017/02/11/the-normal-characteristic-of-angular-1/"/>
+
+
+
+
+
+  <title>AngularJS 的常用特性 (一) | 少平的博客</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-118955491-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">少平的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangsubiin.com/2017/02/11/the-normal-characteristic-of-angular-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shaoping">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="少平的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AngularJS 的常用特性 (一)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:05:10+08:00">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/02/11/the-normal-characteristic-of-angular-1/" class="leancloud_visitors" data-flag-title="AngularJS 的常用特性 (一)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前言：AngularJS 是一款来自 Google 的前端 JS 框架，该框架已经被应用到了 Google 的多款产品中，这款框架最核心特性有：MVC、模块化、自动化双向数据绑定、语义化标签、依赖注入等待。而且，AngularJS 框架自身是通过 TDD（测试驱动）的方式开发的，从这个角度来看，AngularJS 是敏捷开发的一次成功实践。</p>
+<p>引一段《AngularJS 深度剖析和最佳实践》中的话：</p>
+<blockquote>
+<p>Angular 的学习曲线大概是这样的：入门非常容易，中级的时候会发现需要深入理解很多概念，高级的时候需要掌握 Angular 的工作原理，而想成为专家则很难，需要经过很多工程实践的磨练。</p>
+</blockquote>
+<p>既然入门比较容易，那就一起入门吧。</p>
+<p><strong>1、调用 Angular</strong></p>
+<p>为了使用 Angular，所有应用都必须首先做两件事情：</p>
+<ul>
+<li>加载 angular.js 库</li>
+<li>使用 ng-app 指令告诉 Angular 应该管理 DOM 中的哪一部分。</li>
+</ul>
+<p>如果你正在构建一款纯 Angular 应用，则把 ng-app 指令写在 <code>&lt;html&gt;</code> 标签中，示例如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-1.png" alt=""></p>
+<p>或者你也可以用 Angular 管理页面中的一部分，只有放在页面中的 <code>&lt;div&gt;</code> 之类的元素即可。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-2.png" alt=""></p>
+<p><strong>2、模板与数据绑定</strong></p>
+<p>1）<strong>数据绑定</strong>是 Angular 的特色，即 “所见即所得”，像这样设置其中的文本：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-3.png" alt=""></p>
+<p>也叫做双花括号插值语法，因为它可以把新的内容插入到现有的模板中。</p>
+<p>控制器 (使用指令 ng-controller) 就是你所编写的类或者类型，它的作用是告诉 Angular 该模型是由哪些对象或者基本数据构成的，只要把这些对象或者基本数据设置到 <code>$scope</code> 对象上即可，<code>$scope</code> 对象会被传递给控制器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function TextController($scope) &#123;</span><br><span class="line"></span><br><span class="line">  $scope.someText = someText;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个简单的完整的例子：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-4.png" alt=""></p>
+<p>加载到浏览器中，你会看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have started your journey.</span><br></pre></td></tr></table></figure>
+<p>但是大多数应用，还是需要创建模型对象来容纳数据，而且并不建议在全局作用域创建 <strong>TextController</strong>，建议是定义成模块的一部分:</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-5.png" alt=""></p>
+<p>记住：<strong>把东西从全局命名空间中隔离开是一件非常好的事情</strong>，模块机制起这个作用。</p>
+<p>2）使用 <code>ng-bind</code> 指令，可以在 UI 中的任何地方显示并刷新文本，有两种等价形式：</p>
+<p>一种是花括号形式：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-6.png" alt=""></p>
+<p>一种是使用基于属性的指令：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-7.png" alt=""></p>
+<p>花括号插值语法的目的是为了阅读自然，而且需要输入的内容更少，但是在页面加载过程中，Angular 会使用数据替换这些花括号，未被渲染好的模板可能会被用户看到。</p>
+<p>造成这种现象的原因是，浏览器需要首先加载 HTML 页面，渲染它，然后 Angular 才有机会把它解释成你期望看到的内容。</p>
+<p>其实，加载 HTML 页面一般只发生在首页，所以对于 <code>index.html</code> 页面中的数据绑定操作，建议使用 <code>ng-bind</code>，其他页面可以使用花括号，而且花括号更快一点。</p>
+<p>利用 Chrome 浏览器的一个针对于 Angular 的扩展（<strong>AngularJS Batarang(Stable)</strong>）可以直观的看到两者消耗时间的差别：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-8.jpg" alt=""></p>
+<p>3）表单输入</p>
+<p>在 Angular 中使用表单元素非常方便，使用指令 ng-model 属性把元素绑定到你的模型属性上。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-9.png" alt=""></p>
+<p>对于输入元素来说，你可以使用 <code>ng-change</code> 属性来指定一个控制器方法，一旦用户修改了输入值，这个方法就会被调用。下面做一个简单的计算，帮助消费者计算一下需要付多少钱：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-10.png" alt=""></p>
+<p>把输入文本框的值设置为用户估价的 10 倍即可，同时，默认值为 0：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StartUpController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.funding = &#123; <span class="attr">startingEstimate</span> : <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    $scope.computeNeeded = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        $scope.funding.needed = $scope.funding.startingEstimate * <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是为了能够正确地刷新输入框，而不管它是通过何种途径进行刷新的，需要使用 <code>$scope</code> 中的 <code>$watch()</code> 函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StartUpController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">　　$scope.funding = &#123; <span class="attr">startingEstimate</span> : <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">var</span> computeNeeded = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">   　　scope.funding.needed = scope.funding.startingEstimate * <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">   &#125;;</span><br><span class="line"></span><br><span class="line">   scope.watch(<span class="string">'funding.startingEstimate'</span>, computeNeeded);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请注意，需要监视的表达式位于引号中，这个字符串会被当作 Angular 表达式来操作。这时我们可以使用一个简单的模板：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-11.png" alt=""></p>
+<p>4）浅谈非入侵式 JavaScript</p>
+<p>对于大多数内联的时间监听器来说，Angular 有一种等价的形式 <code>ng-eventhandler = &quot;expression&quot;</code>，这里的 eventhandler 可以被替换成 click、mousedown、change 等。最重要的是，Angular 将会帮你屏蔽浏览器之间的差异性。</p>
+<p>而且不会在全局命名空间中进行操作，你所指定的表达式只能访问元素控制器作用域范围内的函数和数据。</p>
+<p>第二点举个例子就是，不同的 <strong>Controller</strong>，可以定义相同名字的数据模型，你会创建一个导航栏和一个内容区域，当你在导航栏中选择不同的菜单项时，内容区域会发生相应的改变。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-12.png" alt=""></p>
+<p>当用户点击的时候，导航栏中的两个 <code>&lt;li&gt;</code> 和内容区域中的 <code>&lt;div&gt;</code> 都会调用 <strong>doSomething()</strong> 的函数，你可以在控制器代码中写好这些调用所引起的函数，实际上这两个函数可以是同一个，也可以不是同一个。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">NavController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.doSomething = doA;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ContentAreaController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.doSomething = doB;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请注意，到目前为止，我们所编写的所有控制器中，都没有在任何地方引用 DOM 或者 DOM 操作，所有定位元素和处理事件的工作都是在 Angular 内部完成的。</p>
+<p>所以，你可以开心地使用 Angular 的声明式事件处理器，同时又能保持简单性和可读性，没有必要为违反最佳实践而感到内疚。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Program/" rel="tag"># Program</a>
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/04/findbugs/" rel="next" title="知识百科系列 (一) —— FindBugs">
+                <i class="fa fa-chevron-left"></i> 知识百科系列 (一) —— FindBugs
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">shaoping</p>
+              <p class="site-description motion-element" itemprop="description">be honest, stay hungry.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shaoping</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("a82bwIDWAmkBUljt6YTY6ohg-gzGzoHsz", "KJEVf0J8TLOJzkyrj3eUEIby");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
