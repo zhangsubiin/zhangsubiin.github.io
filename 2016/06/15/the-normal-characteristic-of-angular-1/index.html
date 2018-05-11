@@ -99,7 +99,7 @@
 <meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-10.png">
 <meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-11.png">
 <meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-12.png">
-<meta property="og:updated_time" content="2018-05-11T12:46:48.477Z">
+<meta property="og:updated_time" content="2018-05-11T13:15:55.279Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AngularJS 的常用特性 (一)">
 <meta name="twitter:description" content="前言：AngularJS 是一款来自 Google 的前端 JS 框架，该框架已经被应用到了 Google 的多款产品中，这款框架最核心特性有：MVC、模块化、自动化双向数据绑定、语义化标签、依赖注入等待。而且，AngularJS 框架自身是通过 TDD（测试驱动）的方式开发的，从这个角度来看，AngularJS 是敏捷开发的一次成功实践。 引一段《AngularJS 深度剖析和最佳实践》中的话：">
@@ -396,7 +396,7 @@
 <p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-3.png" alt=""></p>
 <p>也叫做双花括号插值语法，因为它可以把新的内容插入到现有的模板中。</p>
 <p>控制器 (使用指令 ng-controller) 就是你所编写的类或者类型，它的作用是告诉 Angular 该模型是由哪些对象或者基本数据构成的，只要把这些对象或者基本数据设置到 <code>$scope</code> 对象上即可，<code>$scope</code> 对象会被传递给控制器：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function TextController($scope) &#123;</span><br><span class="line"></span><br><span class="line">  $scope.someText = someText;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">TextController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  $scope.someText = someText;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>一个简单的完整的例子：</p>
 <p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-4.png" alt=""></p>
 <p>加载到浏览器中，你会看到：</p>
