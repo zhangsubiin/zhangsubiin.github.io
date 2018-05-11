@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Program,前端," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="6、表达式 在模板中使用表达式是为了以充分的灵活性在模板、业务逻辑和数据之间建立联系，同时又能避免让业务逻辑渗透到模板中。  当然，对于第一个表达式，recompute() / 10，应该避免这种把业务逻辑放到模板中的方式，应该清晰地区分视图和控制器之间的职责，这样更便于测试。 虽然 Angular 里面的表达式比 Javascript 更严格，但是它们对 undefined 和 null 的容错">
+<meta name="keywords" content="Program,前端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AngularJS 的常用特性 (三)">
+<meta property="og:url" content="http://zhangsubiin.com/2016/08/04/the-normal-characteristic-of-angular-3/index.html">
+<meta property="og:site_name" content="少平的博客">
+<meta property="og:description" content="6、表达式 在模板中使用表达式是为了以充分的灵活性在模板、业务逻辑和数据之间建立联系，同时又能避免让业务逻辑渗透到模板中。  当然，对于第一个表达式，recompute() / 10，应该避免这种把业务逻辑放到模板中的方式，应该清晰地区分视图和控制器之间的职责，这样更便于测试。 虽然 Angular 里面的表达式比 Javascript 更严格，但是它们对 undefined 和 null 的容错">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-1.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-2.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-3.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-4.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-5.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-6.png">
+<meta property="og:updated_time" content="2018-05-11T12:47:11.172Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AngularJS 的常用特性 (三)">
+<meta name="twitter:description" content="6、表达式 在模板中使用表达式是为了以充分的灵活性在模板、业务逻辑和数据之间建立联系，同时又能避免让业务逻辑渗透到模板中。  当然，对于第一个表达式，recompute() / 10，应该避免这种把业务逻辑放到模板中的方式，应该清晰地区分视图和控制器之间的职责，这样更便于测试。 虽然 Angular 里面的表达式比 Javascript 更严格，但是它们对 undefined 和 null 的容错">
+<meta name="twitter:image" content="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhangsubiin.com/2016/08/04/the-normal-characteristic-of-angular-3/"/>
+
+
+
+
+
+  <title>AngularJS 的常用特性 (三) | 少平的博客</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-118955491-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">少平的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangsubiin.com/2016/08/04/the-normal-characteristic-of-angular-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shaoping">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="少平的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AngularJS 的常用特性 (三)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-04T23:21:10+08:00">
+                2016-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/08/04/the-normal-characteristic-of-angular-3/" class="leancloud_visitors" data-flag-title="AngularJS 的常用特性 (三)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>6、表达式</strong></p>
+<p>在模板中使用表达式是为了以充分的灵活性在模板、业务逻辑和数据之间建立联系，同时又能避免让业务逻辑渗透到模板中。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-1.png" alt=""></p>
+<p>当然，对于第一个表达式，recompute() / 10，应该避免这种把业务逻辑放到模板中的方式，应该清晰地区分视图和控制器之间的职责，这样更便于测试。</p>
+<p>虽然 Angular 里面的表达式比 Javascript 更严格，但是它们对 undefined 和 null 的<strong>容错性</strong>更好。如果遇到错误，模板只是简单地什么都不显示，而不会抛出一个 NullPointerException 错误，这样你就可以安全地使用未经初始化的模型值，而一旦它们被赋值以后就会立即显示出来。</p>
+<p><strong>7、区分 UI 和控制器的职责</strong></p>
+<p>在应用中控制器有三种职责：</p>
+<ul>
+<li>为应用中的模型设置初始状态</li>
+<li>通过 <code>$scope</code> 对象把数据模型和函数暴露给视图（UI 模版）</li>
+<li>监视模型其余部分的变化，并采取相应的动作</li>
+</ul>
+<p>建议为视图中的每一块功能区创建一个控制器，这样可以让控制器保持小巧和可管理的状态。</p>
+<p>更为复杂的时候，你可以创建嵌套的控制器，通过内部的原型继承机制，父控制器对象上的 <code>$scope</code> 会被传递给内部嵌套控制器的 <code>$scope</code></p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-2.png" alt=""></p>
+<p>上面的例子，ChildController 的 <code>$scope</code> 对象可以访问 ParentController 的 <code>$scope</code>对象上的所有属性（和函数）</p>
+<p><strong>8、使用 <code>$watch</code> 监控数据模型的变化</strong></p>
+<p>在 scope 内置的所有函数中，用到最多的可能就是 <code>$watch</code> 函数了，当你的数据模型中的某一部分发生变化时，<code>$watch</code> 可以向你发出通知，监控单个对象的属性，也可以监控需要经过计算的结果，只要能被当作属性访问到，或者可以当作一个 JavaScript 函数被计算出来，就可以被 <code>$watch</code> 函数监控。函数签名为：</p>
+<p>　　<code>$watch(watchFn, watchAction, deepWatch)</code></p>
+<p>　　watchFn —— 该参数是一个带有 Angular 表达式或者函数的字符串，返回被监控的数据模型的当前值。它会被执行多次，所以要保证不会产生副作用；</p>
+<p>　　watchAction —— 通常以函数的形式，接收到 watchFn 的新旧两个值，以及作用域对象的引用，函数签名为 function(newValue, oldValue, scope)</p>
+<p>　　deepWatch —— 如果设置为 true，则会去检查被监控对象的每个属性是否发生了变化，一般监控一个数组或者多个对象时要设置为 true，但由于要遍历数组，所以运算负担会比较重。</p>
+<p> 　  <code>$watch</code> 函数会返回一个属性，当你不再需要接受变更通知时，可以用这个返回的函数注销监控器。如果需要监控一个属性，然后注销监控，可以如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">var dereg = scope.watch(&apos;someModel.someProperty&apos;, callbackOnChange());</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">dereg();</span><br></pre></td></tr></table></figure>
+<p>一个购物车的例子，当用户添加到购物车中的商品价格超过 100 美元的时候，会有 10 美元的折扣。使用下面的模板：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-3.png" alt=""></p>
+<p>控制器如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">var shoppingCart = angular.module(&apos;shoppingCart&apos;, []);</span><br><span class="line"></span><br><span class="line">shoppingCart.controller(&apos;CartController&apos;, function ($scope) &#123;</span><br><span class="line"></span><br><span class="line">    $scope.bill = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    $scope.items = [</span><br><span class="line">        &#123;title: &apos;Paint pots&apos;, quantity: 8, price: 3.95&#125;,</span><br><span class="line">        &#123;title: &apos;Polka dots&apos;, quantity: 17, price: 12.95&#125;,</span><br><span class="line">        &#123;title: &apos;Pebbles&apos;, quantity: 5, price: 6.95&#125;</span><br><span class="line">    ];</span><br><span class="line">    </span><br><span class="line">    $scope.totalCart = function () &#123;</span><br><span class="line">        var total = 0;</span><br><span class="line">        for (var i = 0, len = $scope.items.length; i &lt; len; i++) &#123;</span><br><span class="line">            total = total + $scope.items[i].price * $scope.items[i].quantity;</span><br><span class="line">        &#125;</span><br><span class="line">        return total;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    function calculateDiscount(newValue, oldValue, scoope) &#123;</span><br><span class="line">        $scope.bill.discount = newValue &gt; 100 ? 10 : 0;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    $scope.subtotal = function () &#123;</span><br><span class="line">        return $scope.totalCart() - $scope.bill.discount;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    $scope.$watch($scope.totalCart, calculateDiscount);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>用户看到的效果如图：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-4.png" alt=""></p>
+<p><strong>9、watch() 中的性能注意事项</strong></p>
+<p>断点调试 totalCart() 的代码，你会发现渲染这个页面时，该函数被调用了 6 次。其中 3 次发生在每次调用它的时候：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 模板 &#123;&#123;totalCart() | currency&#125;&#125;</span><br><span class="line">- subtotal() 函数</span><br><span class="line">- $watch() 函数</span><br></pre></td></tr></table></figure>
+<p>然后 Angular 又把整个过程重复了一遍，这样的目的是：检测模型中的变更已经被完整地进行了传播，并且模型已经被设置好。Angular 的做法是，把所有被监控的属性都拷贝一份，然后把它们和当前的值进行比较，看看是否发生了变化。实际上，Angular 可能运行上面过程不止两遍，如果重复 10 遍发现属性还在变化，Angular 会报错并退出，这时候你需要解决循环依赖的问题了。</p>
+<p>PS: 书里面说的是，由于 Angular 需要用 JavaScript 实现数据绑定，官方开发团队与 TC39 团队一起开发了一个叫做 <code>Object.observe()</code> 的底层本地化实现，这样可以让你的数据绑定操作就像本地化代码一样快速。</p>
+<p>我们可以改成监控 items 数组的变化，然后重新计算 $scope 属性中的总价、折扣和小计值来减少函数调用次数。</p>
+<p>模板修改如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-5.png" alt=""></p>
+<p>控制器修改如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">var shoppingCart = angular.module(&apos;shoppingCart&apos;, []);</span><br><span class="line"></span><br><span class="line">shoppingCart.controller(&apos;CartController&apos;, function ($scope) &#123;</span><br><span class="line"></span><br><span class="line">    $scope.bill = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    $scope.items = [</span><br><span class="line">        &#123;title: &apos;Paint pots&apos;, quantity: 8, price: 3.95&#125;,</span><br><span class="line">        &#123;title: &apos;Polka dots&apos;, quantity: 17, price: 12.95&#125;,</span><br><span class="line">        &#123;title: &apos;Pebbles&apos;, quantity: 5, price: 6.95&#125;</span><br><span class="line">    ];</span><br><span class="line">    </span><br><span class="line">    function calculateDiscount(newValue, oldValue, scoope) &#123;</span><br><span class="line">        var total = 0;</span><br><span class="line">        for (var i = 0, len = $scope.items.length; i &lt; len; i++) &#123;</span><br><span class="line">            total = total + $scope.items[i].price * $scope.items[i].quantity;</span><br><span class="line">        &#125;</span><br><span class="line">        $scope.bill.totalCart = total;</span><br><span class="line">        $scope.bill.discount = newValue &gt; 100 ? 10 : 0;</span><br><span class="line">        $scope.bill.subtotal = total - $scope.bill.discount;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    $scope.$watch(&apos;items&apos;, calculateDiscount, true);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在调用 $watch 函数时把 items 写成了一个字符串，并且第三个参数设置为 true，可以监控整个 items 数组的变化，单需要制作一份数组的拷贝，用来进行比较操作。</p>
+<p>所以，如果每次在 Angular 显示页面时只需要重新计算 bill 属性，那么性能会好很多。可以像下面这样重新计算属性值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">scope.watch(function (newValue, oldValue, scope) &#123;</span><br><span class="line"></span><br><span class="line">    var total = 0;</span><br><span class="line"></span><br><span class="line">    for (var i = 0, len = $scope.items.length; i &lt; len; i++) &#123;</span><br><span class="line"></span><br><span class="line">        total = total + scope.items[i].price * scope.items[i].quantity;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $scope.bill.totalCart = total;</span><br><span class="line"></span><br><span class="line">    $scope.bill.discount = newValue &gt; 100 ? 10 : 0;</span><br><span class="line"></span><br><span class="line">    scope.bill.subtotal = total - scope.bill.discount;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>根据性能分析更是说明了这点（左边是第二种方式）：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-6.png" alt=""></p>
+<p>当然可以使用上面说过的方法，利用 <code>$watch</code> 返回的函数，移除不必要的 <code>$watch</code>，参见破狼大神的例子：<a href="https://www.cnblogs.com/whitewolf/p/angularjs-remove-unused-watch.html" target="_blank" rel="noopener">Angular 移除不必要的 $watch</a></p>
+<p><strong>10、监控多个东西</strong></p>
+<p>监控多个东西，有两种基本的选择：</p>
+<ul>
+<li>监控把这些属性连接起来之后的值</li>
+<li>把它们放到一个数组或者对象中，然后给 deepWatch 参数传递一个 true 值。</li>
+</ul>
+<p>第二种情况上面已经介绍，第一种情况比较简单，比如在你的作用域中存在一个 things 对象，它带有两个属性 a 和 b，当这两个属性发生变化时都需要执行 callMe() 函数，你可以同时监控着两个属性， 示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scope.watch(&apos;things.a + things.b&apos;, callMe(...));</span><br></pre></td></tr></table></figure>
+<p>当然，a 和 b 也可以属于不同的对象，这个列表可以很长，不过如果需要监控的属性比较多， 不妨把这个列表放入一个函数中，返回连接的值。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Program/" rel="tag"># Program</a>
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/25/the-normal-characteristic-of-angular-2/" rel="next" title="AngularJS 的常用特性 (二)">
+                <i class="fa fa-chevron-left"></i> AngularJS 的常用特性 (二)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/14/the-normal-characteristic-of-angular-4/" rel="prev" title="AngularJS 的常用特性 (四)">
+                AngularJS 的常用特性 (四) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">shaoping</p>
+              <p class="site-description motion-element" itemprop="description">be honest, stay hungry.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shaoping</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("a82bwIDWAmkBUljt6YTY6ohg-gzGzoHsz", "KJEVf0J8TLOJzkyrj3eUEIby");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
