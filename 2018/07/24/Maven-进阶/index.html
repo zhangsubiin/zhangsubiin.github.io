@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Program," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、Maven 版本管理Maven 的推荐版本号约定为：主版本号.次版本号.增量版本号-&amp;lt;里程碑版本&amp;gt;开发中的版本要以 -SNAPSHOT 结尾，因为这种快照版本是支持 jar 包被覆盖的，那么，开发时候的 Maven 命令应该使用 mvn clean package -U (强制拉一次)快照版本可以升级为正式版本的条件：  所以自动化测试应对全部通过  项目没有配置任何快照版本的依赖">
+<meta name="keywords" content="Program">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven 进阶">
+<meta property="og:url" content="http://shaopingapp.cn/2018/07/24/Maven-进阶/index.html">
+<meta property="og:site_name" content="少平的博客">
+<meta property="og:description" content="一、Maven 版本管理Maven 的推荐版本号约定为：主版本号.次版本号.增量版本号-&amp;lt;里程碑版本&amp;gt;开发中的版本要以 -SNAPSHOT 结尾，因为这种快照版本是支持 jar 包被覆盖的，那么，开发时候的 Maven 命令应该使用 mvn clean package -U (强制拉一次)快照版本可以升级为正式版本的条件：  所以自动化测试应对全部通过  项目没有配置任何快照版本的依赖">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724234841.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724234920.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724235147.png">
+<meta property="og:image" content="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724235259.png">
+<meta property="og:updated_time" content="2018-07-24T15:54:35.993Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Maven 进阶">
+<meta name="twitter:description" content="一、Maven 版本管理Maven 的推荐版本号约定为：主版本号.次版本号.增量版本号-&amp;lt;里程碑版本&amp;gt;开发中的版本要以 -SNAPSHOT 结尾，因为这种快照版本是支持 jar 包被覆盖的，那么，开发时候的 Maven 命令应该使用 mvn clean package -U (强制拉一次)快照版本可以升级为正式版本的条件：  所以自动化测试应对全部通过  项目没有配置任何快照版本的依赖">
+<meta name="twitter:image" content="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724234841.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shaopingapp.cn/2018/07/24/Maven-进阶/"/>
+
+
+
+
+
+  <title>Maven 进阶 | 少平的博客</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-118955491-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">少平的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shaopingapp.cn/2018/07/24/Maven-进阶/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shaoping">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="少平的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Maven 进阶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-24T23:46:31+08:00">
+                2018-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/24/Maven-进阶/" class="leancloud_visitors" data-flag-title="Maven 进阶">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、Maven-版本管理"><a href="#一、Maven-版本管理" class="headerlink" title="一、Maven 版本管理"></a>一、Maven 版本管理</h2><p>Maven 的推荐版本号约定为：<code>主版本号.次版本号.增量版本号-&lt;里程碑版本&gt;</code><br>开发中的版本要以 <code>-SNAPSHOT</code> 结尾，因为这种快照版本是支持 jar 包被覆盖的，那么，开发时候的 Maven 命令应该使用 <code>mvn clean package -U (强制拉一次)</code><br>快照版本可以升级为正式版本的条件：</p>
+<ul>
+<li><p>所以自动化测试应对全部通过</p>
+</li>
+<li><p>项目没有配置任何快照版本的依赖</p>
+</li>
+<li><p>项目没有配置任何快照版本的插件</p>
+</li>
+<li><p>项目所包含的代码已经全部提交到版本控制系统中</p>
+</li>
+</ul>
+<h2 id="二、Maven-生命周期和常用命令"><a href="#二、Maven-生命周期和常用命令" class="headerlink" title="二、Maven 生命周期和常用命令"></a>二、Maven 生命周期和常用命令</h2><h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><p>执行该命令会把代码进行编译</p>
+<h3 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h3><p>执行该命令会把 <code>/target</code> 目录下清空</p>
+<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3><p>执行该命令会运行项目下的所有 test case</p>
+<h3 id="package"><a href="#package" class="headerlink" title="package"></a>package</h3><p>执行该命令会对项目进行打包</p>
+<h3 id="install"><a href="#install" class="headerlink" title="install"></a>install</h3><p>将 jar 包安装到本地仓库中，在多模块的项目中，如果依赖的模块发生变更，需要重新执行 install 才能生效</p>
+<h3 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h3><p>把本地 jar 包发布到远端私服地址</p>
+<h3 id="Maven-的生命周期"><a href="#Maven-的生命周期" class="headerlink" title="Maven 的生命周期"></a>Maven 的生命周期</h3><p>理解下边两句话，就理解了 Maven 的生命周期：</p>
+<blockquote>
+<p>A Build Lifecycle is Made Up of Phases.<br>A Build Phase is Made Up of Plugin Goals.</p>
+</blockquote>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724234841.png" alt="markdown/20180724234841.png"></p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724234920.png" alt="markdown/20180724234920.png"></p>
+<h2 id="三、Maven-常用插件"><a href="#三、Maven-常用插件" class="headerlink" title="三、Maven 常用插件"></a>三、Maven 常用插件</h2><h3 id="两个插件地址："><a href="#两个插件地址：" class="headerlink" title="两个插件地址："></a>两个插件地址：</h3><p><code>https://maven.apache.org/plugins/</code><br><code>http://www.mojohaus.org/plugins.html</code></p>
+<h3 id="tomcat7-maven-plugin"><a href="#tomcat7-maven-plugin" class="headerlink" title="tomcat7-maven-plugin"></a>tomcat7-maven-plugin</h3><h3 id="findbugs-maven-plugin"><a href="#findbugs-maven-plugin" class="headerlink" title="findbugs-maven-plugin"></a>findbugs-maven-plugin</h3><h3 id="maven-checkstyle-plugin"><a href="#maven-checkstyle-plugin" class="headerlink" title="maven-checkstyle-plugin"></a>maven-checkstyle-plugin</h3><h3 id="maven-enforcer-plugin"><a href="#maven-enforcer-plugin" class="headerlink" title="maven-enforcer-plugin"></a>maven-enforcer-plugin</h3><h3 id="maven-source-plugin"><a href="#maven-source-plugin" class="headerlink" title="maven-source-plugin"></a>maven-source-plugin</h3><h2 id="四、Maven-自定义插件"><a href="#四、Maven-自定义插件" class="headerlink" title="四、Maven 自定义插件"></a>四、Maven 自定义插件</h2><h3 id="自定义插件"><a href="#自定义插件" class="headerlink" title="自定义插件"></a>自定义插件</h3><p>新建一个 Maven 项目，将 pom.xml 里边的打包方式更改为 <code>&lt;packaging&gt;maven-plugin&lt;/packaging&gt;</code><br>增加如下依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-plugin-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugin-tools<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-plugin-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>新建一个类，继承 <code>org.apache.maven.plugin.AbstractMojo</code>，实现对应的方法<br>增加注解 <code>org.apache.maven.plugins.annotations.Mojo</code>，增加 name 属性，代表 plugin 的 goal<br><code>mvn install</code><br>参数传递：插件类中增加变量，增加注解 <code>org.apache.maven.plugins.annotations.Parameter</code></p>
+<h3 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h3><p>挂载在项目的 pom.xml 中，增加 <code>plugin</code> 中 <code>execution</code> 的 <code>phase</code> 和 <code>goal</code> 属性：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724235147.png" alt="markdown/20180724235147.png"></p>
+<h2 id="五、Maven-Profile-动态配置文件"><a href="#五、Maven-Profile-动态配置文件" class="headerlink" title="五、Maven Profile 动态配置文件"></a>五、Maven Profile 动态配置文件</h2><p>a) 使用场景 dev/test/pro</p>
+<p>b) 根据 <code>activeProfile</code> 来切换 setting.xml 中设置的私服地址（家和公司两套）</p>
+<h2 id="六、Maven-仓库"><a href="#六、Maven-仓库" class="headerlink" title="六、Maven 仓库"></a>六、Maven 仓库</h2><p>a)下载</p>
+<p>b)安装 解压</p>
+<p>c)使用<a href="http://books.sonatype.com/nexus-book/reference3/index.html" target="_blank" rel="noopener">http://books.sonatype.com/nexus-book/reference3/index.html</a> </p>
+<p>i.<a href="http://192.168.1.6:8081/nexus" target="_blank" rel="noopener">http://192.168.1.6:8081/nexus</a></p>
+<p>ii.admin/admin123</p>
+<p>d)发布</p>
+<p>i.pom.xml 配置 </p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724235259.png" alt="markdown/20180724235259.png"></p>
+<p>e)下载jar配置</p>
+<p>i.配置mirror</p>
+<p>ii.Profile</p>
+<h2 id="七、Maven-Archetype-模板化"><a href="#七、Maven-Archetype-模板化" class="headerlink" title="七、Maven Archetype 模板化"></a>七、Maven Archetype 模板化</h2><h3 id="生成一个模板"><a href="#生成一个模板" class="headerlink" title="生成一个模板"></a>生成一个模板</h3><ul>
+<li>在项目目录下执行命令：<code>mvn archetype:create-from-project</code></li>
+<li>命令运行成功后，会在工程的 <code>target/generated-sources/archetype</code> 目录下生成一个 Archetype，进入这个目录：<code>cd /target/generated-sources/archetype</code></li>
+<li>如果想要将新生成的 archetype 运行在本地仓库，就运行 maven 命令：<code>mvn install</code>；如果想要共享这个 archetype，就使用 deploy 命令。</li>
+</ul>
+<h2 id="八、Maven-反应堆"><a href="#八、Maven-反应堆" class="headerlink" title="八、Maven 反应堆"></a>八、Maven 反应堆</h2><h3 id="反应堆"><a href="#反应堆" class="headerlink" title="反应堆"></a>反应堆</h3><p>在一个多模块的 Maven 项目中，反应堆（Reactor）是指所有模块组成的一个构建结果，对于单模块的项目，反应堆就是该模块本身，但是对于多模块的项目来说，反应堆就包含了各模块之间继承与依赖的关系，从而能够自动计算出合理的模块构建顺序。<br>构建顺序一般为：主 POM 的读取顺序 + 继承或者依赖的顺序<br>模块之间的依赖关系会将反应堆构成一个有向循环图（Directed Acyclic Graph，DAG），各个模块是该图的节点，依赖关系构成了有向边。这个图不允许出现循环，当出现循环依赖时，Maven 就会报错。</p>
+<h3 id="裁剪反应堆"><a href="#裁剪反应堆" class="headerlink" title="裁剪反应堆"></a>裁剪反应堆</h3><p>有时，在多模块项目中，如果只改了某一个模块的内容，为了加快构建，可以不需要完整构建所有模块，可以有选择地构建，常用命令如下：</p>
+<ul>
+<li>-am，—also-make，表示同时构建所列模块的依赖模块</li>
+<li>-amd，-also-make-dependents，表示同时构建依赖于所列模块的模块</li>
+<li>pl，—projects <args>，表示构建指定的模块，模块间用逗号分隔</args></li>
+<li>rf，-resume-from <args>，表示从指定的模块开始构建</args></li>
+</ul>
+<p><code>mvn clean package  -Dmaven.test.skip=true -pl api -amd</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Program/" rel="tag"># Program</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/23/Maven-入门——认识Maven结构/" rel="next" title="Maven 入门——认识Maven结构">
+                <i class="fa fa-chevron-left"></i> Maven 入门——认识Maven结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">shaoping</p>
+              <p class="site-description motion-element" itemprop="description">be honest, stay hungry.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangsubiin" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zhangsubiin@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28285910&auto=0&height=66"></iframe>
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Maven-版本管理"><span class="nav-number">1.</span> <span class="nav-text">一、Maven 版本管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Maven-生命周期和常用命令"><span class="nav-number">2.</span> <span class="nav-text">二、Maven 生命周期和常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#compile"><span class="nav-number">2.1.</span> <span class="nav-text">compile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clean"><span class="nav-number">2.2.</span> <span class="nav-text">clean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#test"><span class="nav-number">2.3.</span> <span class="nav-text">test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#package"><span class="nav-number">2.4.</span> <span class="nav-text">package</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install"><span class="nav-number">2.5.</span> <span class="nav-text">install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deploy"><span class="nav-number">2.6.</span> <span class="nav-text">deploy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maven-的生命周期"><span class="nav-number">2.7.</span> <span class="nav-text">Maven 的生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Maven-常用插件"><span class="nav-number">3.</span> <span class="nav-text">三、Maven 常用插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个插件地址："><span class="nav-number">3.1.</span> <span class="nav-text">两个插件地址：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat7-maven-plugin"><span class="nav-number">3.2.</span> <span class="nav-text">tomcat7-maven-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#findbugs-maven-plugin"><span class="nav-number">3.3.</span> <span class="nav-text">findbugs-maven-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maven-checkstyle-plugin"><span class="nav-number">3.4.</span> <span class="nav-text">maven-checkstyle-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maven-enforcer-plugin"><span class="nav-number">3.5.</span> <span class="nav-text">maven-enforcer-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maven-source-plugin"><span class="nav-number">3.6.</span> <span class="nav-text">maven-source-plugin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、Maven-自定义插件"><span class="nav-number">4.</span> <span class="nav-text">四、Maven 自定义插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义插件"><span class="nav-number">4.1.</span> <span class="nav-text">自定义插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用插件"><span class="nav-number">4.2.</span> <span class="nav-text">使用插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、Maven-Profile-动态配置文件"><span class="nav-number">5.</span> <span class="nav-text">五、Maven Profile 动态配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、Maven-仓库"><span class="nav-number">6.</span> <span class="nav-text">六、Maven 仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、Maven-Archetype-模板化"><span class="nav-number">7.</span> <span class="nav-text">七、Maven Archetype 模板化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成一个模板"><span class="nav-number">7.1.</span> <span class="nav-text">生成一个模板</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、Maven-反应堆"><span class="nav-number">8.</span> <span class="nav-text">八、Maven 反应堆</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#反应堆"><span class="nav-number">8.1.</span> <span class="nav-text">反应堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#裁剪反应堆"><span class="nav-number">8.2.</span> <span class="nav-text">裁剪反应堆</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shaoping</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("a82bwIDWAmkBUljt6YTY6ohg-gzGzoHsz", "KJEVf0J8TLOJzkyrj3eUEIby");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
