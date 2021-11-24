@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title> Hexo</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      
+<section class="cover">
+    
+      
+      <a class="forkMe" href="https://github.com/Shen-Yu/hexo-theme-ayer"
+        target="_blank"><img width="149" height="149" src="/images/forkme.png"
+          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/cover1.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="/">Hexo</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+
+<!-- Subtitle -->
+
+  <script>
+    try {
+      var typed = new Typed("#subtitle", {
+        strings: ['面朝大海，春暖花开', '愿你一生努力，一生被爱', '想要的都拥有，得不到的都释怀'],
+        startDelay: 0,
+        typeSpeed: 200,
+        loop: true,
+        backSpeed: 100,
+        showCursor: true
+      });
+    } catch (err) {
+      console.log(err)
+    }
+  </script>
+  
+<div id="main">
+  <section class="outer">
+  
+  
+  
+
+<div class="notice" style="margin-top:50px">
+    <i class="ri-heart-fill"></i>
+    <div class="notice-content" id="broad"></div>
+</div>
+<script type="text/javascript">
+    fetch('https://v1.hitokoto.cn')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("broad").innerHTML = data.hitokoto;
+        })
+        .catch(console.error)
+</script>
+
+<style>
+    .notice {
+        padding: 20px;
+        border: 1px dashed #e6e6e6;
+        color: #969696;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        background: #fbfbfb50;
+        border-radius: 10px;
+    }
+
+    .notice i {
+        float: left;
+        color: #999;
+        font-size: 16px;
+        padding-right: 10px;
+        vertical-align: middle;
+        margin-top: -2px;
+    }
+
+    .notice-content {
+        display: initial;
+        vertical-align: middle;
+    }
+</style>
+  
+  <article class="articles">
+    
+    
+    
+    
+    <article
+  id="post-java-architecture-for-xml-binding"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/08/15/java-architecture-for-xml-binding/"
+    >知识百科系列 (二) —— JAXB</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/08/15/java-architecture-for-xml-binding/" class="article-date">
+  <time datetime="2017-08-14T16:04:13.000Z" itemprop="datePublished">2017-08-15</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>最近因为工作需要，有一些把数据转化成 XML 文件的需求，所以就研究了下 JAXB。</p>
+</blockquote>
+<p>JAXB（Java Architecture for XML Binding 简称 JAXB）允许 Java 开发人员将 Java 类映射为 XML 表示方式。<br>JAXB 提供两种主要特性：将一个 Java 对象序列化为 XML，以及反向操作，将 XML 解析成 Java 对象。<br>换句话说，JAXB 允许以 XML 格式存储和读取数据，而不需要程序的类结构实现特定的读取 XML 和保存 XML 的代码.</p>
+<p><strong>1、编组（Marshal）</strong></p>
+<p>JAXB 提供的基于注解形式的相互转化，配置起来很简单，下面是配置指出如何对应的关系：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@XmlType(propOrder = &#123;&quot;city&quot;, &quot;firstName&quot;, &quot;lastName&quot;, &quot;postalCode&quot;&#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@XmlRootElement(name = &quot;Person&quot;)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer postalCode;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String city;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFirstName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> firstName;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@XmlElement(name = &quot;Person_FirstName&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFirstName</span><span class="params">(String firstName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.firstName = firstName;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLastName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> lastName;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLastName</span><span class="params">(String lastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.lastName = lastName;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getPostalCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> postalCode;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPostalCode</span><span class="params">(Integer postalCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.postalCode = postalCode;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> city;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@XmlAttribute(name = &quot;city&quot;, required = true)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCity</span><span class="params">(String city)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.city = city;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明一下几个注解的意思：</p>
+<ul>
+<li>  <code>@XmlRootElement</code> 表示根元素</li>
+<li>  <code>@XmlElement</code> 来与 setter 方法一起使用</li>
+<li>  <code>@XmlAttribute</code> 用来传递属性到 XML 节点，可以用一些 property 描述</li>
+<li>  <code>@XmlType</code> 来表示一些特殊选项，比如 propOrder 表示排序</li>
+</ul>
+<p>接着我们就可以从 Java 对象生成 XML 文件：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/java-architecture-for-xml-binding-1.png"></p>
+<p>通过 main 方法调用生成 XML 文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">        Person person = <span class="keyword">new</span> Person();</span><br><span class="line"></span><br><span class="line">        person.setFirstName(<span class="string">&quot;com&quot;</span>);</span><br><span class="line">        person.setLastName(<span class="string">&quot;demo&quot;</span>);</span><br><span class="line">        person.setCity(<span class="string">&quot;Shanghai&quot;</span>);</span><br><span class="line">        person.setPostalCode(<span class="number">200000</span>);</span><br><span class="line">    </span><br><span class="line">        marshallTest(person);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (JAXBException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成的 XML 如下图：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/java-architecture-for-xml-binding-2.png"></p>
+<p>最重要的类就是 <code>javax.xml.bind.JAXBContext</code> 的使用，更多关于此类的信息可以查看<br><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/7/docs/api/javax/xml/bind/JAXBContext.html">JAXB API</a></p>
+<p>不仅能映射一个对象到 XML，还可以映射一组对象到 XML：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@XmlRootElement(name = &quot;Persons&quot;)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Persons</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ListPerson&gt; persons;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&amp;lt;Person&gt; getPersons() &#123;</span><br><span class="line">        <span class="keyword">return</span> persons;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@XmlElement(name = &quot;Person&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPersons</span><span class="params">(List&amp;lt;Person&gt; persons)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.persons = persons;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Persons&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;persons=&quot;</span> + persons +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同理，main 方法调用也可以生成 XML：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">        Persons persons = <span class="keyword">new</span> Persons();</span><br><span class="line"></span><br><span class="line">        ListPerson&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        Person person;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">            person = <span class="keyword">new</span> Person();</span><br><span class="line">            person.setFirstName(<span class="string">&quot;com&quot;</span> + i);</span><br><span class="line">            person.setLastName(<span class="string">&quot;demo&quot;</span> + i);</span><br><span class="line">            person.setCity(<span class="string">&quot;Shanghai&quot;</span> + i);</span><br><span class="line">            person.setPostalCode(<span class="number">200000</span> + i);</span><br><span class="line">            person.setBirthday(LocalDate.of(<span class="number">2017</span>, <span class="number">7</span>, <span class="number">16</span> + i));</span><br><span class="line">            list.add(person);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        persons.setPersons(list);</span><br><span class="line">    </span><br><span class="line">        marshallTest(persons);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (JAXBException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成的 XML 如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/java-architecture-for-xml-binding-3.png"></p>
+<p><strong>2、反编组（Un-marshal）</strong></p>
+<p>反编组 XML 到 Java 对象和编组没太大区别，还是用的 <code>javax.xml.bind.JAXBContext</code> 类，只是用到的方法是 <code>createUnmarshaller()</code>：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/java-architecture-for-xml-binding-4.png"></p>
+<p>写个 main 方法生成一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">&quot;person.xml&quot;</span>);</span><br><span class="line"></span><br><span class="line">        unMarshallTest(file, <span class="keyword">new</span> Persons());</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (JAXBException e) &#123;</span><br><span class="line"></span><br><span class="line">        e.printStackTrace();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果显而易见：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Persons&#123;persons=[Person&#123;firstName=<span class="string">&#x27;com0&#x27;</span>, lastName=<span class="string">&#x27;demo0&#x27;</span>, postalCode=<span class="number">200000</span>, city=<span class="string">&#x27;Shanghai0&#x27;</span>, birthday=<span class="number">2017</span>-<span class="number">07</span>-<span class="number">16</span>&#125;, Person&#123;firstName=<span class="string">&#x27;com1&#x27;</span>, lastName=<span class="string">&#x27;demo1&#x27;</span>, postalCode=<span class="number">200001</span>, city=<span class="string">&#x27;Shanghai1&#x27;</span>, birthday=<span class="number">2017</span>-<span class="number">07</span>-<span class="number">17</span>&#125;, Person&#123;firstName=<span class="string">&#x27;com2&#x27;</span>, lastName=<span class="string">&#x27;demo2&#x27;</span>, postalCode=<span class="number">200002</span>, city=<span class="string">&#x27;Shanghai2&#x27;</span>, birthday=<span class="number">2017</span>-<span class="number">07</span>-<span class="number">18</span>&#125;]&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、适配器（Adapters）</strong></p>
+<p>有些复杂类型（比如时间类型），JAXB 无法直接处理，我们需要编写一个适配器来告诉 JAXB 该如何处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateAdapters</span> <span class="keyword">extends</span> <span class="title">XmlAdapter</span>&lt;<span class="title">String</span>, <span class="title">LocalDate</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LocalDate <span class="title">unmarshal</span><span class="params">(String date)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> LocalDate.parse(date);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">marshal</span><span class="params">(LocalDate date)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> date.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的 Person 类中增加生日（birthday）属性，并增加注解 <code>@XmlJavaTypeAdapter</code> 来使用适配器：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/java-architecture-for-xml-binding-5.png"></p>
+<p>最终生成的 XML 则正确输出了生日：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/java-architecture-for-xml-binding-6.png"></p>
+<p>以上便是利用 JAXB 对 Java 与 XML 直接进行的转化，更多高级的内容，请查看<br><a target="_blank" rel="noopener" href="https://www.javacodegeeks.com/2015/04/%E7%94%A8%E4%BA%8Ejava%E5%92%8Cxml%E7%BB%91%E5%AE%9A%E7%9A%84jaxb%E6%95%99%E7%A8%8B.html">用于 Java 和 XML 绑定的 JAXB 教程</a></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WikiKnowledge/" rel="tag">WikiKnowledge</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-design-mode-series-principle"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/07/02/the-design-mode-series-principle/"
+    >设计模式系列 (一) —— 面向对象设计原则</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/07/02/the-design-mode-series-principle/" class="article-date">
+  <time datetime="2017-07-01T16:04:13.000Z" itemprop="datePublished">2017-07-02</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="1、单一职责原则-Single-Responsibility-Principle，SRP"><a href="#1、单一职责原则-Single-Responsibility-Principle，SRP" class="headerlink" title="1、单一职责原则(Single Responsibility Principle，SRP)"></a>1、单一职责原则(Single Responsibility Principle，SRP)</h3><blockquote>
+<p>定义：一个类只负责一个功能领域中相应职责</p>
+</blockquote>
+<p>单一原则告诉我们：一个类不能太“累”！承担的职责越多，被复用的可能性越小，耦合度越高，<br>所以，<code>单一职责原则是实现高内聚、低耦合的指导方针，是最简单又最难用的原则</code>。</p>
+<h3 id="2、开闭原则-Open-Closed-Principle，OCP"><a href="#2、开闭原则-Open-Closed-Principle，OCP" class="headerlink" title="2、开闭原则(Open-Closed Principle，OCP)"></a>2、开闭原则(Open-Closed Principle，OCP)</h3><blockquote>
+<p>定义：软件实体应对扩展开放，而对修改关闭</p>
+</blockquote>
+<h3 id="3、里氏替换原则-Liskov-Substitution-Principle，LSP"><a href="#3、里氏替换原则-Liskov-Substitution-Principle，LSP" class="headerlink" title="3、里氏替换原则(Liskov Substitution Principle，LSP)"></a>3、里氏替换原则(Liskov Substitution Principle，LSP)</h3><blockquote>
+<p>定义：所有引用基类对象的地方能够透明地使用其子类的对象</p>
+</blockquote>
+<h3 id="4、依赖倒转原则-Dependence-Inversion-Principle，DIP"><a href="#4、依赖倒转原则-Dependence-Inversion-Principle，DIP" class="headerlink" title="4、依赖倒转原则(Dependence Inversion Principle，DIP)"></a>4、依赖倒转原则(Dependence Inversion Principle，DIP)</h3><blockquote>
+<p>定义：抽象不应该依赖于细节，细节应该依赖于抽象</p>
+</blockquote>
+<h3 id="5、接口隔离原则-Interface-Segregation-Principle，ISP"><a href="#5、接口隔离原则-Interface-Segregation-Principle，ISP" class="headerlink" title="5、接口隔离原则(Interface Segregation Principle，ISP)"></a>5、接口隔离原则(Interface Segregation Principle，ISP)</h3><blockquote>
+<p>定义：使用多个专门的接口，而不使用单一的总接口</p>
+</blockquote>
+<h3 id="6、合成复用原则-Composite-Reuse-Principle，CRP"><a href="#6、合成复用原则-Composite-Reuse-Principle，CRP" class="headerlink" title="6、合成复用原则(Composite Reuse Principle，CRP)"></a>6、合成复用原则(Composite Reuse Principle，CRP)</h3><blockquote>
+<p>定义：尽量使用对象组合，而不是继承来达到复用的目的</p>
+</blockquote>
+<h3 id="7、迪米特原则-Law-of-Demeter，LoD"><a href="#7、迪米特原则-Law-of-Demeter，LoD" class="headerlink" title="7、迪米特原则(Law of Demeter，LoD)"></a>7、迪米特原则(Law of Demeter，LoD)</h3><blockquote>
+<p>定义：一个软件实体应当尽可能少地与其他实体发生相互作用</p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-journey-of-qingdao"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/06/18/the-journey-of-qingdao/"
+    >读万卷书，不如行万里路 (一)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/06/18/the-journey-of-qingdao/" class="article-date">
+  <time datetime="2017-06-17T16:04:13.000Z" itemprop="datePublished">2017-06-18</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BF%AB%E6%B4%BB%E4%BA%BA%E7%94%9F/">快活人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>青岛之行分为两部分<br>一是人文风情游之老城区<br>二是滨海风光游之沿海区</p>
+</blockquote>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-1.png"></p>
+<h2 id="一、物品准备"><a href="#一、物品准备" class="headerlink" title="一、物品准备"></a><strong>一、物品准备</strong></h2><p>必备：卡，现金，身份证，充电宝，数据线，雨伞, 防晒霜</p>
+<p>药品：肠胃药，红花油，创可贴，花露水，感冒药，藿香正气  </p>
+<p>鞋子：运动鞋</p>
+<p>衣服：帽子，外套，换洗衣服，塑料袋</p>
+<p>吃喝：零食，餐巾纸，湿巾，水杯  </p>
+<h2 id="二、2017-06-22-星期四"><a href="#二、2017-06-22-星期四" class="headerlink" title="二、2017-06-22-星期四"></a><strong>二、2017-06-22-星期四</strong></h2><pre><code>【Z】    
+【08:00 - 10:00】  上海站出发            
+【10:00 - 11:00】  到达杭州东站，吃午饭   
+【11:00 - 13:00】  购汽车票，前往萧山机场 
+   
+【T】
+【09:00 - 12:00】  收拾东西，吃午饭      
+【12:00 - 13:00】  出发前往萧山长途汽车站  
+【13:30 - 14:30】  出发前往萧山机场   
+
+ 汇合
+【15:00 - 15:30】  办理登机手续  
+【15:30 - 18:00】  安检，候机，登机
+【18:00 - 19:45】  到达
+【19:45 - 21:00】  拿行李，出机场  
+【21:00 - 22:00】  到达7天酒店(延安一路 86 号)，办理入住  
+【22:00 - 23:30】  去杰克船长海鲜啤酒屋(市南区中山路商圈黄岛路 73 号)吃晚饭  
+【23:30 - 24:00】  回酒店休息
+</code></pre>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/5423785.html">杭州萧山国际机场</a></p>
+<p>我看天气预报可能要下雨，心想可别延误了飞机，没想到还真延误了。。。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-5.jpg"></p>
+<p>虽然因为天气原因延误了一个小时，但最后还是平安抵达青岛流亭机场，运气不错</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-6.jpg"></p>
+<h2 id="三、2017-06-23-星期五"><a href="#三、2017-06-23-星期五" class="headerlink" title="三、2017-06-23-星期五"></a><strong>三、2017-06-23-星期五</strong></h2><p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-2.png"></p>
+<pre><code>【06:00 - 07:00】  起床，收拾
+【07:00 - 11:00】  游览五四广场，奥帆中心，情人坝
+【11:00 - 12:00】  午饭-船歌鱼水饺 (百丽广场店)  
+【12:00 - 14:30】  中山公园坐缆车游览
+【14:30 - 18:30】  第二海滨浴场
+【18:30 - 19:30】  游览八大关
+【19:30 - 20:30】  开海红岛吃晚饭(市南区新湛路 2 号 1 栋网点)
+【20:30 - 21:30】  回酒店休息
+</code></pre>
+<p>【06:00 - 07:00】  起床，收拾  </p>
+<pre><code>出门必备
+卡，现金，身份证，充电宝，数据线
+水杯，雨伞，拖鞋
+</code></pre>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/2572.html">五四广场</a></p>
+<p>五四广场是青岛地标之一，也是旅途的第一站</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-7.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/22946.html">奥帆中心</a></p>
+<p>国旗，火炬，帆船，处处彰显着奥运精神</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-8.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/77895.html">情人坝</a></p>
+<p>说实话，这个地方走着去绕的太远，坐帆船看看就好了</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-9.jpg"></p>
+<p>鱼肉馅的饺子，辣炒蛤蜊，崂山可乐，这顿饭吃得真香</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-10.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/3773.html">第二海滨浴场</a></p>
+<p>海滨浴场，还不错，去的不是时候，沙子再重新铺，躺着看海，拍女神。。。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-11.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/2576.html">八大关</a></p>
+<p>八大关，千万不要按着下面的图示走，你会累死的，全是上坡路，实在想看就看看公主楼和花石楼就好了</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-4.png"></p>
+<h2 id="四、2017-06-24-星期六"><a href="#四、2017-06-24-星期六" class="headerlink" title="四、2017-06-24-星期六"></a><strong>四、2017-06-24-星期六</strong></h2><p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-3.png"></p>
+<pre><code>【06:00 - 07:00】  起床，收拾  
+【07:00 - 09:00】  游览信号山公园
+【09:00 - 10:30】  游览老舍故居
+【10:30 - 12:00】  逛大学路，吃午饭
+【12:30 - 13:30】  游览圣弥厄尔大教堂
+【13:30 - 14:00】  游览千遇千寻旅行店(中山路 77 号丁)
+【14:30 - 15:00】  游览嘉木艺术馆
+【16:30 - 17:30】  游览邮电博物馆
+【18:00 - 19:00】  游览塔楼1902，良友书坊
+【19:30 - 20:00】  栈桥夜景
+【20:00 - 23:30】  吃喝在台东商业步行街
+【23:30 - 24:00】  回酒店休息
+</code></pre>
+<p>【06:00 - 07:00】  起床，收拾  </p>
+<pre><code>出门必备
+卡，现金，身份证，充电宝，数据线
+水杯，雨伞，话梅
+</code></pre>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/3296.html">老舍故居</a></p>
+<p>老舍故居在大学路附近，很小很安静，值得去看一下</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-12.jpg"></p>
+<p>这种小店也在老舍故居附近，挺有情调</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-13.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/7926661.html">嘉木艺术馆</a></p>
+<p>去邮电博物馆的路上，这家艺术馆也可以去瞧瞧的</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-14.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/3394.html">邮电博物馆</a></p>
+<p>在邮电博物馆买了明信片，顶楼还有一个良友书坊，坐了几个小时，看书喝咖啡</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-15.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/5422732.html">良友书坊</a></p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-16.jpg"></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/2569.html">栈桥</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/9548.html">台东步行街</a></p>
+<p>【20:30 - 23:30】  游览吃喝在台东商业步行街</p>
+<pre><code>六顺禾小笼包
+沃尔玛超市买特产 - (万达广场2-3层)
+某人特产铺子
+</code></pre>
+<p>【23:30 - 24:00】  回酒店休息</p>
+<h2 id="五、2017-06-25-星期日"><a href="#五、2017-06-25-星期日" class="headerlink" title="五、2017-06-25-星期日"></a><strong>五、2017-06-25-星期日</strong></h2><pre><code>【09:00 - 10:00】  起床，收拾
+【10:00 - 12:00】  劈柴院吃吃小吃
+【12:00 - 13:00】  回酒店收拾东西
+【13:00 - 14:00】  打车前往流亭机场
+【14:00 - 16:45】  办理登机牌，检票登机
+【16:45 - 18:35】  飞往萧山机场
+【19:35 - 20:30】  坐大巴到杭州东站
+【20:30 - 22:00】  返程
+</code></pre>
+<p><a target="_blank" rel="noopener" href="http://www.mafengwo.cn/poi/2603.html">劈柴院</a></p>
+<p>回来在机场碰到下雨，延误了好久，不过算是好事多磨，最后还是顺利返回</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-journey-of-qingdao-17.jpg"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%85%E6%B8%B8/" rel="tag">旅游</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%92%E5%B2%9B/" rel="tag">青岛</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-future-is-not-what-i-can-see"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/02/18/the-future-is-not-what-i-can-see/"
+    >未来并非我所能见</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/02/18/the-future-is-not-what-i-can-see/" class="article-date">
+  <time datetime="2017-02-17T16:04:13.000Z" itemprop="datePublished">2017-02-18</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%99%BA%E6%85%A7%E4%BA%BA%E7%94%9F/">智慧人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>前几天和辉哥谈了谈最近的工作情况，我直言又累又迷茫，当然不是无所目的的发惆怅，因为之前已经发过一篇三千字的年度总结给他（前几天的那篇文章《开发要进阶，一定要有产品的思维》是这个总结的简版的）。总结的是自从接手这个项目以来，系统中存在的一些痛点，希望过年回家调整回来，逐步解决。先定一个小目标，到明年下半年，没人再拿这个 “老” 系统开玩笑了。</p>
+<p>收到链家的 Offer 是四月初，清明节刚过，那时候的我，刚刚参加过菊少二月份在北京举办的婚礼，经历过上家公司技术总监离职的混乱，自己也是不知所措。感觉自己对老东家还算是仁至义尽了吧，最后几天还陪着他们加班，也算是一个不太坏的结局。<br>记得报道第一天下着暴雨，自己穿梭在两栋办公楼之间办理入职手续，简单的欢迎词，同事的自我介绍， 人事的一张欢迎新员工的贺卡，总之，一整天的幸福感，充斥着内心，简直要爆棚。</p>
+<p>团结，活泼，紧张，有序，几个月的时间里，我的收获很多，从匡工面试时候表现的作为链家一员的自豪感，到长发雨哥面试以及新人培训时表现的幽默感，到东风大叔的让技术改变传统行业的使命感，到辉哥的对待工作以及技术的执着追求的狂热感，到财务组全体小伙伴的和睦相处胜似一家人的亲密感，到技术沙龙上学霸强的用通俗又专业的词汇讲解晦涩的知识的专业感，以及到胡老大带领的小伙伴的浓烈技术氛围的活跃感，我才明白，所谓的企业文化，并不是一句口号说说而已，而是一群志同道合的伙伴的互相扶持，不断践行的结果。</p>
+<p>个人品质的修炼绝不是一蹴而就的，需要一点一滴积累，良好的作息，饱满的状态，干净的着装，自信的微笑。早来的习惯基本算是风雨无阻，在我的印象中除了国庆之后参加朋友婚礼是在回不来请了一天假，应该都是全勤吧。并不是说来得早是为了表现给谁看，简单来说就是自律，考虑到工作上，就是早来的一个小时，可以干很多事情。由于白天和同事研究功能实现，和产品讨论需求，和测试修复验证 bug，白天想在完全无人打扰的情况下写点代码完全是没有可能的，这也是为什么大多数程序员喜欢晚上敲代码的原因，伴随着 Cherry 青轴清脆的敲击声，沉浸在代码世界里。</p>
+<p>靠谱的开发，睿智的产品，耿直的测试，在跨年系统切换之前的一段时间里，自己都是期待着每天上班，享受这这种氛围。但是，这种状态也只维持到了年底系统切换工作启动的那一刻。之后的每一天，都感觉有开不完的会，做不完的活，改不完的 bug，迭代计划也稍微有些乱，任务急，时间紧，务必赶在跨年之前搞定。终于，功夫不负人，在 2016 年 12 月 31 号晚，我们经历了一个充满特殊意义的跨年，系统上线的那一刻，每个人脸上终于绽开了久违的笑容。。。</p>
+<p>还记得当时面试最后一个问题，辉哥问我，今年有什么打算，我说，沉淀知识，积累经验，那么，新的一年里，还是八个字，升级认知，努力践行。也许还会有烦恼，但是绝不抱怨；还会有压力，但绝不气馁。这是一个需要终身学习的年代，一切充满未知，未来也并非我所能见，但是还是就这么努力着吧，也许追着追着，未来已经来到我的面前。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/" rel="tag">Life</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-process-of-the-programmer"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/01/10/the-process-of-the-programmer/"
+    >开发要进阶，一定要有产品的思维</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/01/10/the-process-of-the-programmer/" class="article-date">
+  <time datetime="2017-01-10T14:56:44.000Z" itemprop="datePublished">2017-01-10</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>自己负责的系统在新年凌晨上线了一个新功能，但是就目前的反馈来看，业务方不适应，屡次咨询，产品都忙得焦头烂额，我们更是各种修复bug和维护数据。任务多时间紧不能算是借口，这次开发暴露出系统的诸多问题，还需要好好反思。</p>
+<p><strong>反思一：事务执行过长或流程分段执行，缺少校验机制</strong></p>
+<p>表现出来就是（可能测试环境多一些），制单很长时间，提示制单失败，看后台日志发现，是事务超时了；<br>还有一个表现就是，前不久给外部提供的几个接口，可能存在不一致性的问题。<br>从开发的角度来说，则是制单流程，从流程引擎启动到业务数据变更，中间执行过长过长，而且还有跨库操作（流程引擎在另外一个数据库），当数据库访问慢的时候这种方式的弊端就出现了；另一种则是设计上的缺陷，没有考虑到流程的一致性，或者说是缺少校验机制，目前只是加上了关键信息，后期必须完善。</p>
+<p><strong>反思二：数据查询效率低，耗时长，导致事务超时</strong></p>
+<p>表现出来就是，系统首页访问的时候，都特别慢，甚至有些详情页面都需要很久才可以正常显示，太影响用户体验。<br>从开发的角度来说，则是在数据查询方面，有了太多的动态SQL，把排列组合都可以数的过来的情况全部拼在了SQL里面，导致每次查询都去判断各种条件，不仅参数繁多，而且很容易错；而且查询语句中有一些为 select * 或者查询条件中有了类型转换或者出现了函数，导致索引失效，查询效率变低；还有一些关键字查询为 OR LIKE ‘%…%’，而且并没有合理使用参数化，比如像 deleteFlag 删除标志完全没有必要预编译，直接写到参数里即可。总之，这些因素导致了整个系统看起来慢的不行，可优化之处还有很多，不能只是为了达到目的而牺牲性能。</p>
+<p><strong>反思三：代码不严谨，缺乏完整性考虑</strong></p>
+<p>表现出来就是，系统的周一上线，基本上每次都是因为之前的某个地方考虑不周全导致的，紧急而不严重的bug。<br>从开发的角度来说，则是在判断某些特殊情况的时候，没有考虑到全部的情况，自我测试的覆盖面不够，埋下了一些测试都很难发现的隐藏bug，这只说明开发并没有真正站在用户的角度去思考流程，设计逻辑，编写代码，可能是先按照理想情况走通逻辑，然后再加上各种情况判断或者权限校验，这种情况下，如果没有很全面完整的考虑，很容易遗漏一些点，仅凭测试或者产品很难一应俱全，毕竟时间和精力有限。<br>所以，作为开发，必须先保证流程贯通，异常情况考虑周全，基本测试通过，再交付测试，来回返工的话，浪费的可不只是时间。</p>
+<p><strong>反思四：流程设计繁杂，该提醒的地方没有提醒，用户反馈多</strong></p>
+<p>表现出来就是，这一级流程结束了，不知道下一级谁来操作；任务数混乱，本来有提醒，点击进去什么有没有。<br>从开发的角度就是，确实流程化的显示指引，不是单单存到数据库里就可以了，如果页面没有任何提醒，或者不知道流程到底有多长，很多时候用户都是摸着石头过河，以为流程结束了，然后去做了操作，也许这里正好有个隐藏bug，这时候点击恰巧触发了，用户碰到了这种莫名的问题，自然就去提反馈了，每天处理反馈，修复bug，没有从源头解决，用户反馈数永远降不下来。</p>
+<p><strong>反思五：界面引导性差，缺少关键提醒，误操作频率高</strong></p>
+<p>表现出来就是，该单选的地方允许多选，其实用户根本不需要多选，设计多余，还有一些关键操作，没有任何提示，很容易点错其他报销单，这时候就只能修复数据了。<br>从开发的角度来说，则是开发很多时候并没有get到产品的点，只是按照自己的思维去开发设计，以为用户都是产品经理级别的水平，不会有任何误操作，就想当然地省去了很多校验或者提醒，加之需求急着上线，抱着先把流程跑通，以后再优化的思维，就上线了。然后用户就各种莫名地点错，然后就开始了修复各种边边角角的bug，甚至有时候一个迭代下来，发现什么也没做，净是改bug和修复数据了。</p>
+<p>这一点其实也是看了微信最近的界面体验设计以及最近刚刚发布的小程序功能，很多启发，产品设计好，有很多因素，但是开发要进阶，还是要有产品的思维。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-normal-characteristic-of-angular-5"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2016/10/21/the-normal-characteristic-of-angular-5/"
+    >AngularJS 的常用特性 (五)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2016/10/21/the-normal-characteristic-of-angular-5/" class="article-date">
+  <time datetime="2016-10-20T16:01:10.000Z" itemprop="datePublished">2016-10-21</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><strong>13、使用路由和 $location 切换视图</strong></p>
+<p>　　对于一些单页面应用来说，有时候需要为用户展示或者隐藏一些子页面视图，可以利用 Angular 的 $route 服务来管理这种场景。</p>
+<p>　　你可以利用路由服务来定义这样的一种东西：对于浏览器所指向的特定 URL，Angular 将会加载并显示一个模板，并实例化一个控制器来为模板提供内容。</p>
+<p>　　在应用中可以调用 $routeProvider 服务上的函数来创建路由，把需要创建的路由当成一个配置块传给这些函数即可。伪代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> someModule = anguler.module(<span class="string">&#x27;someModule&#x27;</span>, [...module dependencies...]);</span><br><span class="line"></span><br><span class="line">someModule.config(<span class="function"><span class="keyword">function</span>(<span class="params">$routeProvider</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $routeProvider.</span><br><span class="line"></span><br><span class="line">        when(<span class="string">&#x27;url&#x27;</span>, &#123;<span class="attr">controller</span> : aController, <span class="attr">templateUrl</span> : <span class="string">&#x27;/path/to/template&#x27;</span>&#125;).</span><br><span class="line"></span><br><span class="line">        when(...other mappings <span class="keyword">for</span> your app...).</span><br><span class="line"></span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        otherwise(...what to <span class="keyword">do</span> <span class="keyword">if</span> nothing <span class="keyword">else</span> matches);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>以上代码中，当浏览器中的 URL 变成指定的取值时，Angular 将会加载 /path/to/template 路径下的模板，然后把这个模板中的根元素关联到 aController 上，最后一行中的 otherwise 调用可以告诉路由，在没有匹配到任何东西时跳转到这里。</p>
+<p>下面构建一个小例子，但是需要把代码放到 web 服务器上中。</p>
+<p>index.html</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-5-1.png"><br>　　<br>list.html</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-5-2.png"></p>
+<p>detail.html</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-5-3.png"></p>
+<p>controller.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//为核心的 AMail 服务创建模块</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> aMailServices = angular.module(<span class="string">&#x27;AMail&#x27;</span>, [<span class="string">&#x27;ngRoute&#x27;</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">//在 URL，模板和控制器之间建立映射关系</span></span><br><span class="line"></span><br><span class="line">aMailServices.config(<span class="function"><span class="keyword">function</span>(<span class="params">$routeProvider</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $routeProvider.</span><br><span class="line"></span><br><span class="line">    when(<span class="string">&#x27;/&#x27;</span>, &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">controller</span>: ListController,     <span class="comment">// 全局的 function 方式去找 Controller</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">templateUrl</span>: <span class="string">&#x27;list.html&#x27;</span></span><br><span class="line"></span><br><span class="line">    &#125;).</span><br><span class="line"></span><br><span class="line">    <span class="comment">//注意，为了创建详情视图，在 id 前面加了一个冒号，从而指定了一个参数化的 URL 组件</span></span><br><span class="line"></span><br><span class="line">    when(<span class="string">&#x27;/view/:id&#x27;</span>, &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">controller</span>: <span class="string">&#x27;DetailController&#x27;</span>, <span class="comment">// 用注册的方式去找 Controller</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">templateUrl</span>: <span class="string">&#x27;detail.html&#x27;</span></span><br><span class="line"></span><br><span class="line">    &#125;).</span><br><span class="line"></span><br><span class="line">    otherwise(&#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">redirectTo</span>: <span class="string">&#x27;/&#x27;</span></span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//一些虚拟邮件</span></span><br><span class="line"></span><br><span class="line">messages = [&#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">id</span>: <span class="number">0</span>, <span class="attr">sender</span>: <span class="string">&#x27;jean@somecompany.com&#x27;</span>, <span class="attr">subject</span>: <span class="string">&#x27;Hi there, old friend&#x27;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="attr">date</span>: <span class="string">&#x27;Dec 7, 2013 12:32:00&#x27;</span>, <span class="attr">recipients</span>: [<span class="string">&#x27;greg@somecompany.com&#x27;</span>],</span><br><span class="line"></span><br><span class="line">        <span class="attr">message</span>: <span class="string">&#x27;Hey, we should get together for lunch sometime and catch up.&#x27;</span></span><br><span class="line"></span><br><span class="line">        + <span class="string">&#x27;There are many things we should collaborate on this year.&#x27;</span></span><br><span class="line"></span><br><span class="line">    &#125;, &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">sender</span>: <span class="string">&#x27;maria@somecompany.com&#x27;</span>, <span class="attr">subject</span>: <span class="string">&#x27;Where did you leave my laptop?&#x27;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="attr">date</span>: <span class="string">&#x27;Dec 7, 2013 8:15:12&#x27;</span>, <span class="attr">recipients</span>: [<span class="string">&#x27;greg@somecompany.com&#x27;</span>],</span><br><span class="line"></span><br><span class="line">        <span class="attr">message</span>: <span class="string">&#x27;I thought you were going to put it in my desk drawer.&#x27;</span></span><br><span class="line"></span><br><span class="line">        + <span class="string">&#x27;But it does not seem to be there.&#x27;</span></span><br><span class="line"></span><br><span class="line">    &#125;, &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">sender</span>: <span class="string">&#x27;bill@somecompany.com&#x27;</span>, <span class="attr">subject</span>: <span class="string">&#x27;Lost python&#x27;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="attr">date</span>: <span class="string">&#x27;Dec 6, 2013 20:35:02&#x27;</span>, <span class="attr">recipients</span>: [<span class="string">&#x27;greg@somecompany.com&#x27;</span>],</span><br><span class="line"></span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;Nobody panic, but my pet python is missing from her cage.&quot;</span></span><br><span class="line"></span><br><span class="line">        + <span class="string">&quot;She doesn&#x27;t move too fast, so just call me if you see her.&quot;</span></span><br><span class="line"></span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment">//把邮件发布给邮件列表模板，注意两种方式，建议使用下面注册的方式，避免全局的 function 污染</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ListController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.messages = messages;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">aMailServices.controller(<span class="string">&#x27;DetailController&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">scope, routeParams</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    scope.messages = messages[routeParams.id];</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-5-4.png"></p>
+<p><strong>14、与服务器交互</strong></p>
+<p>　　真正的应用需要和真实的服务器进行交互，Angular 中提供了一个叫做 $http 的服务。它提供了一个可扩展的抽象方法列表，使得与服务器的交互更加容易。它支持 HTTP、JSONP 和 CORS 方式。它还包含了安全性支持，避免 JSON 格式的脆弱性和 XSRF。可以让你轻松地转换请求和响应数据，甚至还实现了简单的缓存。</p>
+<p>　　返回的响应数据示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;id&quot;</span> : <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;title&quot;</span> : <span class="string">&quot;Paint pots&quot;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;description&quot;</span> : <span class="string">&quot;Pots full of paint&quot;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;price&quot;</span> : <span class="number">3.95</span></span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;id&quot;</span> : <span class="number">1</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;title&quot;</span> : <span class="string">&quot;Polka dots&quot;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;description&quot;</span> : <span class="string">&quot;Dots with that polka groove&quot;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;price&quot;</span> : <span class="number">12.95</span></span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;id&quot;</span> : <span class="number">2</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;title&quot;</span> : <span class="string">&quot;Pebbles&quot;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;description&quot;</span> : <span class="string">&quot;Just little rocks, really&quot;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;price&quot;</span> : <span class="number">6.95</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>我们可以像下面这样编写查询代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ShoopingController</span>(<span class="params">scope, http</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">	$http.get(<span class="string">&#x27;/products&#x27;</span>).success(<span class="function"><span class="keyword">function</span> (<span class="params">data, status, headers, config</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">   		$scope.items = data;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以应用到模板中了。</p>
+<p><strong>15、使用指令修改 DOM</strong></p>
+<p>　　指令扩展了 HTML 语法，同时它也是使用自定义的元素和属性把行为和 DOM 转换关联到一起的方式。通过这些指令，可以创建可复用的 UI 组件，配置你的应用，并且可以做到你能想象到的几乎所有事情，这些事情都可以在你的 UI 模板中实现。所以说，自定义指令是 Angular 的精髓。</p>
+<p>　　与服务一样，你可以通过模块对象的 API 来定义指令，只要调用模块实例的 directive() 函数即可，其中 directiveFunction 是一个工厂函数，用来定义指令的特性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> appModule = angular.module(<span class="string">&#x27;appModule&#x27;</span>, [...]);</span><br><span class="line"></span><br><span class="line">appModule.directive(<span class="string">&#x27;directiveName&#x27;</span>, directiveFunction);</span><br></pre></td></tr></table></figure>
+
+<p>指令的东西很多，以后详解，这里先举个例子，感受下指令的魅力。</p>
+<p>编写一个非常简单的指令：一个 <hello> 元素，它会把自己替换成 <div>Hi there</div>。</p>
+<p>先看指令：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> appModule = angular.module(<span class="string">&#x27;app&#x27;</span>, []);</span><br><span class="line"></span><br><span class="line">appModule.directive(<span class="string">&#x27;hello&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">restrict</span>: <span class="string">&#x27;E&#x27;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="attr">template</span>: <span class="string">&#x27;&lt;div&gt;Hi there&lt;/div&gt;&#x27;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="attr">replace</span>: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这里，restrict 属性表示描述指令的风格，E 表示允许使用元素的形式；template 属性表示需要替换的内容；replace 属性设置为 true 表示会用 HTML 内容来替换模板。</p>
+<p>可以在模板中这样使用它：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-5-5.png"></p>
+<p>把以上内容加载到浏览器中，就会显示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hi there</span><br></pre></td></tr></table></figure>
+
+<p><strong>16、校验用户输入</strong></p>
+<p>Angular 自动为 “form” 元素增加了一些好用的特性，使其更适合单页面应用。其中一个特性是，Angular 允许你为表单中的输入元素定义一个合法的状态，并且只有当所有元素都是合法状态时才允许提交表单。</p>
+<p>控制器如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> addUser = angular.module(<span class="string">&#x27;AddUserModule&#x27;</span>, []);</span><br><span class="line"></span><br><span class="line">addUser.controller(<span class="string">&#x27;AddUserController&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.message = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    $scope.addUser = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 这里把 user 真正保存到数据库中</span></span><br><span class="line">        $scope.message = <span class="string">&#x27;Thanks, &#x27;</span> + $scope.user.first + <span class="string">&#x27;, we added you!&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>模板如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-5-6.png"></p>
+<p>在控制器中，可以通过 $valid 属性获取表单的校验状态，当表单中的所有输入项都合法时，Angular 将会把这个属性设置为 true，否则没有输入完成时禁用了 Submit 按钮。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-5-7.png"></p>
+<p>PS：到目前为止，已经介绍了 Angular 框架的几乎所有常用特性，掌握了这个《常用特性》系列的文章，就算是入门了，加油！</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-normal-characteristic-of-angular-4"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2016/09/14/the-normal-characteristic-of-angular-4/"
+    >AngularJS 的常用特性 (四)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2016/09/14/the-normal-characteristic-of-angular-4/" class="article-date">
+  <time datetime="2016-09-14T15:21:10.000Z" itemprop="datePublished">2016-09-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><strong>11、使用 Module(模块) 组织以来关系</strong></p>
+<p>Angular 里面的模板，提供了一种方法，可以用来组织应用中一块功能区域的依赖关系；同时还提供了一种机制，可以自动解析依赖关系（又叫依赖注入），一般来说，我们把这些叫做依赖服务，因为它们会负责为应用提供特殊的服务。</p>
+<p>例如，如果购物站点中的一个控制器需要从服务器中获取一个商品列表 Items，来处理从服务器获取商品的工作。进而，Items 对象就需要以某种方式与服务器上的数据库进行交互，可以通过 XHR 或者 WebSocket。</p>
+<p>如果，在没有模块的情况下，那么代码看起来就像下面这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ItemsViewController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向服务器发起请求</span></span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析响应并放入 Item 对象</span></span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把 Items 数组设置到 $scope 上，这样视图才能够显示它</span></span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然这么做可以运行，但是存在一些潜在的问题：</p>
+<ul>
+<li>如果其他控制器也需要从服务器获取 Items，那么我们只能把这段代码重写一遍，代码维护工作增大难度；</li>
+<li>加上其他的一些因素，例如服务器认证、解析数据的复杂性，会使控制器对象很难划分出一个合理的功能边界，并且代码阅读起来更加困难；</li>
+<li>增加单元测试的难度，要测试这段代码，必须启动一个真正的服务器。</li>
+</ul>
+<p>利用模块和模块内置的依赖注入功能，我们可以把控制器写得更加简单，示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ShoppingController</span>(<span class="params">$scope, Items</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.items = Items.query();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样会很简单而且方便，只需要把 Items 对象定义成了一个<strong>服务</strong></p>
+<p>服务都是单例的对象，Angular 内置了很多服务，例如 <code>$location</code> 服务，用来和浏览器的地址栏进行交互；<code>$route</code> 服务，用来根据 URL 地址的变化切换视图；还有 <code>$http</code> 服务，用来和服务器进行交互。</p>
+<p>你也可以自定义自己的服务，但最好不要以 <strong>$</strong> 开头，因为 Angular 内置的服务是以 <strong>$</strong> 符号开头的，以免引起冲突。</p>
+<p>你可以使用模型对象的 API 来定义服务，如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">provider(name, Object OR constructor()) - 一个可配置的服务，如果你传递了一个 Object 作为参数，那么该对象必须带有一个名为 $get 的函数，该函数需要返回服务的名称。否则，认为你传递的是一个构造函数，调用构造函数会返回服务实例对象。</span><br><span class="line"></span><br><span class="line">factory(name, $getFunction()) - 一个不可配置的服务，需要你指定一个函数，当调用这个函数的时候，会返回服务的实例。可以用把它看成 provider (name, &#123; $get: $getFunction()&#125;) 的形式</span><br><span class="line"></span><br><span class="line">service(name, constructor()) - 一个不可配置的服务，与上面 provider 函数的 constructor 参数类似，调用它可以创建服务实例</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>下面用 factory() 的方式编写服务：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个模型用来支撑我们的购物视图</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> shoppingModule = angular.module(<span class="string">&#x27;ShoppingModule&#x27;</span>, []);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置好服务工厂，用来创建我们的 Items 接口，以便访问服务端数据库</span></span><br><span class="line"></span><br><span class="line">shoppingModule.factory(<span class="string">&#x27;Items&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> items = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    items.query = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line"></span><br><span class="line">            &#123;<span class="attr">title</span>: <span class="string">&#x27;Paint&#x27;</span>, <span class="attr">description</span>: <span class="string">&#x27;Pots full of paint&#x27;</span>, <span class="attr">price</span>: <span class="number">3.95</span>&#125;,</span><br><span class="line"></span><br><span class="line">            &#123;<span class="attr">title</span>: <span class="string">&#x27;Polka&#x27;</span>, <span class="attr">description</span>: <span class="string">&#x27;Dots with polka&#x27;</span>, <span class="attr">price</span>: <span class="number">2.95</span>&#125;,</span><br><span class="line"></span><br><span class="line">            &#123;<span class="attr">title</span>: <span class="string">&#x27;Pebbles&#x27;</span>, <span class="attr">description</span>: <span class="string">&#x27;Just little rocks&#x27;</span>, <span class="attr">price</span>: <span class="number">6.95</span>&#125;</span><br><span class="line"></span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> items;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>控制器就很简单了，但是需要注入 Items 对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shoppingModule.controller(<span class="string">&#x27;ShoppingController&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope, Items</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">     $scope.items = Items.query();</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>页面可以写个很简单的如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-4-1.png"></p>
+<p>效果如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-4-2.png"></p>
+<p><strong>12、使用过滤器格式化数据</strong></p>
+<p>你可以用过滤器来声明应该如何变换数据格式，然后再显示给用户，只要在模板中使用一个插值变量即可，过滤器的语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; expression | filterName : parameter1 : ... parameterN&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Angular 的内置过滤器，比如 currency：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;12.9 | currency&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$12.90</span><br></pre></td></tr></table></figure>
+
+<p>还有其他过滤器，比如 date、number、uppercase 等，可以连用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;12.9 | currency | number : 0&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$13</span><br></pre></td></tr></table></figure>
+
+<p>当然，我们经常需要自定义过滤器，比如我们需要为标题文字创建首字母大写的字符串，编写过滤器如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> homeModule = angular.module(<span class="string">&#x27;HomeModule&#x27;</span>, []);</span><br><span class="line"></span><br><span class="line">homeModule.filter(<span class="string">&#x27;titleCase&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">input</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> words = input.split(<span class="string">&#x27; &#x27;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; words.length; i++) &#123;</span><br><span class="line"></span><br><span class="line">            words[i] = words[i].charAt(<span class="number">0</span>).toUpperCase() + words[i].slice(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> words.join(<span class="string">&#x27; &#x27;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">homeModule.controller(<span class="string">&#x27;HomeController&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.pageHeading = <span class="string">&#x27;behold the majesty of your page title&#x27;</span>;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>简单的模板页面：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-4-3.png"></p>
+<p>显示结果如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-4-4.png"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-normal-characteristic-of-angular-3"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2016/08/04/the-normal-characteristic-of-angular-3/"
+    >AngularJS 的常用特性 (三)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2016/08/04/the-normal-characteristic-of-angular-3/" class="article-date">
+  <time datetime="2016-08-04T15:21:10.000Z" itemprop="datePublished">2016-08-04</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><strong>6、表达式</strong></p>
+<p>在模板中使用表达式是为了以充分的灵活性在模板、业务逻辑和数据之间建立联系，同时又能避免让业务逻辑渗透到模板中。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-1.png"></p>
+<p>当然，对于第一个表达式，recompute() / 10，应该避免这种把业务逻辑放到模板中的方式，应该清晰地区分视图和控制器之间的职责，这样更便于测试。</p>
+<p>虽然 Angular 里面的表达式比 Javascript 更严格，但是它们对 undefined 和 null 的<strong>容错性</strong>更好。如果遇到错误，模板只是简单地什么都不显示，而不会抛出一个 NullPointerException 错误，这样你就可以安全地使用未经初始化的模型值，而一旦它们被赋值以后就会立即显示出来。</p>
+<p><strong>7、区分 UI 和控制器的职责</strong></p>
+<p>在应用中控制器有三种职责：</p>
+<ul>
+<li>为应用中的模型设置初始状态</li>
+<li>通过 <code>$scope</code> 对象把数据模型和函数暴露给视图（UI 模版）</li>
+<li>监视模型其余部分的变化，并采取相应的动作</li>
+</ul>
+<p>建议为视图中的每一块功能区创建一个控制器，这样可以让控制器保持小巧和可管理的状态。</p>
+<p>更为复杂的时候，你可以创建嵌套的控制器，通过内部的原型继承机制，父控制器对象上的 <code>$scope</code> 会被传递给内部嵌套控制器的 <code>$scope</code></p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-2.png"></p>
+<p>上面的例子，ChildController 的 <code>$scope</code> 对象可以访问 ParentController 的 <code>$scope</code>对象上的所有属性（和函数）</p>
+<p><strong>8、使用 <code>$watch</code> 监控数据模型的变化</strong></p>
+<p>在 scope 内置的所有函数中，用到最多的可能就是 <code>$watch</code> 函数了，当你的数据模型中的某一部分发生变化时，<code>$watch</code> 可以向你发出通知，监控单个对象的属性，也可以监控需要经过计算的结果，只要能被当作属性访问到，或者可以当作一个 JavaScript 函数被计算出来，就可以被 <code>$watch</code> 函数监控。函数签名为：</p>
+<p>　　<code>$watch(watchFn, watchAction, deepWatch)</code></p>
+<p>　　watchFn —— 该参数是一个带有 Angular 表达式或者函数的字符串，返回被监控的数据模型的当前值。它会被执行多次，所以要保证不会产生副作用；</p>
+<p>　　watchAction —— 通常以函数的形式，接收到 watchFn 的新旧两个值，以及作用域对象的引用，函数签名为 function(newValue, oldValue, scope)</p>
+<p>　　deepWatch —— 如果设置为 true，则会去检查被监控对象的每个属性是否发生了变化，一般监控一个数组或者多个对象时要设置为 true，但由于要遍历数组，所以运算负担会比较重。</p>
+<p> 　  <code>$watch</code> 函数会返回一个属性，当你不再需要接受变更通知时，可以用这个返回的函数注销监控器。如果需要监控一个属性，然后注销监控，可以如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> dereg = scope.watch(<span class="string">&#x27;someModel.someProperty&#x27;</span>, callbackOnChange());</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">dereg();</span><br></pre></td></tr></table></figure>
+
+<p>一个购物车的例子，当用户添加到购物车中的商品价格超过 100 美元的时候，会有 10 美元的折扣。使用下面的模板：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-3.png"></p>
+<p>控制器如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> shoppingCart = angular.module(<span class="string">&#x27;shoppingCart&#x27;</span>, []);</span><br><span class="line"></span><br><span class="line">shoppingCart.controller(<span class="string">&#x27;CartController&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.bill = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    $scope.items = [</span><br><span class="line">        &#123;<span class="attr">title</span>: <span class="string">&#x27;Paint pots&#x27;</span>, <span class="attr">quantity</span>: <span class="number">8</span>, <span class="attr">price</span>: <span class="number">3.95</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">title</span>: <span class="string">&#x27;Polka dots&#x27;</span>, <span class="attr">quantity</span>: <span class="number">17</span>, <span class="attr">price</span>: <span class="number">12.95</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">title</span>: <span class="string">&#x27;Pebbles&#x27;</span>, <span class="attr">quantity</span>: <span class="number">5</span>, <span class="attr">price</span>: <span class="number">6.95</span>&#125;</span><br><span class="line">    ];</span><br><span class="line">    </span><br><span class="line">    $scope.totalCart = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> total = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = $scope.items.length; i &lt; len; i++) &#123;</span><br><span class="line">            total = total + $scope.items[i].price * $scope.items[i].quantity;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> total;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">calculateDiscount</span>(<span class="params">newValue, oldValue, scoope</span>) </span>&#123;</span><br><span class="line">        $scope.bill.discount = newValue &gt; <span class="number">100</span> ? <span class="number">10</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    $scope.subtotal = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> $scope.totalCart() - $scope.bill.discount;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    $scope.$watch($scope.totalCart, calculateDiscount);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>用户看到的效果如图：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-4.png"></p>
+<p><strong>9、watch() 中的性能注意事项</strong></p>
+<p>断点调试 totalCart() 的代码，你会发现渲染这个页面时，该函数被调用了 6 次。其中 3 次发生在每次调用它的时候：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 模板 &#123;&#123;totalCart() | currency&#125;&#125;</span><br><span class="line">- subtotal() 函数</span><br><span class="line">- $watch() 函数 </span><br></pre></td></tr></table></figure>
+
+<p>然后 Angular 又把整个过程重复了一遍，这样的目的是：检测模型中的变更已经被完整地进行了传播，并且模型已经被设置好。Angular 的做法是，把所有被监控的属性都拷贝一份，然后把它们和当前的值进行比较，看看是否发生了变化。实际上，Angular 可能运行上面过程不止两遍，如果重复 10 遍发现属性还在变化，Angular 会报错并退出，这时候你需要解决循环依赖的问题了。</p>
+<p>PS: 书里面说的是，由于 Angular 需要用 JavaScript 实现数据绑定，官方开发团队与 TC39 团队一起开发了一个叫做 <code>Object.observe()</code> 的底层本地化实现，这样可以让你的数据绑定操作就像本地化代码一样快速。</p>
+<p>我们可以改成监控 items 数组的变化，然后重新计算 $scope 属性中的总价、折扣和小计值来减少函数调用次数。</p>
+<p>模板修改如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-5.png"></p>
+<p>控制器修改如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> shoppingCart = angular.module(<span class="string">&#x27;shoppingCart&#x27;</span>, []);</span><br><span class="line"></span><br><span class="line">shoppingCart.controller(<span class="string">&#x27;CartController&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.bill = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    $scope.items = [</span><br><span class="line">        &#123;<span class="attr">title</span>: <span class="string">&#x27;Paint pots&#x27;</span>, <span class="attr">quantity</span>: <span class="number">8</span>, <span class="attr">price</span>: <span class="number">3.95</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">title</span>: <span class="string">&#x27;Polka dots&#x27;</span>, <span class="attr">quantity</span>: <span class="number">17</span>, <span class="attr">price</span>: <span class="number">12.95</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">title</span>: <span class="string">&#x27;Pebbles&#x27;</span>, <span class="attr">quantity</span>: <span class="number">5</span>, <span class="attr">price</span>: <span class="number">6.95</span>&#125;</span><br><span class="line">    ];</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">calculateDiscount</span>(<span class="params">newValue, oldValue, scoope</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> total = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = $scope.items.length; i &lt; len; i++) &#123;</span><br><span class="line">            total = total + $scope.items[i].price * $scope.items[i].quantity;</span><br><span class="line">        &#125;</span><br><span class="line">        $scope.bill.totalCart = total;</span><br><span class="line">        $scope.bill.discount = newValue &gt; <span class="number">100</span> ? <span class="number">10</span> : <span class="number">0</span>;</span><br><span class="line">        $scope.bill.subtotal = total - $scope.bill.discount;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    $scope.$watch(<span class="string">&#x27;items&#x27;</span>, calculateDiscount, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在调用 $watch 函数时把 items 写成了一个字符串，并且第三个参数设置为 true，可以监控整个 items 数组的变化，单需要制作一份数组的拷贝，用来进行比较操作。</p>
+<p>所以，如果每次在 Angular 显示页面时只需要重新计算 bill 属性，那么性能会好很多。可以像下面这样重新计算属性值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">scope.watch(<span class="function"><span class="keyword">function</span> (<span class="params">newValue, oldValue, scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> total = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = $scope.items.length; i &lt; len; i++) &#123;</span><br><span class="line"></span><br><span class="line">        total = total + scope.items[i].price * scope.items[i].quantity;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $scope.bill.totalCart = total;</span><br><span class="line"></span><br><span class="line">    $scope.bill.discount = newValue &gt; <span class="number">100</span> ? <span class="number">10</span> : <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    scope.bill.subtotal = total - scope.bill.discount;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>根据性能分析更是说明了这点（左边是第二种方式）：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-3-6.png"></p>
+<p>当然可以使用上面说过的方法，利用 <code>$watch</code> 返回的函数，移除不必要的 <code>$watch</code>，参见破狼大神的例子：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/whitewolf/p/angularjs-remove-unused-watch.html">Angular 移除不必要的 $watch</a></p>
+<p><strong>10、监控多个东西</strong></p>
+<p>监控多个东西，有两种基本的选择：</p>
+<ul>
+<li>监控把这些属性连接起来之后的值</li>
+<li>把它们放到一个数组或者对象中，然后给 deepWatch 参数传递一个 true 值。</li>
+</ul>
+<p>第二种情况上面已经介绍，第一种情况比较简单，比如在你的作用域中存在一个 things 对象，它带有两个属性 a 和 b，当这两个属性发生变化时都需要执行 callMe() 函数，你可以同时监控着两个属性， 示例如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scope.watch(&#x27;things.a + things.b&#x27;, callMe(...));</span><br></pre></td></tr></table></figure>
+
+<p>当然，a 和 b 也可以属于不同的对象，这个列表可以很长，不过如果需要监控的属性比较多， 不妨把这个列表放入一个函数中，返回连接的值。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-normal-characteristic-of-angular-2"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2016/07/25/the-normal-characteristic-of-angular-2/"
+    >AngularJS 的常用特性 (二)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2016/07/25/the-normal-characteristic-of-angular-2/" class="article-date">
+  <time datetime="2016-07-24T16:05:10.000Z" itemprop="datePublished">2016-07-25</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>3、列表、表格以及其他迭代型元素</p>
+<p>ng-repeat 可能是最有用的 Angular 指令了，它可以根据集合中的项目一次创建一组元素的多份拷贝。</p>
+<p>比如一个学生名册系统需要从服务器上获取学生信息，目前先把模型之间定义在 JavaScript 代码里面：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> students = [&#123;<span class="attr">name</span>: <span class="string">&#x27;Mary&#x27;</span>, <span class="attr">id</span>: <span class="string">&#x27;1&#x27;</span>&#125;,</span><br><span class="line"></span><br><span class="line">                &#123;<span class="attr">name</span>: <span class="string">&#x27;Jack&#x27;</span>, <span class="attr">id</span>: <span class="string">&#x27;2&#x27;</span>&#125;,</span><br><span class="line"></span><br><span class="line">                &#123;<span class="attr">name</span>: <span class="string">&#x27;Jill&#x27;</span>, <span class="attr">id</span>: <span class="string">&#x27;3&#x27;</span>&#125;];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StudentListController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">　　$scope.students = students;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了显示这个学生列表，可以编写如下代码：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-2-1.png"></p>
+<p><code>ng-repeat</code> 将会生成标签内部所有 HTML 元素的一份拷贝，包括放指令的标签，显示结果如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-2-2.png"></p>
+<p>根据具体情况分别链接到<code> /student/view/1</code>、<code>/student/view/2</code> 以及 <code>/student/view/3</code>。</p>
+<p><strong>ng-repeat</strong> 指令可以通过 <code>$index</code> 返回当前引用的元素序号（类似 struts2 中 iterator 标签中的 index），还可以通过 <code>$first</code>、<code>$middle</code> 及 <code>$last</code>，<code>ng-repeat</code> 指令返回布尔值。</p>
+<p>4、隐藏和显示</p>
+<p>对于菜单、上下文敏感的工具以及很多其他情况来说，显示和隐藏元素是一项核心功能。</p>
+<p>ng-show 和 ng-hide 指令的功能是等价的，但是运行效果正好相反。</p>
+<p>ng-show 在表达式为 true 时将会显示元素，为 false 时将会隐藏元素；而 ng-hide 则恰好相反。</p>
+<p>工作原理：根据实际情况把元素的样式设置为 display : block 来显示元素；设置为 display : none 来隐藏元素。</p>
+<p>5、CSS 类和样式</p>
+<p>目前你已经可以在应用中动态地设置 CSS 类和样式了，只有使用两对大括号 插值语法把它们进行数据绑定即可，甚至可以在模板中构造 CSS 类名的部分匹配方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.menu-disabled-<span class="literal">true</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attr">color</span>: gray;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用以下模板，可以将功能显示成禁用状态：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-2-3.png"></p>
+<p>这样通过控制器来设置 isDisabled 属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MenuController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.isDisabled = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    $scope.disabledIt = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        $scope.isDisabled = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，只有 isDisabled 为 true 时，拼接出来的才是 <code>menu-disabled-true</code>，CSS 样式才会起作用。</p>
+<p>当使用插值的方式绑定内联样式的时候，同样适用，例如 <code>style = &quot;&#123;&#123;some.expression&#125;&#125;&quot;</code>。</p>
+<p>但是由于这种方式并不灵活，后期维护困难，所以 Angular 中推荐使用 <code>ng-class</code> 和 <code>ng-style</code> 指令。<br>　　<br>这两个指令都可以接受一个表达式，表达式执行的结果可能是如下取值之一：</p>
+<ul>
+<li>表示 CSS 类名的字符串，以空格分隔</li>
+<li>CSS 类名数组</li>
+<li>CSS 类名到布尔值的映射</li>
+</ul>
+<p>我们可以如下实现显示错误和警告信息的功能：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.error</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.warning</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">background-color</span>: yellow;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-2-4.png"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">HeaderController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.isError = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    $scope.isWarning = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    $scope.showError = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        $scope.messageText = <span class="string">&#x27;This is an error&#x27;</span>;</span><br><span class="line">        $scope.isError = <span class="literal">true</span>;</span><br><span class="line">        $scope.isWarning = <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    $scope.showWarning = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        $scope.messageText = <span class="string">&#x27;Just a warning, Please carry on.&#x27;</span>;</span><br><span class="line">        $scope.isWarning = <span class="literal">true</span>;</span><br><span class="line">        $scope.isError = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你会发现这样实现的很优雅，而且容易维护，下面还可以做一个更炫的事情，例如，把表格中被选中的行进行高亮显示。</p>
+<p>首先，在 CSS 中设置一个样式：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-2-5.png"></p>
+<p>创建控制器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">&#x27;app&#x27;</span>, []);</span><br><span class="line"></span><br><span class="line">app.controller(<span class="string">&#x27;RestaurantTableController&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.directory = [&#123;<span class="attr">name</span>: <span class="string">&#x27;The Handsome Heifer&#x27;</span>, <span class="attr">cuisine</span>: <span class="string">&#x27;BBQ&#x27;</span>&#125;,</span><br><span class="line"></span><br><span class="line">        &#123;<span class="attr">name</span>: <span class="string">&#x27;Green\&#x27;s Green Greens&#x27;</span>, <span class="attr">cuisine</span>: <span class="string">&#x27;Salads&#x27;</span>&#125;,</span><br><span class="line"></span><br><span class="line">        &#123;<span class="attr">name</span>: <span class="string">&#x27;House of Fine Fish&#x27;</span>, <span class="attr">cuisine</span>: <span class="string">&#x27;Seafood&#x27;</span>&#125;];</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$scope.selectRestaurant = <span class="function"><span class="keyword">function</span> (<span class="params">row</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.selectedRow = row;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示效果如图：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-2-6.png"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-normal-characteristic-of-angular-1"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2016/06/15/the-normal-characteristic-of-angular-1/"
+    >AngularJS 的常用特性 (一)</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2016/06/15/the-normal-characteristic-of-angular-1/" class="article-date">
+  <time datetime="2016-06-14T16:05:10.000Z" itemprop="datePublished">2016-06-15</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>前言：AngularJS 是一款来自 Google 的前端 JS 框架，该框架已经被应用到了 Google 的多款产品中，这款框架最核心特性有：MVC、模块化、自动化双向数据绑定、语义化标签、依赖注入等待。而且，AngularJS 框架自身是通过 TDD（测试驱动）的方式开发的，从这个角度来看，AngularJS 是敏捷开发的一次成功实践。</p>
+<p>引一段《AngularJS 深度剖析和最佳实践》中的话：</p>
+<blockquote>
+<p>Angular 的学习曲线大概是这样的：入门非常容易，中级的时候会发现需要深入理解很多概念，高级的时候需要掌握 Angular 的工作原理，而想成为专家则很难，需要经过很多工程实践的磨练。</p>
+</blockquote>
+<p>既然入门比较容易，那就一起入门吧。</p>
+<p><strong>1、调用 Angular</strong></p>
+<p>为了使用 Angular，所有应用都必须首先做两件事情：</p>
+<ul>
+<li>加载 angular.js 库</li>
+<li>使用 ng-app 指令告诉 Angular 应该管理 DOM 中的哪一部分。</li>
+</ul>
+<p>如果你正在构建一款纯 Angular 应用，则把 ng-app 指令写在 <code>&lt;html&gt;</code> 标签中，示例如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-1.png"></p>
+<p>或者你也可以用 Angular 管理页面中的一部分，只有放在页面中的 <code>&lt;div&gt;</code> 之类的元素即可。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-2.png"></p>
+<p><strong>2、模板与数据绑定</strong></p>
+<p>1）<strong>数据绑定</strong>是 Angular 的特色，即 “所见即所得”，像这样设置其中的文本：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-3.png"></p>
+<p>也叫做双花括号插值语法，因为它可以把新的内容插入到现有的模板中。</p>
+<p>控制器 (使用指令 ng-controller) 就是你所编写的类或者类型，它的作用是告诉 Angular 该模型是由哪些对象或者基本数据构成的，只要把这些对象或者基本数据设置到 <code>$scope</code> 对象上即可，<code>$scope</code> 对象会被传递给控制器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">TextController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  $scope.someText = someText;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一个简单的完整的例子：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-4.png"></p>
+<p>加载到浏览器中，你会看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have started your journey.</span><br></pre></td></tr></table></figure>
+
+<p>但是大多数应用，还是需要创建模型对象来容纳数据，而且并不建议在全局作用域创建 <strong>TextController</strong>，建议是定义成模块的一部分:</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-5.png"></p>
+<p>记住：<strong>把东西从全局命名空间中隔离开是一件非常好的事情</strong>，模块机制起这个作用。</p>
+<p>2）使用 <code>ng-bind</code> 指令，可以在 UI 中的任何地方显示并刷新文本，有两种等价形式：</p>
+<p>一种是花括号形式：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-6.png"></p>
+<p>一种是使用基于属性的指令：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-7.png"></p>
+<p>花括号插值语法的目的是为了阅读自然，而且需要输入的内容更少，但是在页面加载过程中，Angular 会使用数据替换这些花括号，未被渲染好的模板可能会被用户看到。</p>
+<p>造成这种现象的原因是，浏览器需要首先加载 HTML 页面，渲染它，然后 Angular 才有机会把它解释成你期望看到的内容。</p>
+<p>其实，加载 HTML 页面一般只发生在首页，所以对于 <code>index.html</code> 页面中的数据绑定操作，建议使用 <code>ng-bind</code>，其他页面可以使用花括号，而且花括号更快一点。</p>
+<p>利用 Chrome 浏览器的一个针对于 Angular 的扩展（**AngularJS Batarang(Stable)**）可以直观的看到两者消耗时间的差别：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-8.jpg"></p>
+<p>3）表单输入</p>
+<p>在 Angular 中使用表单元素非常方便，使用指令 ng-model 属性把元素绑定到你的模型属性上。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-9.png"></p>
+<p>对于输入元素来说，你可以使用 <code>ng-change</code> 属性来指定一个控制器方法，一旦用户修改了输入值，这个方法就会被调用。下面做一个简单的计算，帮助消费者计算一下需要付多少钱：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-10.png"></p>
+<p>把输入文本框的值设置为用户估价的 10 倍即可，同时，默认值为 0：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StartUpController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.funding = &#123; <span class="attr">startingEstimate</span> : <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    $scope.computeNeeded = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        $scope.funding.needed = $scope.funding.startingEstimate * <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是为了能够正确地刷新输入框，而不管它是通过何种途径进行刷新的，需要使用 <code>$scope</code> 中的 <code>$watch()</code> 函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StartUpController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">　　$scope.funding = &#123; <span class="attr">startingEstimate</span> : <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">var</span> computeNeeded = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">   　　scope.funding.needed = scope.funding.startingEstimate * <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">   &#125;;</span><br><span class="line"></span><br><span class="line">   scope.watch(<span class="string">&#x27;funding.startingEstimate&#x27;</span>, computeNeeded);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>请注意，需要监视的表达式位于引号中，这个字符串会被当作 Angular 表达式来操作。这时我们可以使用一个简单的模板：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-11.png"></p>
+<p>4）浅谈非入侵式 JavaScript</p>
+<p>对于大多数内联的时间监听器来说，Angular 有一种等价的形式 <code>ng-eventhandler = &quot;expression&quot;</code>，这里的 eventhandler 可以被替换成 click、mousedown、change 等。最重要的是，Angular 将会帮你屏蔽浏览器之间的差异性。</p>
+<p>而且不会在全局命名空间中进行操作，你所指定的表达式只能访问元素控制器作用域范围内的函数和数据。</p>
+<p>第二点举个例子就是，不同的 <strong>Controller</strong>，可以定义相同名字的数据模型，你会创建一个导航栏和一个内容区域，当你在导航栏中选择不同的菜单项时，内容区域会发生相应的改变。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-normal-characteristic-of-angular-1-12.png"></p>
+<p>当用户点击的时候，导航栏中的两个 <code>&lt;li&gt;</code> 和内容区域中的 <code>&lt;div&gt;</code> 都会调用 <strong>doSomething()</strong> 的函数，你可以在控制器代码中写好这些调用所引起的函数，实际上这两个函数可以是同一个，也可以不是同一个。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">NavController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.doSomething = doA;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ContentAreaController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.doSomething = doB;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请注意，到目前为止，我们所编写的所有控制器中，都没有在任何地方引用 DOM 或者 DOM 操作，所有定位元素和处理事件的工作都是在 Angular 内部完成的。</p>
+<p>所以，你可以开心地使用 Angular 的声明式事件处理器，同时又能保持简单性和可读性，没有必要为违反最佳实践而感到内疚。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+  </nav>
+  
+</section>
+</div>
+
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Hexo"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

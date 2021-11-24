@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title> Hexo</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      
+<section class="cover">
+    
+      
+      <a class="forkMe" href="https://github.com/Shen-Yu/hexo-theme-ayer"
+        target="_blank"><img width="149" height="149" src="/images/forkme.png"
+          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/cover1.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="/">Hexo</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+
+<!-- Subtitle -->
+
+  <script>
+    try {
+      var typed = new Typed("#subtitle", {
+        strings: ['面朝大海，春暖花开', '愿你一生努力，一生被爱', '想要的都拥有，得不到的都释怀'],
+        startDelay: 0,
+        typeSpeed: 200,
+        loop: true,
+        backSpeed: 100,
+        showCursor: true
+      });
+    } catch (err) {
+      console.log(err)
+    }
+  </script>
+  
+<div id="main">
+  <section class="outer">
+  
+  
+  
+
+<div class="notice" style="margin-top:50px">
+    <i class="ri-heart-fill"></i>
+    <div class="notice-content" id="broad"></div>
+</div>
+<script type="text/javascript">
+    fetch('https://v1.hitokoto.cn')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("broad").innerHTML = data.hitokoto;
+        })
+        .catch(console.error)
+</script>
+
+<style>
+    .notice {
+        padding: 20px;
+        border: 1px dashed #e6e6e6;
+        color: #969696;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        background: #fbfbfb50;
+        border-radius: 10px;
+    }
+
+    .notice i {
+        float: left;
+        color: #999;
+        font-size: 16px;
+        padding-right: 10px;
+        vertical-align: middle;
+        margin-top: -2px;
+    }
+
+    .notice-content {
+        display: initial;
+        vertical-align: middle;
+    }
+</style>
+  
+  <article class="articles">
+    
+    
+    
+    
+    <article
+  id="post-findbugs"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2016/05/06/findbugs/"
+    >知识百科系列 (一) —— FindBugs</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2016/05/06/findbugs/" class="article-date">
+  <time datetime="2016-05-06T15:39:50.000Z" itemprop="datePublished">2016-05-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%88%E7%8E%87%E6%8F%92%E4%BB%B6/">效率插件</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>在使用 Jenkins 构建 Java Web 项目时候，有一项叫做静态代码检查，是用内置的 findBugs 插件，对程序源代码进行检查，以分析程序行为的技术，应用于程序的正确性检查、安全缺陷检测、程序优化等，特点就是不执行程序。它有助于在项目早期发现以下问题：变量声明了但未使用、变量类型不匹配、变量在使用前未定义、不可达代码、死循环、数组越界、内存泄漏等。分为以下几种类型：</p>
+<p><strong>一、Bad Practice (糟糕的写法)</strong></p>
+<p><strong>二、Correctness (不太的当)</strong></p>
+<p><strong>三、Experimental (实验)</strong></p>
+<p><strong>四、Internationalization (国际化)</strong></p>
+<p><strong>五、Malicious code vulnerability (有漏洞的代码)</strong></p>
+<p><strong>六、Multithreaded correctness (多线程问题)</strong></p>
+<p><strong>七、Performance (执行)</strong></p>
+<p><strong>八、Security (安全性)</strong></p>
+<p><strong>九、Dodgy code (可疑代码)</strong></p>
+<p>具体描述，可以参加如下地址：<a target="_blank" rel="noopener" href="http://findbugs.sourceforge.net/bugDescriptions.html">FindBugs问题列表以及描述</a></p>
+<p>常见的比如：</p>
+<p>SBSC: Method concatenates strings using + in a loop (SBSC_USE_STRINGBUFFER_CONCATENATION)</p>
+<p>问题描述已经很清楚了，尽量不要在循环中使用 String，用 StringBuffer 来代替：</p>
+<p>The method seems to be building a String using concatenation in a loop. In each iteration, the String is converted to a StringBuffer/StringBuilder, appended to, and converted back to a String. This can lead to a cost quadratic in the number of iterations, as the growing string is recopied in each iteration.</p>
+<p>Better performance can be obtained by using a StringBuffer (or StringBuilder in Java 1.5) explicitly.</p>
+<p>For example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is bad</span></span><br><span class="line"></span><br><span class="line">String s = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; field.length; ++i) &#123;</span><br><span class="line"></span><br><span class="line">  s = s + field[i];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This is better</span></span><br><span class="line"></span><br><span class="line">StringBuffer buf = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; field.length; ++i) &#123;</span><br><span class="line"></span><br><span class="line">	buf.append(field[i]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">String s = buf.toString();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>写段代码比较下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Long preSecond = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">String str = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> length = <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line"></span><br><span class="line">　　str += i;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;cost &quot;</span> + (System.currentTimeMillis() - preSecond) + <span class="string">&quot; seconds.&quot;</span>);</span><br><span class="line"></span><br><span class="line">Long posSecond = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">StringBuffer buffer = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line"></span><br><span class="line">　　buffer.append(i);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;cost &quot;</span> + (System.currentTimeMillis() - posSecond) + <span class="string">&quot; seconds.&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>输出结果为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cost <span class="number">363</span> seconds.</span><br><span class="line"></span><br><span class="line">cost <span class="number">3</span> seconds.</span><br></pre></td></tr></table></figure>
+
+<p><strong>还有个错误关于实体类的 setter 和 getter 方法的：</strong></p>
+<p>EI2: May expose internal representation by incorporating reference to mutable object (EI_EXPOSE_REP2)</p>
+<p>This code stores a reference to an externally mutable object into the internal representation of the object.  If instances are accessed by untrusted code, and unchecked changes to the mutable object would compromise security or other important properties, you will need to do something different. Storing a copy of the object is better approach in many situations.</p>
+<p>报的是这种比如 Date 类型的字段的 getter 和 setter 方法：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs1.png"></p>
+<p>这里的警告意思是，在进行 get 或者 set 时候，因为 Java 是引用传递，对象之间赋值，可能会导致其他对象的修改，所以建议的做法是，把对象的克隆对象赋值给需要赋值的对象。</p>
+<p>首先，该实体类要继承 Cloneable 接口，然后在对应的 getter 和 setter 方法更改如下即可：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs2.png"></p>
+<p>在一款优秀的 Java IDE —— IntellijIDEA 中，也可以安装对应的插件，来将这些问题扼杀在项目上线之前，避免不必要的麻烦。</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs3.png"></p>
+<p>安装以后，右击要分析的 Java 文件，选择 Analyzed Files 即可</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs4.png"></p>
+<p>分析之后，如果有 bugs，就会显示，然后根据提示来修正即可</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs5.png"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WikiKnowledge/" rel="tag">WikiKnowledge</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-strong-your-heart"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2016/04/05/strong-your-heart/"
+    >拿什么来强大你的内心——M 叔的人格魅力</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2016/04/05/strong-your-heart/" class="article-date">
+  <time datetime="2016-04-04T16:04:13.000Z" itemprop="datePublished">2016-04-05</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%99%BA%E6%85%A7%E4%BA%BA%E7%94%9F/">智慧人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>今天有幸去和一位前辈老乡见了一面，谈话两小时，收获良多，回到公司吃过中饭，仍难抚心中波澜，人生难得几个重要的时刻，记忆难免会有缺失，所以决定用文字记录下来。</p>
+<p>本来打算去附近一个茶庄，可以绕了一圈发现有点远又不知道几点开门营业，所以就去了附近的一家星巴克，点了两杯拿铁，开始了本次的交谈。</p>
+<p>都说见多才能识广，这位前辈（以下简称 M 叔）可算是印证了这句话，而且记忆很好，说起往事总是如数家珍，可还是谦虚地说记性不好。虽然说的都是琐事，但是在我看来确正是验证他所述之言的有力论证，恍惚间，感觉面前坐的是许子东老师，锵锵三人行中我最喜欢的嘉宾之一，将人生哲理处事经验娓娓道来。</p>
+<p>首先，他讲述了下自己年轻时候的故事，父亲对自己的言传身教，耳提面命，感慨自己有现在的生活多亏父亲当时的严苛。从医十多年，不昧良心做事，行走在复杂的社会仍能不忘初心，这几点都是常人很难坚持的东西，也是我所钦佩的地方。M 叔喜欢游遍祖国大江山川，某次骑行到海南，仍不忘家里年迈的父母，寄一些水果回去，他说，可能并不会那么好吃，但是没办法，家庭总是在自己内心占据首要位置，这一点不会忘也不能忘。直到前不久，年迈的老父亲驾鹤西去，老家村里前来吊唁的人们无不感叹，歌颂功德不敢讲，但是大家总能说起他的好。我听到这里，觉得这才是最值得骄傲的吧，不在于惊天动地，只坚信日积一德，终能无愧于心。</p>
+<p>M 叔喝了口咖啡，接着说起了自己的伴侣。他们是大学同学，听他的描述，当时的 M 叔应该是才华横溢，满腹经纶，两人是一见倾心，一起插队，一起下乡。当时的 M 叔一身抱负，发誓肩负男人的责任，保护自己的女人，这便是 M 叔内心强大的第二个动力。结婚生子之后，自己独自一人在北京打拼，妻子在家里照顾孩子的上学，任劳任怨，M 叔说到这里，眼睛有一些湿润， 说自己一辈子都会记着这些，永不背叛，永不分离。想起 M 叔自嘲文艺范，我想年轻时候的他们，也许也会曾对《致橡树》爱不释手吧，这段经历虽平淡无华，但确是对坚贞爱情的真实写照。</p>
+<p>常言道，父不言子之德，但 M 叔确对他们爱情的结晶大加褒奖，就像他说的那样，自己坚信的东西，坚守了一生，也终于换来了如此的馈赠，注定要继续延续下去。M 叔讲了很多关于这对姐妹花的求学和成长路上的故事，也是精彩万分，M 叔对她们无微不至的呵护，直到她们长大成人。说真的，我觉得她们一定会因为有如此的父母而自豪，都说父母是孩子的第一任也是最重要的一任老师，目的很简单，培养孩子有能力面对外面纷杂的世界，三观正，有见识，足矣。M 叔说了一句感动我的话，你能想象一下，全家待在一起，一个足浴盆里边有六只脚，是一种怎样的幸福么。所以我想，M 叔至今仍能永葆活力，仍对更美好生活充满向往，内心仍足够强大的第三个理由，就是她们吧。</p>
+<p>听着 M 叔的人生阅历，自己相比一下，真是相形见绌了。父母为了生计而奔波，非常辛苦，自己心里也特别感谢父母，坚持自己求学的这条路。最近在工作之余不断思索，深知我们不得不面对的事情，正是从一段时间学习到终身学习，从一个专业学习到跨界学习，从整块时间学习向碎片化时间学习。更重要的是，必须不断地发现问题，然后找到解决方案，这样你的能力才会成长，你的价值才能在认可。</p>
+<p>套用罗胖的话，这个世界就那么两个事：第一，找到目标，勇于、擅于行动；第二，在行动的过程中，让更多的人能够帮助你，这才是新时代的牛人。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/" rel="tag">Life</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-two-interview-experiences-a-life-turning"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2016/03/23/two-interview-experiences-a-life-turning/"
+    >两次面试经历，一个人生转折</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2016/03/23/two-interview-experiences-a-life-turning/" class="article-date">
+  <time datetime="2016-03-22T16:07:55.000Z" itemprop="datePublished">2016-03-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%99%BA%E6%85%A7%E4%BA%BA%E7%94%9F/">智慧人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>今天去参加了两场面试，一场是同道，一场是链家，总体来说还算比较顺利，下面是具体过程。</p>
+<p>上午的同道是 11 点面试，我坐地铁到漕河泾，到了公司十点半左右，人事先带我填了下个人资料，我大致扫视了一下公司，大约 30 多人，环境还可以，老总貌似在谈法律什么的，才知道是专注于法律业务的互联网公司。填了表，带到了一个办公室等着，我纳闷，没有面试题么？管他呢，瞅了瞅书架上的书，全是技术类型的，不过貌似有一些过时了（愚见）。过了一会，人事拿进来一份面试题叫做一下，好吧，还是有这个流程的。好少，三道题，前两道还是无关的智力题，最后一题是，有个实体类 Account，包含 id，username，password 三个属性，要求是完善方法 public void compare(List<Account> newList, List<Account> oldList){}，比较一下新的 List 比旧的 List 里边新增、删除还是修改了内容（Accout 中同一个 ID 的 password 不同则视为修改），返回信息如：增加用户：aaa；删除用户：bbb；更新用户：ccc；可能给的时间不是很多，自己刚刚试着写了一些逻辑，面试官就进来了。好吧，他看了看，没太看懂，我说，我给你口述下吧，然后简单说了下我的实现逻辑，当然是漏洞百出的，考虑地不太全面。然后他又叫我实现一个功能，不用数据库的情况下，在 tomcat 启动到停止过程中注册和登陆账号，我想了下，说了用一个 Map&lt;username, password &gt; 来保存信息，然后放到 application 中，注册的时候，先去查询有没有对应的 username 在 Map 中，有则提示账号已经存在请登录，没有注册，这个基本算是过关了。然后，接下来就是叫我自我介绍了一下，说了下自己的工作经历，包括自己两年来的工作经历，先是做的测试，后来转的开发。然后问了一些在工作中遇到的问题，以及是如何解决的，这个我说了几个印象比较深刻的比如说利用 ICEPDF 在线预览 PDF 的功能，使得加载速度较快，用户体验比较好（这个也是多亏了郝哥提出的优化，不然真没有这个经验），其他的比如数据库连接池，ExtJS，Framework 都简单的说了下，也聊了一下为什么要换工作。这个是痛点哪，本来好端端的产品组，自从老禹走了之后，大家人心惶惶的，完全没有了以前紧张团结活泼的气氛，好吧，只能说这么多了。。。然后面试官说可以，等下去看看老总在不在，出去了，一会老总进来了，姓万，也是比较随和的，大体问了一下基本情况，然后谈了一下公司的基本情况，主要是针对法律领域的（好吧，之前的老总也是个律师），web 端和移动端都在做，基本全是开发的三十几号人，氛围还不错，朝九晚五，双休。这个老总也是比较能侃，各种地展望未来，说这块市场是块大蛋糕，和法院，检察院等政府机关合作，想得到他们的海量数据，前景应该不错的，至于我提的期望薪资也是可以的接受的，说公司还是有能力的支付的，在后来，就随便侃侃，问问我多长时间到岗，我当时写的是一个月左右，他说，这个时间貌似有点长吧，我说，我也不太确定，因为不定的因素还是比较多的，具体看情况吧，就这样，结束了这次面试。整体过程还是比较愉悦的，一看时间，12：30 了，离下午三点的面试还早，就搭地铁回去先吃个饭再说。</p>
+<p>吃过中饭（两个馒头，两个煮鸡蛋，一些小菜），差不多两点，百度地图导航一下，好近的，公交一站就到了。于是，慢悠悠地出门坐公交去了下午的面试地：链家。说实话，能收到链家的面试邀请还是比较意外的，因为之前看鸟哥的博文说这里 80% 都是 BAT 出来的，开发有好几百人，所以下午的面试态度比较端正，就是去锻炼锻炼（才怪，能录取最好，哈哈）。链家位于汇银大厦 18 楼，写的是德佑地产，貌似被收购了吧，不知。上去以后，和人事说是来面试的，问了下名字，说来早了吧，然后带到一个小办公室，给了一份个人资料和一份面试题，说一个小时，一看貌似好多，需要做的大概有 8 道吧，然后就开始做题。网上说链家的笔试题都是简单看看，主要还是问问具体情况，一会就知道了，先做题。前面两个照例智力题（pass，囧，后来发现是知乎上面的），接下来是一个 Java 异常处理的题目，就是 try 里面有了一个 return 怎么处理，简单；接下来是一个单例模式的题目，好吧，稍微有一些忘记了；接下来是一个字符串逆序的题目（都是 String 必考，果然是），接下来是一些性能优化的问题，比如 100000 套试卷随机抽取，保证不重复；接下来是 Java Web 端的问题，Cookie 和 Session 的概念；然后就是一个数据库的题目（我发誓好好把 SQL 练好，每天写一条，硬伤哪）。好的，差不多一个小时， 简单看了下几个需要口述的题目，然后把卷子给了人事，她叫我等一会，去叫项目经理。我就在那个屋子里等了一会，看了看楼外的风景，甚美，感慨万千哪！面试官来了，果然是挑软肋先手，各种问单例模式，问在 Spring 里面哪里用到了这种模式，反正就是欺负我忘记了；接着问那个试卷的问题，我说用 hashMap 实现吧，他说可以的，但是如果考虑并发呢，我懵了，之前关于多线程的并发问题接触甚少的，好在相到有个 CurrentHashMap 是线程安全的，然后他又问了下 hashMap 能否做到呢，我说加个 synchronized 关键字吧，他说 OK，然后又问我，这个虽然可以实现，但是还是比 CurrentHashMap 的速度慢，问我知道为什么。我这个真心不知道，于是虚心请教了，他简单说了下 CurrentHashMap 实现的机理，使用 Hash 值分块来加同步的，高手果然是高手，然后又看了下几个 SQL。。。问了些简单的比如简历索引的东西，这个由于在工作中遇到的太少，没什么机会去了解（借口），然后就简单说了下我的理解。好吧，面试官接着问了一下工作经历，问了下数据库连接池用的是什么，我这个正好之前弄过，就简单地说了一下。又问了有什么在工作中比较深刻的东西，我说就是在线预览 PDF 的功能（感谢郝哥，感谢同道），这个貌似他还是比较满意的。因为我说看过这里的源码，他问我什么情况下回去看，我说之前在客户那里出现了乱码的问题，于是查看源码研究了一番，最后发现是客户的 Linux 机器没有安装中文汉化包（虽然没什么关系，我自圆其说了，面试官貌似比较满意）。然后，他说好吧，你再等一会，然后就出去了，接着又等了几分钟，我赶紧把之前的漏洞记在了笔记本上面，他们进来了（是的，两个），还问我，记什么东西，我挠挠头，刚才问了几个点，没有答好，回去再看下，他们笑笑，开始了接下来的面试。这两位一看就是大神级别的，问的问题明显上了一个档次，直接上升到了底层的东西。听说我研究过 Activiti 工作流，就问了下我具体的实现过程，我大体说了一会，然后问了几个 SQL（上次就吃亏在 SQL 上面了，这回又是），说我这块不太牢靠，我诡辩说，我这块的代码对 SQL 要求并不太高，自己平时也就没太多地练习（好吧，借口），接着问了我平时上什么网站，看什么书籍，我说 FEX，他直接顺着问，你喜欢前端。我说有段时间搞前端多一些，就研究下；我说看了黄勇的架构探险，他居然也听过，之间问我书里那块印象深刻，我说，当然是他如何用轻量级的搭建起来了类 MVC 的架构，也更好地理解了 Spring 的底层实现。接下来，又叫我口述什么实现 String 的翻转什么的，我也就说一说，然后简单的实现一下（今天两个坑都遇到了，一个 SQL，一个 String）。然后过了一会他们说没问题了，又叫我等一会，就出去了。好吧，估计还要一轮吧，不错，刚才第一位小哥又进来了，这回是给我介绍了一下这个这位的一些要求：全栈！（好吧，怪不得问的这么细），然后介绍了下链家的整体情况，我还开玩笑地问下鸟哥在上海不？他说在北京，北京是 PHP，上海是 Java，好吧。原来他问我那些问题都是都是有针对性的。因为在链家每天的交易量是很大的，经常是上亿的数据，这里就要对支付这块的安全做到极致，然后对并发量的处理也是特别高的要求，然后交付周期也是特别长，所有需要对流程这块做好相应的控制。然后，公司的研发团队有 200 多人，确实挺多的，而且是分成若干个研发下载，特别地人性化管理，没有等级之分（梦想中的好公司哪），小组内部则是开发测试需求都有（有点像我们标准版的产品组啊，伤感），几个小组有一个经理级别的，然后小组内部的开发基本是敏捷开发，一个礼拜更新一次。说完了公司结构，又说明了下工资情况，总之，待遇还是蛮不错的！然后说完了，他说等一会，就又出去了！难道还有需要 Boss 需要面试么？果然，真身才现！原来是他要招人哪！先是和我简单寒暄几句，然后直接步入正题，他说自己二十几个人做了几个项目，现在又想新作一个项目，所以，你懂的，需要招人了。各种大谈特谈，说招人先看几心，细心，耐心，其实就是首先你先成为一个个人素质比较好的人，然后如果能力目前不够，但是发展潜力比较大，就也是可以考虑的。说自己每个小组不缺经费，要想办法去玩，不然每个月的钱花不完，哈哈！总之，链家确实不愧为鸟哥所向往，而鸟哥也不愧为众多码农所向往！不管这次面试成功与否，自己的收获真的是相当巨大， 就像两个三岁小孩打架，低手对决，水平不会提升多少，和高手切磋，进步飞快！很期待加入这个大家庭！</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/" rel="tag">Life</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+  
+</section>
+</div>
+
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Hexo"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

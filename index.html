@@ -155,7 +155,7 @@
     
     
     <article
-  id="post-hello-world"
+  id="post-Maven-进阶"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -166,8 +166,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2021/11/24/hello-world/"
-    >Hello World</a> 
+  <a class="article-title" href="/2018/07/24/Maven-%E8%BF%9B%E9%98%B6/"
+    >Maven 进阶</a> 
 </h2>
  
 
@@ -175,26 +175,70 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2021/11/24/hello-world/" class="article-date">
-  <time datetime="2021-11-24T12:33:38.023Z" itemprop="datePublished">2021-11-24</time>
+      <a href="/2018/07/24/Maven-%E8%BF%9B%E9%98%B6/" class="article-date">
+  <time datetime="2018-07-24T15:46:31.000Z" itemprop="datePublished">2018-07-24</time>
 </a>    
     </div>
       
     <div class="article-entry" itemprop="articleBody">
        
-  <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+  <h2 id="一、Maven-版本管理"><a href="#一、Maven-版本管理" class="headerlink" title="一、Maven 版本管理"></a>一、Maven 版本管理</h2><p>Maven 的推荐版本号约定为：<code>主版本号.次版本号.增量版本号-&lt;里程碑版本&gt;</code><br>开发中的版本要以 <code>-SNAPSHOT</code> 结尾，因为这种快照版本是支持 jar 包被覆盖的，那么，开发时候的 Maven 命令应该使用 <code>mvn clean package -U (强制拉一次)</code><br>快照版本可以升级为正式版本的条件：</p>
+<ul>
+<li><p>所以自动化测试应对全部通过</p>
+</li>
+<li><p>项目没有配置任何快照版本的依赖</p>
+</li>
+<li><p>项目没有配置任何快照版本的插件</p>
+</li>
+<li><p>项目所包含的代码已经全部提交到版本控制系统中</p>
+</li>
+</ul>
+<h2 id="二、Maven-生命周期和常用命令"><a href="#二、Maven-生命周期和常用命令" class="headerlink" title="二、Maven 生命周期和常用命令"></a>二、Maven 生命周期和常用命令</h2><h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><p>执行该命令会把代码进行编译</p>
+<h3 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h3><p>执行该命令会把 <code>/target</code> 目录下清空</p>
+<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3><p>执行该命令会运行项目下的所有 test case</p>
+<h3 id="package"><a href="#package" class="headerlink" title="package"></a>package</h3><p>执行该命令会对项目进行打包</p>
+<h3 id="install"><a href="#install" class="headerlink" title="install"></a>install</h3><p>将 jar 包安装到本地仓库中，在多模块的项目中，如果依赖的模块发生变更，需要重新执行 install 才能生效</p>
+<h3 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h3><p>把本地 jar 包发布到远端私服地址</p>
+<h3 id="Maven-的生命周期"><a href="#Maven-的生命周期" class="headerlink" title="Maven 的生命周期"></a>Maven 的生命周期</h3><p>理解下边两句话，就理解了 Maven 的生命周期：</p>
+<blockquote>
+<p>A Build Lifecycle is Made Up of Phases.<br>A Build Phase is Made Up of Plugin Goals.</p>
+</blockquote>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724234841.png" alt="markdown/20180724234841.png"></p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724234920.png" alt="markdown/20180724234920.png"></p>
+<h2 id="三、Maven-常用插件"><a href="#三、Maven-常用插件" class="headerlink" title="三、Maven 常用插件"></a>三、Maven 常用插件</h2><h3 id="两个插件地址："><a href="#两个插件地址：" class="headerlink" title="两个插件地址："></a>两个插件地址：</h3><p><code>https://maven.apache.org/plugins/</code><br><code>http://www.mojohaus.org/plugins.html</code></p>
+<h3 id="tomcat7-maven-plugin"><a href="#tomcat7-maven-plugin" class="headerlink" title="tomcat7-maven-plugin"></a>tomcat7-maven-plugin</h3><h3 id="findbugs-maven-plugin"><a href="#findbugs-maven-plugin" class="headerlink" title="findbugs-maven-plugin"></a>findbugs-maven-plugin</h3><h3 id="maven-checkstyle-plugin"><a href="#maven-checkstyle-plugin" class="headerlink" title="maven-checkstyle-plugin"></a>maven-checkstyle-plugin</h3><h3 id="maven-enforcer-plugin"><a href="#maven-enforcer-plugin" class="headerlink" title="maven-enforcer-plugin"></a>maven-enforcer-plugin</h3><h3 id="maven-source-plugin"><a href="#maven-source-plugin" class="headerlink" title="maven-source-plugin"></a>maven-source-plugin</h3><h2 id="四、Maven-自定义插件"><a href="#四、Maven-自定义插件" class="headerlink" title="四、Maven 自定义插件"></a>四、Maven 自定义插件</h2><h3 id="自定义插件"><a href="#自定义插件" class="headerlink" title="自定义插件"></a>自定义插件</h3><p>新建一个 Maven 项目，将 pom.xml 里边的打包方式更改为 <code>&lt;packaging&gt;maven-plugin&lt;/packaging&gt;</code><br>增加如下依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-plugin-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugin-tools<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-plugin-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>新建一个类，继承 <code>org.apache.maven.plugin.AbstractMojo</code>，实现对应的方法<br>增加注解 <code>org.apache.maven.plugins.annotations.Mojo</code>，增加 name 属性，代表 plugin 的 goal<br><code>mvn install</code><br>参数传递：插件类中增加变量，增加注解 <code>org.apache.maven.plugins.annotations.Parameter</code></p>
+<h3 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h3><p>挂载在项目的 pom.xml 中，增加 <code>plugin</code> 中 <code>execution</code> 的 <code>phase</code> 和 <code>goal</code> 属性：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724235147.png" alt="markdown/20180724235147.png"></p>
+<h2 id="五、Maven-Profile-动态配置文件"><a href="#五、Maven-Profile-动态配置文件" class="headerlink" title="五、Maven Profile 动态配置文件"></a>五、Maven Profile 动态配置文件</h2><p>a) 使用场景 dev/test/pro</p>
+<p>b) 根据 <code>activeProfile</code> 来切换 setting.xml 中设置的私服地址（家和公司两套）</p>
+<h2 id="六、Maven-仓库"><a href="#六、Maven-仓库" class="headerlink" title="六、Maven 仓库"></a>六、Maven 仓库</h2><p>a)下载</p>
+<p>b)安装 解压</p>
+<p>c)使用<a target="_blank" rel="noopener" href="http://books.sonatype.com/nexus-book/reference3/index.html">http://books.sonatype.com/nexus-book/reference3/index.html</a> </p>
+<p>i.<a target="_blank" rel="noopener" href="http://192.168.1.6:8081/nexus">http://192.168.1.6:8081/nexus</a></p>
+<p>ii.admin/admin123</p>
+<p>d)发布</p>
+<p>i.pom.xml 配置 </p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180724235259.png" alt="markdown/20180724235259.png"></p>
+<p>e)下载jar配置</p>
+<p>i.配置mirror</p>
+<p>ii.Profile</p>
+<h2 id="七、Maven-Archetype-模板化"><a href="#七、Maven-Archetype-模板化" class="headerlink" title="七、Maven Archetype 模板化"></a>七、Maven Archetype 模板化</h2><h3 id="生成一个模板"><a href="#生成一个模板" class="headerlink" title="生成一个模板"></a>生成一个模板</h3><ul>
+<li>在项目目录下执行命令：<code>mvn archetype:create-from-project</code></li>
+<li>命令运行成功后，会在工程的 <code>target/generated-sources/archetype</code> 目录下生成一个 Archetype，进入这个目录：<code>cd /target/generated-sources/archetype</code></li>
+<li>如果想要将新生成的 archetype 运行在本地仓库，就运行 maven 命令：<code>mvn install</code>；如果想要共享这个 archetype，就使用 deploy 命令。</li>
+</ul>
+<h2 id="八、Maven-反应堆"><a href="#八、Maven-反应堆" class="headerlink" title="八、Maven 反应堆"></a>八、Maven 反应堆</h2><h3 id="反应堆"><a href="#反应堆" class="headerlink" title="反应堆"></a>反应堆</h3><p>在一个多模块的 Maven 项目中，反应堆（Reactor）是指所有模块组成的一个构建结果，对于单模块的项目，反应堆就是该模块本身，但是对于多模块的项目来说，反应堆就包含了各模块之间继承与依赖的关系，从而能够自动计算出合理的模块构建顺序。<br>构建顺序一般为：主 POM 的读取顺序 + 继承或者依赖的顺序<br>模块之间的依赖关系会将反应堆构成一个有向循环图（Directed Acyclic Graph，DAG），各个模块是该图的节点，依赖关系构成了有向边。这个图不允许出现循环，当出现循环依赖时，Maven 就会报错。</p>
+<h3 id="裁剪反应堆"><a href="#裁剪反应堆" class="headerlink" title="裁剪反应堆"></a>裁剪反应堆</h3><p>有时，在多模块项目中，如果只改了某一个模块的内容，为了加快构建，可以不需要完整构建所有模块，可以有选择地构建，常用命令如下：</p>
+<ul>
+<li>-am，—also-make，表示同时构建所列模块的依赖模块</li>
+<li>-amd，-also-make-dependents，表示同时构建依赖于所列模块的模块</li>
+<li>pl，—projects <args>，表示构建指定的模块，模块间用逗号分隔</li>
+<li>rf，-resume-from <args>，表示从指定的模块开始构建</li>
+</ul>
+<p><code>mvn clean package  -Dmaven.test.skip=true -pl api -amd</code></p>
  
       <!-- reward -->
       
@@ -205,6 +249,715 @@
     
     <footer class="article-footer">
        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-Maven-入门——认识Maven结构"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/07/23/Maven-%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86Maven%E7%BB%93%E6%9E%84/"
+    >Maven 入门——认识Maven结构</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2018/07/23/Maven-%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86Maven%E7%BB%93%E6%9E%84/" class="article-date">
+  <time datetime="2018-07-23T15:23:35.000Z" itemprop="datePublished">2018-07-23</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="1、settings-xml-元素解读"><a href="#1、settings-xml-元素解读" class="headerlink" title="1、settings.xml 元素解读"></a>1、settings.xml 元素解读</h3><p><strong>localRepository</strong><br>该元素表示本地 Maven 仓库的地址，不设置的话，默认为 <code>~/.m2/repository</code><br><strong>pluginGroups</strong><br>将插件的信息注册到 Maven 中，是的执行 Maven plugin 命令的时候可以不指定 groupId 和 artifactId，比如：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180723234107.png" alt="markdown/20180723234107.png"><br>这个生成源代码的插件，运行的时候不需要指定它的 groupId 和 artifactId，只需要执行<code>mybatis-generator:generate</code> 即可，因为这个插件的信息属于默认的两个插件组 <code>org.apache.maven.plugins</code>和<code>org.codehaus.mojo</code>其中的一个，如果是其他的话，则需要显式地配置一下。<br><strong>servers</strong><br>配置的私服的登录信息，比如 <code>username</code>、<code>password</code>等服务器的认证信息，也可以设置权限信息。<br><strong>mirrors</strong><br>远端的中央仓库，有时候下载第三方的 jar 包比较慢，可以更改为国内的一些镜像仓库，比如阿里云的仓库：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果是公司内部使用的 jar 包，可以放在自己搭建的私服上面，这里配置成自己的私服地址即可。<br><strong>profiles</strong>、<strong>activeProfiles</strong><br>其作用主要用于区分环境用的，也可以定义一些仓库，用来搜索需要的发布版或者快照版来构建，这个配置中的 profile，如果在激活列表里边存在，则这些 profile 将会覆盖 pom.xml 中的相同 id 的 profile。</p>
+<h3 id="2、pom-xml-元素解读"><a href="#2、pom-xml-元素解读" class="headerlink" title="2、pom.xml 元素解读"></a>2、pom.xml 元素解读</h3><p><strong>modelVersion</strong><br>如果使用的是 Maven 3.0 及以上的版本，这里的值默认都是 4.0.0，而这个值来自哪里呢，在 Maven 安装目录里 lib 目录里边的 <code>/lib/maven-model-builder-3.5.4.jar</code>，解压之后，进入到目录 <code>org/apache/maven/model</code> 里边，会看到一个 pom.xml 文件：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180723234751.png" alt="markdown/20180723234751.png"><br>而且，继续往下看，你就会发现，为什么用 IDEA 生成的 Maven 项目，它的目录结构是约定好的，约定的配置就是这个 super pom，这样只要是使用 Maven 开发的项目，其目录结果都是一样的，这种思想就是常常听说的<strong>Convention Over Configuration</strong>（约定优于配置）。<br><strong>groupId</strong><br>定义当前 Maven 项目隶属的实际项目，由于经常会有多模块的 Maven 项目，所以 Maven 项目与实际项目不一定是一对一的关系，因此，<code>groupId</code> 不应该对应项目隶属的组织或公司，应该到具体的项目；实际的表示方式也应该与 Java 包名的表示方式类似，通常与域名反向一一对应。<br><strong>artifactId</strong><br>该元素定义实际项目中的一个 Maven 项目（模块），推荐的做法是使用实际项目名称作为 artifactId 的前缀，这样做的好处是方便寻找实际构件。<br><strong>version</strong><br>该元素定义 Maven 项目当前所处的版本。<br><strong>packaging</strong><br>打包方式，默认为 jar。<br><strong>properties</strong><br>用于定义一些配置常量，比如依赖的版本号。<br><strong>dependencyManagement</strong><br>该元素只能出现在父 pom.xml 中，其作用是为了统一版本号，而且这里的依赖只是一个声明，子 pom.xml 里用到其中某一个的时候，再去显式地引用。<br><strong>dependency</strong><br>引用依赖，其中的配置有如下几个：</p>
+<ul>
+<li>type，默认为 jar</li>
+<li>scope 表示其作用范围，有如下几个范围：<ul>
+<li><em>compile</em>，编译时依赖，也是默认的依赖范围，编译、测试和运行都需要，比如** spring-core**</li>
+<li><em>test</em>，测试时依赖，只在测试阶段需要，比如** spring-test**</li>
+<li><em>provided</em>，编译时依赖，只在编译时需要，比如<strong>servlet</strong></li>
+<li><em>runtime</em>，运行时依赖，只在运行时需要，比如<strong>JDBC驱动类</strong></li>
+<li><em>system</em>，本地的一些 jar，比如短信的 jar 包，常用 ** systemPath**一起使用</li>
+</ul>
+</li>
+<li>exclusions，用来** 排除**由于传递依赖引入（参考第三小节）的但是是不需要的依赖</li>
+<li>optional，可选依赖，默认为 false，用于放置依赖传递，当一个项目 A 依赖另一个项目 B 时，项目 A 可能很少一部分功能用到了项目 B，此时就可以在 A 中配置对 B 的可选依赖y<h3 id="3、传递性依赖"><a href="#3、传递性依赖" class="headerlink" title="3、传递性依赖"></a>3、传递性依赖</h3>传递性依赖可以减少一些引用的依赖，可以进行隐式地依赖，但是如果需要控制版本，最好的方式是，先排除该依赖，再显式地引用该依赖，依赖关系如下图：<br><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180723234822.png" alt="markdown/20180723234822.png"><h3 id="4、依赖仲裁"><a href="#4、依赖仲裁" class="headerlink" title="4、依赖仲裁"></a>4、依赖仲裁</h3>如果根据传递性依赖，同时依赖了两次某一个 jar 包，例如，项目 A 有这样的依赖关系：A -&gt; B -&gt; C -&gt; X(1.0)、A -&gt; D -&gt; X(2.0)，X 是 A 的传递性依赖，那么哪个 X 会被 Maven 解析使用呢，Maven 依赖仲裁（Maven Mediation）的第一原则是：<strong>路径最近者优先</strong>，该例中 X(1.0) 的路径长度为 3，而 X(2.0) 的路径长度为 2，因此 X(2.0) 会被解析使用。<br>再比如这样的依赖关系：A -&gt; B -&gt; Y(1.0)，A -&gt; C -&gt; Y(2.0)，Y(1.0) 和 Y(2.0) 的依赖路径长度是一样的，都为 2，根据 Maven 依赖仲裁（Maven Mediation）的第二原则：<strong>第一声明者优先</strong>，在 POM 中依赖声明的顺序决定了谁会被解析使用，顺序最靠前的那个依赖优先被解析，所以 Y(2.0) 就会被解析使用。<h3 id="5、优化依赖"><a href="#5、优化依赖" class="headerlink" title="5、优化依赖"></a>5、优化依赖</h3><code>mvn dependency:analyze</code><br>使用但未声明的依赖（Used undeclared dependencies），建议显示声明<br>声明但未使用的依赖（Unused declared dependencies），有可能是运行时使用的</li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-Maven-入门——-Maven-安装和配置"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/07/19/Maven-%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94-Maven-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/"
+    >Maven 入门—— Maven 安装和配置</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2018/07/19/Maven-%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94-Maven-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2018-07-19T15:16:56.000Z" itemprop="datePublished">2018-07-19</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="二、Maven-的安装和配置"><a href="#二、Maven-的安装和配置" class="headerlink" title="二、Maven 的安装和配置"></a>二、Maven 的安装和配置</h2><h3 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h3><p><strong>Windows 环境</strong></p>
+<ul>
+<li>Maven 官网下载安装文件</li>
+<li>解压到指定目录</li>
+<li>配置环境变量（M2_HOME）</li>
+<li>cmd 输入 <code>mvn -v</code></li>
+</ul>
+<p><strong>Mac环境</strong></p>
+<ul>
+<li><code>brew install mvn</code></li>
+<li>配置环境变量 </li>
+<li>export <code>M2\_HOME=/usr/local/Cellar/maven/3.5.4</code>，</li>
+<li>export <code>PATH=$PATH:$M2\_HOME/bin</code></li>
+<li>终端输入：<code>mvn -v</code><br><img src="http://p8bc1hri5.bkt.clouddn.com/Maven%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE1.png"><h3 id="2、配置"><a href="#2、配置" class="headerlink" title="2、配置"></a>2、配置</h3></li>
+<li>Eclipse：<strong>m2eclipse</strong></li>
+<li>IDEA：自带+辅助插件<br><img src="http://p8bc1hri5.bkt.clouddn.com/Maven%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE2.png"><h3 id="3、最佳实践"><a href="#3、最佳实践" class="headerlink" title="3、最佳实践"></a>3、最佳实践</h3><h4 id="1、设置-MAVEN-OPTS-环境变量"><a href="#1、设置-MAVEN-OPTS-环境变量" class="headerlink" title="1、设置 MAVEN_OPTS 环境变量"></a>1、设置 MAVEN_OPTS 环境变量</h4>运行 mvn 命令实际上是执行了 Java 命令，那么 Java 命令可用的参数同样可用在运行 mvn 命令时可用。<br>通常需要设置 MAVEN_OPTS 的值为 -Xms128m -Xmx512m（堆内存的初始值和最大值），因为 Java 默认的最大可用内存往往不够满足 Maven 运行的需要，比如在项目较大时，使用 Maven 生成项目站点需要占用大量的内存，如果没有该配置，很容易得到 <code>java.lang.OutOfMemeoryError</code>，因此，最好提前配置该变量。<br>设置方式建议参考 <strong>M2_HOME</strong> 变量的配置方式，不要直接更改安装目录下的文件，不然版本更新以后还要重新配置该变量。<h4 id="2、配置用户范围-settings-xml"><a href="#2、配置用户范围-settings-xml" class="headerlink" title="2、配置用户范围 settings.xml"></a>2、配置用户范围 settings.xml</h4>Maven 用户可以选择配置 <code>$M2\_HOME/conf/settings.xml</code> 或者 <code>~/.m2/settings.xml</code>，前者是全局范围的，后者是用户范围的，推荐使用用户范围的 settings.xml，主要是为了避免影响其他的用户，而且配置用户范围的 settings.xml 文件还便于 Maven 升级，升级时不会影响到 Maven 的安装文件，也不会影响到使用。因为使用有个加载顺序的，先加载用户的配置文件，没有匹配再加载系统的配置文件：<br><img src="http://p8bc1hri5.bkt.clouddn.com/Maven%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE3.png"><h4 id="3、不用使用-IDE-内嵌的-Maven"><a href="#3、不用使用-IDE-内嵌的-Maven" class="headerlink" title="3、不用使用 IDE 内嵌的 Maven"></a>3、不用使用 IDE 内嵌的 Maven<img src="/var/folders/3g/9x_v6q3n61g8sffb0712wl3h0000gn/T/abnerworks.Typora/image-20180720005349463.png" alt="image-20180720005349463"></h4></li>
+</ul>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180720010533.png" alt="markdown/20180720010533.png"></p>
+<p>无论 Eclipse 还是 IDEA，当集成 Maven 时，都会安装上一个内嵌的 Maven，这个内嵌的 Maven 通常会比较新，但是不一定稳定，而且往往也会和在命令行使用的 Maven 不是同一个版本。这样就有可能因为版本不同的原因出现某些问题，所以建议还是用本地安装的 Maven 版本，而本地安装的版本也应该与服务器上安装的版本一致。<br><img src="http://p8bc1hri5.bkt.clouddn.com/Maven%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE4.png"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-Maven 入门——认识 Maven"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/07/15/Maven%20%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86%20Maven/"
+    >Maven 入门——认识 Maven</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2018/07/15/Maven%20%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86%20Maven/" class="article-date">
+  <time datetime="2018-07-14T19:17:02.000Z" itemprop="datePublished">2018-07-15</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="认识-Maven"><a href="#认识-Maven" class="headerlink" title="认识 Maven"></a>认识 Maven</h2><p>Maven /ˈmāvən/ ，可以翻译成“专家”，是一款来自 Apache 组织的开源项目，用于项目管理。主要服务于基于 Java 平台的项目构建、依赖管理和项目信息管理。<br>构建（build）是每一位程序员每天都在做的事情，每天都有相当一部分时间花在编译、运行单元测试、生成文档、打包和部署等工作上，这些就是构建。而这一切，Maven 都可以帮我们自动完成，提高工作效率。</p>
+<h3 id="1、Ant-vs-Maven"><a href="#1、Ant-vs-Maven" class="headerlink" title="1、Ant vs Maven"></a>1、Ant vs Maven</h3><p>Ant 只能算作一个构建工具，而 Maven 是一个项目管理工具，更正式的定义为：Maven 是一个项目管理工具，它包含了一个项目对象模型 (Project Object Model)，一组标准集合，一个项目生命周期 (Project Lifecycle)，一个依赖管理系统 (Dependency Management System)，和用来运行定义在生命周期阶段 (phase) 中插件 (plugin) 目标 (goal) 的逻辑。（Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project’s build, reporting and documentation from a central piece of information.）</p>
+<p>Apache Ant<br>1，Ant 没有正式的约定如一个一般项目的目录结构，你必须明确的告诉 Ant 哪里去找源代码，哪里放置输出。随着时间的推移，非正式的约定出现了，但是它们还没有在产品中模式化。<br>2，Ant 是程序化的，你必须明确的告诉 Ant 做什么，什么时候做。你必须告诉它去编译，然后复制，然后压缩。<br>3，Ant 没有生命周期，你必须定义目标和目标之间的依赖。你必须手工为每个目标附上一个任务序列。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">name</span>=<span class="string">&quot;Hello&quot;</span> <span class="attr">default</span>=<span class="string">&quot;compile&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">&quot;compile&quot;</span> <span class="attr">description</span>=<span class="string">&quot;compile the Java source code to class files&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">&quot;classes&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">javac</span> <span class="attr">srcdir</span>=<span class="string">&quot;.&quot;</span> <span class="attr">destdir</span>=<span class="string">&quot;classes&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">&quot;jar&quot;</span> <span class="attr">depends</span>=<span class="string">&quot;compile&quot;</span> <span class="attr">description</span>=<span class="string">&quot;create a Jar file&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">jar</span> <span class="attr">dstfile</span>=<span class="string">&quot;hello.jar&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">&quot;classes&quot;</span> <span class="attr">includes</span>=<span class="string">&quot;* * / *.class&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">mainfest</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">&quot;Main-Class&quot;</span> <span class="attr">value</span>=<span class="string">&quot;HelloProgram&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;/<span class="name">mainfest</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">jar</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>Apache Maven<br>1，Maven 拥有约定，因为你遵循了约定，它已经知道你的源代码在哪里。它把字节码放到  target/classes ，然后在  target 生成一个 JAR 文件。<br>2，Maven 是声明式的。你需要做的只是创建一个 pom.xml 文件然后将源代码放到默认的目录。Maven 会帮你处理其它的事情。<br>3，Maven 有一个生命周期，当你运行 mvn install 的时候被调用。这条命令告诉 Maven 执行一系列的有序的步骤，直到到达你指定的生命周期。遍历生命周期旅途中的一个影响就是，Maven 运行了许多默认的插件目标，这些目标完成了像编译和创建一个 JAR 文件这样的工作。</p>
+<h3 id="2、被误解的-Maven"><a href="#2、被误解的-Maven" class="headerlink" title="2、被误解的 Maven"></a>2、被误解的 Maven</h3><p>C++ 之父 Bjarne Stroustrup 说过一句话：“只有两类计算机语言，一类语言天天被人骂，还有一类没人用”。<br>用户最多的 Java 得到的骂声就不绝于耳，Maven 的用户也提出了很多质疑：</p>
+<blockquote>
+<p>“Maven 对于 IDE 的支持较差，bug 多，而且不稳定”</p>
+</blockquote>
+<p>Maven 最高效的方式永远是命令行，IDE 在自动化构建方面有天生的缺陷。</p>
+<blockquote>
+<p>“Maven 采用了一种糟糕的插件系统来执行构建，新的、破损的插件会让你的构建莫名其妙地失败”</p>
+</blockquote>
+<p>自 Maven 2.0.9 开始，所有核心的插件都设定了稳定版本，Maven 社区也提倡为你使用的任何插件设定稳定的版本，从 Maven 3 开始，如果你使用插件时未设定版本，会看到警告信息。</p>
+<blockquote>
+<p>“Maven 的仓库十分混乱，当无法从仓库中得到需要的类库时，我需要手动下载复制到本地仓库中”</p>
+</blockquote>
+<p>Maven 的中央仓库确实不完美，你也许会发现某个 jar 包出现在两个不同的路径下，而这是开源项目本身改变了自身的坐标，假设一下没有中央仓库，你需要从开源项目首页寻找下载链接，这个反而是更痛苦的事情。</p>
+<blockquote>
+<p>“缺乏文档是理解和使用 Maven 的一个主要障碍”</p>
+</blockquote>
+<p>这是事实， Maven 官方站点的文档十分凌乱，各种插件的文档更是需要费力寻找。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-meaning-of-xo-in-java"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/04/12/the-meaning-of-xo-in-java/"
+    >知识百科系列 (五) —— Java 中各种DTO，POJO 等的概念</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2018/04/12/the-meaning-of-xo-in-java/" class="article-date">
+  <time datetime="2018-04-12T15:29:13.000Z" itemprop="datePublished">2018-04-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="BO（Business-Object）业务对象"><a href="#BO（Business-Object）业务对象" class="headerlink" title="BO（Business Object）业务对象"></a>BO（Business Object）业务对象</h3><p>主要作用是把业务逻辑封装为一个对象，这个对象可以包括一个或多个其他的对象。比如一份简历，有教育经历、工作经历、社会关系等。可以把教育经历对应一个 PO，工作经历对应一个 PO，社会关系对应一个 PO，然后建立一个对应建立的 BO来处理简历，每个 BO 包含这些 PO，这样就可以针对 BO 去处理业务逻辑。</p>
+<h3 id="DAO（Data-Access-Object）数据访问对象"><a href="#DAO（Data-Access-Object）数据访问对象" class="headerlink" title="DAO（Data Access Object）数据访问对象"></a>DAO（Data Access Object）数据访问对象</h3><p>此对象用于访问数据库，通常与 PO 结合使用，DAO 中包含了各种数据库的操作方法，结合 PO 对数据库进行相关操作，处于业务逻辑与数据库资源中间，通过它可以把 POJO 持久化为 PO，用 PO 组装 VO、DTO。</p>
+<h3 id="DO（Domain-Object）领域对象"><a href="#DO（Domain-Object）领域对象" class="headerlink" title="DO（Domain Object）领域对象"></a>DO（Domain Object）领域对象</h3><p>从现实世界中抽象的业务实体。</p>
+<h3 id="DTO（Data-Transfer-Object）数据传输对象"><a href="#DTO（Data-Transfer-Object）数据传输对象" class="headerlink" title="DTO（Data Transfer Object）数据传输对象"></a>DTO（Data Transfer Object）数据传输对象</h3><p>用于远程调用等需要大量传输对象的地方，也可以泛指用于展示层与服务层之间的数据传输对象。</p>
+<h3 id="PO（Persistent-Object）持久对象"><a href="#PO（Persistent-Object）持久对象" class="headerlink" title="PO（Persistent Object）持久对象"></a>PO（Persistent Object）持久对象</h3><p>可以看成是与数据库中的表映射的 Java 对象，最简单的 PO 就是对应数据库中某个表中的一条记录，多个记录可以用 PO 的集合，PO 中应该不包含任何对数据库的操作。</p>
+<h3 id="POJO（Plain-Ordinary-Java-Object）简单无规则-Java-对象"><a href="#POJO（Plain-Ordinary-Java-Object）简单无规则-Java-对象" class="headerlink" title="POJO（Plain Ordinary Java Object）简单无规则 Java 对象"></a>POJO（Plain Ordinary Java Object）简单无规则 Java 对象</h3><p>纯的传统意义上的 Java 对象，就是说在一些表关系映射工具中，能够做到维护数据库表记录的持久化对象完全是一个符合 Java Bean 规范的纯 Java 对象，没有增加别的属性和方法。也可以理解成最基本的 Java Bean，只有属性字段及 setter 和 getter 方法。</p>
+<h3 id="VO（View-Object）值对象"><a href="#VO（View-Object）值对象" class="headerlink" title="VO（View Object）值对象"></a>VO（View Object）值对象</h3><p>通常用于业务层之间的数据传递，和 PO 一样也是仅仅包含数据而已，是抽象出来的业务对象，PO 只能用在数据层，VO 用在表示层。</p>
+<blockquote>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/553">Java 中 VO、 PO、DO、DTO、 BO、 QO、DAO、POJO 的概念</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/88de1c5fc49e">Java 中的几种对象 (PO、VO、DAO、BO、POJO)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yxnchinahlj/archive/2012/02/24/2366110.html">java 的 (PO,VO,TO,BO,DAO,POJO) 解释</a></p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WikiKnowledge/" rel="tag">WikiKnowledge</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-problem-solved-of-the-tomcat-startup"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/03/15/the-problem-solved-of-the-tomcat-startup/"
+    >疑难杂症处理系列 (二) —— Mac 下配置 Intellij IDEA ＋ Tomcat 出现权限问题的解决办法</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2018/03/15/the-problem-solved-of-the-tomcat-startup/" class="article-date">
+  <time datetime="2018-03-15T15:29:13.000Z" itemprop="datePublished">2018-03-15</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>今天构建 web 项目时启动 tomcat 服务，出现如下错误：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Error running Tomcat <span class="number">8.0</span><span class="number">.18</span>: Cannot run program </span><br><span class="line"></span><br><span class="line"><span class="string">&quot;/Users/emma/Desktop/tools/apache-tomcat-8.5.24/bin/catalina.sh&quot;</span> </span><br><span class="line"></span><br><span class="line">(in directory <span class="string">&quot;/Users/emma/Desktop/tools/apache-tomcat-8.5.24/bin&quot;</span>): </span><br><span class="line"></span><br><span class="line">error=<span class="number">13</span>, Permission denied</span><br></pre></td></tr></table></figure>
+
+<p>提示的问题主要是 <strong>权限不足</strong>，查阅资料，找到了解决办法：<br>打开终端，进入 tomcat\bin 目录，然后执行 chmod 777 *.sh，再次启动，果然好了。。。</p>
+<p>本着刨根问底的态度，再次查阅了这个命令的含义，原来是在 Unix 和 Linux 各种操作系统下，设定文件权限（读、写、运行）的另一种写法。</p>
+<p>例如我用 ls -l 命令列文件时，得到如下输出：<br>-rw-r–r–  1 emma  staff  2452  1 14 11:54 pom.xml<br>从第二个字符起 rw- 表示用户 emma 有读、写的权限，没有运行权限，接着的 r– 表示用户组 staff 只有读的权限，没有其他权限，最后的 r– 指其他人只有读的权限，没有写和运行的权限，这个是系统的默认设置。<br>读、写、运行三项权限可以用数字表示，就是 r=4，w=2，x=1。所以，上面的例子中的 rw-r–r– 用数字表示成 644。反过来说 777 就是 rwxrwxrwx，意思就是该登录用户、他所在的组合其他人都有最高权限。</p>
+<h3 id="使用指令-chmod"><a href="#使用指令-chmod" class="headerlink" title="使用指令 chmod"></a>使用指令 chmod</h3><p>使用权限 : 所有使用者<br>使用方式 : chmod [-cfvR] [–help] [–version] mode file…<br>说明 : Linux/Unix 的档案存取权限分为三级 : 档案拥有者、群组、其他。利用 chmod 可以藉以控制档案如何被他人所存取。</p>
+<p>　　参数格式 :</p>
+<p>　　mode : 权限设定字串，格式如下 : [ugoa…][[+-=][rwxX]…][,…]，其中</p>
+<p>u：表示该档案的拥有者;</p>
+<p>g：表示与该档案的拥有者属于同一个群体 (group) 者;</p>
+<p>o：表示其他以外的人，a 表示这三者皆是;</p>
+<p>+：表示增加权限、- 表示取消权限、= 表示唯一设定权限;</p>
+<p>r：表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该档案是个子目录或者该档案已经被设定过为可执行;</p>
+<p>-c：若该档案权限确实已经更改，才显示其更改动作</p>
+<p>-f：若该档案权限无法被更改也不要显示错误讯息</p>
+<p>-v：显示权限变更的详细资料</p>
+<p>-R：对目前目录下的所有档案与子目录进行相同的权限变更 (即以递回的方式逐个变更)</p>
+<p>–help：显示辅助说明</p>
+<p>–version：显示版本</p>
+<p>范例 : </p>
+<p>将档案 file1.txt 设为所有人皆可读取 :<br><code>chmod ugo+r file1.txt</code></p>
+<p>将档案 file1.txt 设为所有人皆可读取 :<br><code>chmod a+r file1.txt</code></p>
+<p>将档案 file1.txt 与 file2.txt 设为该档案拥有者，与其所属同一个群体者可写入，但其他以外的人则不可写入 :<br><code>chmod ug+w,o-w file1.txt file2.txt</code></p>
+<p>将 ex1.py 设定为只有该档案拥有者可以执行 :<br><code>chmod u+x ex1.py</code></p>
+<p>将目前目录下的所有档案与子目录皆设为任何人可读取 :<br><code>chmod -R a+r *</code></p>
+<p>此外 chmod 也可以用数字来表示权限如 chmod 777 file</p>
+<p>语法为：<code>chmod abc file</code></p>
+<p>其中 a,b,c 各为一个数字，分别表示 User、Group、及 Other 的权限。<br>r=4，w=2，x=1<br>若要 rwx 属性则 4+2+1=7；<br>若要 rw - 属性则 4+2=6；<br>若要 r-x 属性则 4+1=7。</p>
+<p>范例：</p>
+<p><code>chmod a=rwx file</code> 和 <code>chmod 777 file</code> 效果相同</p>
+<p><code>chmod ug=rwx,o=x file</code> 和 <code>chmod 771 file</code> 效果相同</p>
+<h4 id="相关链接："><a href="#相关链接：" class="headerlink" title="相关链接："></a>相关链接：</h4><ul>
+<li><a href="http://www.jianshu.com/p/q81RER" target="_blank">http://blog.csdn.net/ch717828/article/details/48554845</a></li>
+<li><a href="http://wowubuntu.com/markdown/" target="_blank">https://www.cnblogs.com/sipher/articles/2429772.html</a></li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ProblemFixed/" rel="tag">ProblemFixed</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-anxiety-in-the-end-of-the-year"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/01/06/the-anxiety-in-the-end-of-the-year/"
+    >每年年底的时候，总有那么几天充满焦虑</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2018/01/06/the-anxiety-in-the-end-of-the-year/" class="article-date">
+  <time datetime="2018-01-05T16:49:13.000Z" itemprop="datePublished">2018-01-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%99%BA%E6%85%A7%E4%BA%BA%E7%94%9F/">智慧人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>大概从15年开始，每年年底的时候，总会有那么几天，充满焦虑。</p>
+<blockquote>
+<p>15年的时候，焦虑着公司大牛跳槽离去，考虑着换家公司锻炼锻炼。</p>
+<p>16年的时候，焦虑着所在部门业务繁杂，考虑着换个部门锻炼锻炼。</p>
+<p>17年的时候，焦虑着个人的发展规划，考虑着换个城市锻炼锻炼。</p>
+</blockquote>
+<p>焦虑，说明心中有一些事情难以做决定，或者做了决定难以制定计划，或者制定了计划难以开始执行，<br>或者开始执行了难以坚持下去。</p>
+<p>以前每年都会写一篇年终总结，再来一篇新年计划，承前启后，继往开来，自我打鸡血，<br>生怕笨鸟飞得不够先。一直以来，我自认为自己是自驱性的人格，或者用稻盛和夫的话来说，<br>就是“可燃性”的人格，还没有达到“自燃性”的人格。原本我以为自己是自觉性比较高，<br>主动性比较强 ，事事积极，办事靠谱，认真负责，任劳任怨，而我甚至在简历上面也如是写了！<br>但其实，我还不太够资格在目前的团队里边担任team leader到现在，我还没有能够驱动他人的能力，<br>充其量还只是个泥菩萨。</p>
+<p>今年上半年，基本都是在部门更迭中度过的，曾经有一度自己都有了跳槽的冲动，因为此情此景，<br>和去年的时候格外相似。但是唯一不同的是，自己学会了审时度势，认真地考虑之后，<br>觉得还是要乱中求稳，不能总是抱怨环境的问题，学会了从自身发现问题。<br>然后在年中抓住了另外一个机会，认识了另一位人生导师——健叔，从此打开了自己人生的另一扇窗户。</p>
+<p>因为正是这个机会，使得自己从个人向团队发生转变，从管理自我到管理团队，这半年来遇到的诸多问题，<br>都是从未碰到过的，或者说是从另外一个角度去面对的。虽然说，每个人都不可能成为全才，<br>但是，适当地打磨自己的另外一面，也是对自我的一个认知挑战，也是受益匪浅的。</p>
+<p>但是对于未来怎么走，个人如何发展，也不能单看眼前的个人情况，还处于摸索阶段，<br>有时候，挺佩服那些很有主见的家伙，抱着心中的执念，一头扎进自己喜欢的世界，与世无争，<br>痴迷于技术，博客更新乐此不疲；或者有时候，也佩服那些左右逢源的人，做事利索，考虑问题周到，<br>能让每个人都感觉很舒服，没有被冷落。而我自己呢，总是还不能认真做好一件事，或者说做得很完美，<br>于是到了年底，又留下了遗憾。</p>
+<p>现有的制度或者社会规范都貌似很合理，每个人都绷紧了弦，干了一年，年底来一个总结和反思，<br>回顾下得失，再休个年假调节一下，等过了年就又是一年的干劲和奔头。这样说来，<br>年底的焦虑反倒是暗合了这种工作模式。</p>
+<p>稻盛和夫在《干法》一书中曾经说过，“欲望”、“恼怒”、“愚痴”都是卑怯之心，唯有认真地工作才能消除，<br>我觉得，焦虑应该也算是其中一种吧，面对未知的未来的一种心态，也是唯有工作，唯有认真的工作，<br>才可以消除吧。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/" rel="tag">Life</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-grammar-of-markdown"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/11/30/the-grammar-of-markdown/"
+    >知识百科系列 (四) —— Markdown 的基本语法汇总</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/11/30/the-grammar-of-markdown/" class="article-date">
+  <time datetime="2017-11-29T16:49:13.000Z" itemprop="datePublished">2017-11-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="1、标题"><a href="#1、标题" class="headerlink" title="1、标题"></a>1、标题</h3><p>在文本前面增加 <code>#</code> 即可，同理，你还可以增加二级标题、三级标题、四级标题、五级标题和六级标题，总共六级，只需要增加 <code>#</code> 即可，标题字号相应降低。例如：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一级标题</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">## 二级标题</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">### 三级标题</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#### 四级标题</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">##### 五级标题</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">###### 六级标题</span></span><br></pre></td></tr></table></figure>
+
+<p>如下图所示：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-grammar-of-markdown-1.png"></p>
+<p>注：<code>#</code> 和【标题】之间建议保留一个字符的空格，这个最标准的 Markdown 写法。</p>
+<h3 id="2、列表"><a href="#2、列表" class="headerlink" title="2、列表"></a>2、列表</h3><p>列表格式也是很常用的，只需在文字前面加上 <code>-</code> 即可，例如：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">-</span> <span class="string">文本1</span></span><br><span class="line"><span class="meta">-</span> <span class="string">文本2</span></span><br><span class="line"><span class="meta">-</span> <span class="string">文本3</span></span><br></pre></td></tr></table></figure>
+
+<p>如果希望有序列表，也可以在文字前面加上 <code>1.</code> <code>2.</code> <code>3.</code> 就可以了，例如：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">1.</span> <span class="string">文本1</span></span><br><span class="line"><span class="meta">2.</span> <span class="string">文本2</span></span><br><span class="line"><span class="meta">3.</span> <span class="string">文本3</span></span><br></pre></td></tr></table></figure>
+
+<p>如下图所示：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-grammar-of-markdown-2.png"></p>
+<p>注：<code>-</code>、 <code>1.</code> 和文本之间要保留一个字符的空格。</p>
+<h3 id="3、链接和图片"><a href="#3、链接和图片" class="headerlink" title="3、链接和图片"></a>3、链接和图片</h3><p>在 Markdown 中，插入链接不需要其他按钮，只需要使用 <code>[显示文本](链接地址)</code> 这样的语法即可，例如：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">日拱一卒，功不唐捐</span>](<span class="link">http://www.zhangsubiin.com</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在 Markdown 中，插入图片不需要其他按钮，只需要使用 <code>![](图片链接地址)</code> 这样的语法即可，例如：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](http://www.zhangsubiin.com/image/image.png)</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-grammar-of-markdown-3.png"></p>
+<p>注：插入图片和语法和链接的语法很像，只是前面多了一个 <code>!</code>。</p>
+<h3 id="4、引用"><a href="#4、引用" class="headerlink" title="4、引用"></a>4、引用</h3><p>有时候会引用他人的文字，这时引用的格式就很有必要了，在 Markdown 中，你只需要在你希望引入的文字前面加上 <code>&gt;</code> 就好了，例如：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; 世界不是苟且，世界是远方，行万里路，才能回到内心深处。</span></span><br></pre></td></tr></table></figure>
+
+<p>最终显示的如下：</p>
+<blockquote>
+<p>世界不是苟且，世界是远方，行万里路，才能回到内心深处。</p>
+</blockquote>
+<h3 id="5、粗体和斜体"><a href="#5、粗体和斜体" class="headerlink" title="5、粗体和斜体"></a>5、粗体和斜体</h3><p>Markdown 的粗体和斜体也比较简单，用两个 <code>*</code> 包含一段文本就是粗体的语法，用一个 <code>*</code> 包含一段文本就是斜体的语法，例如：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="emphasis">*世界不是苟且*</span>，世界是远方，<span class="strong">**行万里路**</span>，才能回到内心深处。</span><br></pre></td></tr></table></figure>
+
+<p>最终显示的就是下文，其中 “世界不是苟且” 是斜体，“行万里路” 是粗体：</p>
+<p><em>世界不是苟且</em>，世界是远方，<strong>行万里路</strong>，才能回到内心深处。</p>
+<h3 id="6、代码引用"><a href="#6、代码引用" class="headerlink" title="6、代码引用"></a>6、代码引用</h3><p>需要引入代码时，如果引用的语句只有一段，不分行，可以用 <code>将语句包起来。 如果引用的语句为多行，可以将三个</code> 号置于这段代码的首行和末行。<br>如下图所示：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-grammar-of-markdown-4.png"></p>
+<h3 id="7、表格"><a href="#7、表格" class="headerlink" title="7、表格"></a>7、表格</h3><p>相关代码：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a | b | c</span><br><span class="line">--|---|---</span><br><span class="line">d | e | f </span><br><span class="line">g | h | i</span><br><span class="line">j | k | l</span><br></pre></td></tr></table></figure>
+
+<p>显示效果如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-grammar-of-markdown-5.png"></p>
+<p>以及左右对齐的写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">| 列1              | 列2                | 列3              |</span><br><span class="line">| -----------------|:-----------------:| ----------------:|</span><br><span class="line">| 第一列默认为居左对齐 | 第一列默认为居左对齐  | 第一列默认为居左对齐|</span><br><span class="line">| 第二列为居中对齐    | 第二列为居中对齐     | 第二列为居中对齐    |</span><br><span class="line">| 第三列为居右对齐    | 第三列为居右对齐     | 第三列为居右对齐    |</span><br></pre></td></tr></table></figure>
+
+<p>显示效果如下：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-grammar-of-markdown-6.png"></p>
+<h3 id="参考与引用"><a href="#参考与引用" class="headerlink" title="参考与引用"></a>参考与引用</h3><ul>
+<li><a href="http://www.jianshu.com/p/q81RER" target="_blank">献给写作者的 Markdown 新手指南</a></li>
+<li><a href="http://wowubuntu.com/markdown/" target="_blank">Markdown 语法说明</a></li>
+</ul>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WikiKnowledge/" rel="tag">WikiKnowledge</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-problem-solved-of-the-tomcat-cluster-session"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/10/26/the-problem-solved-of-the-tomcat-cluster-session/"
+    >疑难杂症处理系列 (一) —— Too many Cluster redirections 的问题</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/10/26/the-problem-solved-of-the-tomcat-cluster-session/" class="article-date">
+  <time datetime="2017-10-25T16:49:13.000Z" itemprop="datePublished">2017-10-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p><strong>1、配置 Tomcat 集群 session 共享</strong></p>
+<p>之前系统多节点的运行，之间的 session 共享的策略使用 nginx 的 ip hash 的策略，这种方式是配置简单，只需要在 nginx 的配置文件中添加 ip_hash 即可实现按照 IP 轮询的方式根据客户端的 IP 进行负载均衡。</p>
+<p>但是这种方式有个弊端，就是当某些定时任务的调用，如果采用的是固定 ip 的方式，则会使得请求只落在某一台固定的节点，除非重启机器，没有达到真正的负载均衡。</p>
+<p>进过查阅相关资料，发现可以利用 tomcat 集群的方式配置 session 共享，具体配置如下：</p>
+<p>一、从开源组件 <a target="_blank" rel="noopener" href="https://github.com/ran-jit/TomcatClusterRedisSessionManager">tomcat-redis-session-manager</a> 的 git 仓库下载所需要的 jar 包：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">commons-logging-1.2.jar</span></span><br><span class="line"></span><br><span class="line"><span class="attr">commons-pool2-2.4.1.jar</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jedis-2.8.0.jar</span></span><br></pre></td></tr></table></figure>
+
+<p>二、将下载下来的 jar 包拷贝到各个节点的 tomcat 的 lib 目录下</p>
+<p>三、修改 tomcat 的 conf 目录下的 <code> context.xml</code> 文件：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-problem-solved-of-the-tomcat-cluster-session-1.png"></p>
+<p>完成以上之后，重启服务器，session 共享就生效了，同时可以使用 Gzip 压缩和静态文件缓存。</p>
+<p><strong>2、Too many Cluster redirections 的问题</strong></p>
+<p>随着接手了其他的项目，虽然也使用了这种方式达到 session 共享的目的，但是时常会有反馈说是会页面现实如下的报错信息：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-problem-solved-of-the-tomcat-cluster-session-2.png"></p>
+<p>一开始是在网上查阅了出现该报错的原因，也语焉不详，没说清具体什么原因，就说是集群地址配置的有问题，又加之我们使用的 tomcat 集群地址确实发生过改变（因为集群内存不够，从三主三从变成了五主），于是就改了下集群地址试了下，发现仍然没有解决，于是就开始查看源代码了。</p>
+<p>根据错误堆栈信息，查看源代码中对应的 JedisClusterCommand 类的 runWithRetries 方法，经过分析发现该方法的作用递归调用来达到重试来获取集群连接：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> T <span class="title">runWithRetries</span><span class="params">(<span class="keyword">byte</span>[] key, <span class="keyword">int</span> redirections, <span class="keyword">boolean</span> tryRandomNode, <span class="keyword">boolean</span> asking)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (redirections &lt;= <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> JedisClusterMaxRedirectionsException(<span class="string">&quot;Too many Cluster redirections?&quot;</span>);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   Jedis connection = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (asking) &#123;</span><br><span class="line">       <span class="comment">// <span class="doctag">TODO:</span> Pipeline asking with the original command to make it</span></span><br><span class="line">       <span class="comment">// faster....</span></span><br><span class="line">       connection = askConnection.get();</span><br><span class="line">       connection.asking();</span><br><span class="line">    </span><br><span class="line">       <span class="comment">// if asking success, reset asking flag</span></span><br><span class="line">       asking = <span class="keyword">false</span>;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (tryRandomNode) &#123;</span><br><span class="line">         connection = connectionHandler.getConnection();</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         connection = connectionHandler.getConnectionFromSlot(JedisClusterCRC16.getSlot(key));</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">    </span><br><span class="line">     <span class="keyword">return</span> execute(connection);</span><br><span class="line"></span><br><span class="line">   &#125; <span class="keyword">catch</span> (JedisConnectionException jce) &#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (tryRandomNode) &#123;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// maybe all connection is down</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">throw</span> jce;</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// release current connection before recursion</span></span><br><span class="line">     releaseConnection(connection);</span><br><span class="line">     connection = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">     <span class="comment">// retry with random connection</span></span><br><span class="line">     <span class="keyword">return</span> runWithRetries(key, redirections - <span class="number">1</span>, <span class="keyword">true</span>, asking);</span><br><span class="line"></span><br><span class="line">   &#125; <span class="keyword">catch</span> (JedisRedirectionException jre) &#123;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// if MOVED redirection occurred,</span></span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (jre <span class="keyword">instanceof</span> JedisMovedDataException) &#123;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// it rebuilds cluster&#x27;s slot cache</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">// recommended by Redis cluster specification</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">this</span>.connectionHandler.renewSlotCache(connection);</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// release current connection before recursion or renewing</span></span><br><span class="line">     releaseConnection(connection);</span><br><span class="line">     connection = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">     <span class="keyword">if</span> (jre <span class="keyword">instanceof</span> JedisAskDataException) &#123;</span><br><span class="line">       asking = <span class="keyword">true</span>;</span><br><span class="line">       askConnection.set(<span class="keyword">this</span>.connectionHandler.getConnectionFromNode(jre.getTargetNode()));</span><br><span class="line">     &#125; <span class="keyword">else</span> <span class="keyword">if</span> (jre <span class="keyword">instanceof</span> JedisMovedDataException) &#123;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> JedisClusterException(jre);</span><br><span class="line">     &#125;</span><br><span class="line">    </span><br><span class="line">     <span class="keyword">return</span> runWithRetries(key, redirections - <span class="number">1</span>, <span class="keyword">false</span>, asking);</span><br><span class="line"></span><br><span class="line">   &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">     releaseConnection(connection);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>迭代异常的出口就是系统页面看到的错误，当重试次数超过预设的 redirections 的值之后，就抛错了：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-problem-solved-of-the-tomcat-cluster-session-3.png"></p>
+<p>但是为何会超过次数，集群地址配置有误可能会导致这个问题，如果正好检查到配置有误的地址，一旦超过次数就会如此，但是这个集群地址已经改掉了，却还是报错。</p>
+<p>就只剩最后一项了，重新检查了下配置文件，发现有个属性 timeout 的配置为 3，很可疑，因为一般默认时间类型的配置大都是毫秒的，而假设这个属性的单位是毫秒，可能会由于网络延时，使得 3 ms 的设置超时，一旦超过那个重试次数，也会报错。<br>于是就把这个参数值改成了 3000，重启试了一下，果然好了！</p>
+<p>后来问了一下架构部的同事，原来是他们当时编写参数配置文档的时候，一开始把那个 timeout 的单位搞错了，后来更新文档晚了，导致出现了这个问题，真是前人挖坑后人踩坑。。。</p>
+<p>PS：还有一个注意的地方，此组件不支持配置session永不过期的项目（web.xml中有配置session-timeout=0），就是要使得配置生效，必须配置 session-timeout 的值不能为0</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ProblemFixed/" rel="tag">ProblemFixed</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+    
+</article>
+
+    
+    <article
+  id="post-the-config-of-write-and-read-for-sql"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2017/09/20/the-config-of-write-and-read-for-sql/"
+    >知识百科系列 (三) —— Java Web 项目中数据库的读写分离的配置</a> 
+</h2>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2017/09/20/the-config-of-write-and-read-for-sql/" class="article-date">
+  <time datetime="2017-09-20T15:49:13.000Z" itemprop="datePublished">2017-09-20</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/">程序人生</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>随着项目的使用，数据表中的数据也在不断增加，这时候为了更好的增加用户体验，除了优化 SQL，还可以考虑引入只读库作为从库来分担压力</p>
+</blockquote>
+<p><strong>1、注入的方式</strong></p>
+<p>最简单的，可以用注入的方式来配置只读库。</p>
+<p>首先，可以在项目的数据库配置文件中配置只读库的数据源：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">env.appCode.readonly.jdbc.url</span>=<span class="string">jdbc:sqlserver://xxx.xxx.xxx.xxx:xxxx;DatabaseName=oms;sendStringParametersAsUnicode=false;ApplicationIntent=ReadOnly</span></span><br><span class="line"><span class="meta">env.appCode.readonly.jdbc.driver</span>=<span class="string">com.microsoft.sqlserver.jdbc.SQLServerDriver</span></span><br><span class="line"><span class="meta">env.appCode.readonly.jdbc.username</span>=<span class="string">test</span></span><br><span class="line"><span class="meta">env.appCode.readonly.jdbc.password</span>=<span class="string">******</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在spring配置文件中增加对应的只读数据源的配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSourceReadOnly&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.apache.tomcat.jdbc.pool.DataSource&quot;</span> <span class="attr">destroy-method</span>=<span class="string">&quot;close&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClassName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;$&#123;env&#125;.boms.readonly.jdbc.driver&#125;&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;$&#123;env&#125;.boms.readonly.jdbc.url&#125;&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;$&#123;env&#125;.boms.readonly.jdbc.username&#125;&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;$&#123;env&#125;.boms.readonly.jdbc.password&#125;&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;queryOnlyDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.xxx.web.dao.QueryDao&quot;</span></span></span><br><span class="line"><span class="tag"></span></span><br><span class="line"><span class="tag">          <span class="attr">autowire</span>=<span class="string">&quot;byName&quot;</span> <span class="attr">p:dataSource-ref</span>=<span class="string">&quot;dataSourceReadOnly&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着在 service 中注入便可以使用了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestService</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> QueryDao queryOnlyDao;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> List&amp;lt;Entity&gt; queryForDetails(Map&amp;lt;String, Object&gt; params)&#123;</span><br><span class="line">        ...</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> queryOnlyDao.queryForList(sqlId(<span class="string">&quot;queryForDetails&quot;</span>), params);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可用用如下 SQL 语句验证下只读库连接是否正常：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> @<span class="variable">@SERVERNAME</span></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>2、注解的方式</strong></p>
+<p>还有一种方式是，借助并扩展 Spring 中的 AbstractRoutingDataSource，充当 DataSource 的路由中介，根据某种 key 的值来动态切换到真正的 Datasource 上。</p>
+<p><code>AbstractRoutingDataSource</code> 继承自 <code>AbstractDataSource</code> ，而 <code>AbstractDataSource</code> 又是 <code>javax.sql.DataSource</code> 的子类，所以只需看它实现的 <code>getConnection()</code> 即可：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-config-of-write-and-read-for-sql-1.png"></p>
+<p>获取连接的方法，看下源码中的 <code>determineTargetDataSource()</code> 方法：</p>
+<p><img src="http://p8bc1hri5.bkt.clouddn.com/the-config-of-write-and-read-for-sql-2.png"></p>
+<p>该方式是通过一个抽象方法 <code>determineCurrentLookupKey()</code> 的返回值作为所用数据源的 key 值，<br>通过这个 key 值，可以从一个对象 <code>Map&lt;Object, DataSource&gt; resolvedDataSources</code> 中获取对应的数据源实例。</p>
+<p>所以可以通过<code>重写该方法</code>来达到动态切换数据源的目的，同样也可以用来实现读写库切换：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoutingDatasource</span> <span class="keyword">extends</span> <span class="title">AbstractRoutingDataSource</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Log logger = LogFactory.getLog(RoutingDatasource.class);</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">determineCurrentLookupKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String determineDatabase = RoutingDatasourceHolder.getCurrentDatabase();</span><br><span class="line">        logger.debug(<span class="string">&quot;determineDatabase--&quot;</span>+determineDatabase);</span><br><span class="line">        <span class="keyword">return</span> determineDatabase;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>数据源 key 值的配置类 <code>RoutingDatasourceHolder</code> 可以如下设置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoutingDatasourceHolder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 只读数据库</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String READ_DB = <span class="string">&quot;dataSource_R&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 读写数据库</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String READ_WRITE_DB = <span class="string">&quot;dataSource_RW&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&amp;lt;String&gt; dbThread = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getCurrentDatabase</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dbThread.get();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setCurrentDatabase</span><span class="params">(String dbName)</span></span>&#123;</span><br><span class="line">        dbThread.set(dbName);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>&#123;</span><br><span class="line">        dbThread.remove();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了方便配置，可以用注解的方式来设置数据源：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123; ElementType.METHOD, ElementType.TYPE &#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> DBReadOnly &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后通过继承 Spring 提供的拦截适配器</p>
+<p><code>org.springframework.web.servlet.handler.HandlerInterceptorAdapter</code> </p>
+<p>更改使用注解地方的数据源：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadOnlyInterceptor</span> <span class="keyword">extends</span> <span class="title">HandlerInterceptorAdapter</span> </span>&#123;</span><br><span class="line">           </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(handler <span class="keyword">instanceof</span> HandlerMethod )&#123;</span><br><span class="line">            HandlerMethod hm = (HandlerMethod) handler;</span><br><span class="line">            Method m = hm.getMethod();</span><br><span class="line">            Annotation anno = m.getAnnotation(DBReadOnly.class);</span><br><span class="line">            <span class="keyword">if</span> (anno != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//开启只读数据库</span></span><br><span class="line">              RoutingDatasourceHolder.setCurrentDatabase(RoutingDatasourceHolder.READ_DB);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//关闭设置的只读数据库</span></span><br><span class="line">        RoutingDatasourceHolder.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在使用只读库的方法上面增加 <code>DBReadOnly</code> 注解即可，和之前注入 <code>queryOnlyDao</code> 的方式比，更加方便使用而且侵入性大大降低。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WikiKnowledge/" rel="tag">WikiKnowledge</a></li></ul>
+
     </footer>
   </div>
 
@@ -217,6 +970,11 @@
   </article>
   
 
+  
+  <nav class="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+  </nav>
   
 </section>
 </div>
