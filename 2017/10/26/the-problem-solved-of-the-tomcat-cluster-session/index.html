@@ -107,7 +107,9 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p><strong>1、配置 Tomcat 集群 session 共享</strong></p>
+  <p>疑难杂症</p>
+<span id="more"></span>
+<p><strong>1、配置 Tomcat 集群 session 共享</strong></p>
 <p>之前系统多节点的运行，之间的 session 共享的策略使用 nginx 的 ip hash 的策略，这种方式是配置简单，只需要在 nginx 的配置文件中添加 ip_hash 即可实现按照 IP 轮询的方式根据客户端的 IP 进行负载均衡。</p>
 <p>但是这种方式有个弊端，就是当某些定时任务的调用，如果采用的是固定 ip 的方式，则会使得请求只落在某一台固定的节点，除非重启机器，没有达到真正的负载均衡。</p>
 <p>进过查阅相关资料，发现可以利用 tomcat 集群的方式配置 session 共享，具体配置如下：</p>

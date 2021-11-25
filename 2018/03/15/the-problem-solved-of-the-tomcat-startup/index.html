@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">918</span>
+            <span class="post-count">922</span>
         </span>
     </span>
 
@@ -109,7 +109,9 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>今天构建 web 项目时启动 tomcat 服务，出现如下错误：</p>
+  <p>疑难杂症</p>
+<span id="more"></span>
+<h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>今天构建 web 项目时启动 tomcat 服务，出现如下错误：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Error running Tomcat <span class="number">8.0</span><span class="number">.18</span>: Cannot run program </span><br><span class="line"></span><br><span class="line"><span class="string">&quot;/Users/emma/Desktop/tools/apache-tomcat-8.5.24/bin/catalina.sh&quot;</span> </span><br><span class="line"></span><br><span class="line">(in directory <span class="string">&quot;/Users/emma/Desktop/tools/apache-tomcat-8.5.24/bin&quot;</span>): </span><br><span class="line"></span><br><span class="line">error=<span class="number">13</span>, Permission denied</span><br></pre></td></tr></table></figure>
 
 <p>提示的问题主要是 <strong>权限不足</strong>，查阅资料，找到了解决办法：<br>打开终端，进入 tomcat\bin 目录，然后执行 chmod 777 *.sh，再次启动，果然好了。。。</p>

@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>知识百科系列 (一) —— FindBugs |  少平沉思录</title>
+      <title>思路的转变 |  少平沉思录</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-findbugs"
+  id="post-a-learning-a-day-21-11-24"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  知识百科系列 (一) —— FindBugs
+  思路的转变
 </h1>
  
 
@@ -73,19 +73,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2016/05/06/findbugs/" class="article-date">
-  <time datetime="2016-05-06T15:39:50.000Z" itemprop="datePublished">2016-05-06</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%95%88%E7%8E%87%E6%8F%92%E4%BB%B6/">效率插件</a>
-  </div>
-  
+      <a href="/2021/11/24/a-learning-a-day-21-11-24/" class="article-date">
+  <time datetime="2021-11-24T06:01:18.000Z" itemprop="datePublished">2021-11-24</time>
+</a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">757</span>
+            <span class="post-count">170</span>
         </span>
     </span>
 
@@ -94,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">1 分钟</span>
         </span>
     </span>
 </div>
@@ -107,49 +103,11 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>在使用 Jenkins 构建 Java Web 项目时候，有一项叫做静态代码检查，是用内置的 findBugs 插件，对程序源代码进行检查，以分析程序行为的技术，应用于程序的正确性检查、安全缺陷检测、程序优化等，特点就是不执行程序。它有助于在项目早期发现以下问题：变量声明了但未使用、变量类型不匹配、变量在使用前未定义、不可达代码、死循环、数组越界、内存泄漏等。分为以下几种类型：</p>
+  <p>招与被招，也是一场博弈。</p>
 <span id="more"></span>
 
-<p><strong>一、Bad Practice (糟糕的写法)</strong></p>
-<p><strong>二、Correctness (不太的当)</strong></p>
-<p><strong>三、Experimental (实验)</strong></p>
-<p><strong>四、Internationalization (国际化)</strong></p>
-<p><strong>五、Malicious code vulnerability (有漏洞的代码)</strong></p>
-<p><strong>六、Multithreaded correctness (多线程问题)</strong></p>
-<p><strong>七、Performance (执行)</strong></p>
-<p><strong>八、Security (安全性)</strong></p>
-<p><strong>九、Dodgy code (可疑代码)</strong></p>
-<p>具体描述，可以参加如下地址：<a target="_blank" rel="noopener" href="http://findbugs.sourceforge.net/bugDescriptions.html">FindBugs问题列表以及描述</a></p>
-<p>常见的比如：</p>
-<p>SBSC: Method concatenates strings using + in a loop (SBSC_USE_STRINGBUFFER_CONCATENATION)</p>
-<p>问题描述已经很清楚了，尽量不要在循环中使用 String，用 StringBuffer 来代替：</p>
-<p>The method seems to be building a String using concatenation in a loop. In each iteration, the String is converted to a StringBuffer/StringBuilder, appended to, and converted back to a String. This can lead to a cost quadratic in the number of iterations, as the growing string is recopied in each iteration.</p>
-<p>Better performance can be obtained by using a StringBuffer (or StringBuilder in Java 1.5) explicitly.</p>
-<p>For example:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is bad</span></span><br><span class="line"></span><br><span class="line">String s = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; field.length; ++i) &#123;</span><br><span class="line"></span><br><span class="line">  s = s + field[i];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This is better</span></span><br><span class="line"></span><br><span class="line">StringBuffer buf = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; field.length; ++i) &#123;</span><br><span class="line"></span><br><span class="line">	buf.append(field[i]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">String s = buf.toString();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>写段代码比较下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Long preSecond = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">String str = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> length = <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line"></span><br><span class="line">　　str += i;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;cost &quot;</span> + (System.currentTimeMillis() - preSecond) + <span class="string">&quot; seconds.&quot;</span>);</span><br><span class="line"></span><br><span class="line">Long posSecond = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">StringBuffer buffer = <span class="keyword">new</span> StringBuffer();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line"></span><br><span class="line">　　buffer.append(i);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;cost &quot;</span> + (System.currentTimeMillis() - posSecond) + <span class="string">&quot; seconds.&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>输出结果为：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cost <span class="number">363</span> seconds.</span><br><span class="line"></span><br><span class="line">cost <span class="number">3</span> seconds.</span><br></pre></td></tr></table></figure>
-
-<p><strong>还有个错误关于实体类的 setter 和 getter 方法的：</strong></p>
-<p>EI2: May expose internal representation by incorporating reference to mutable object (EI_EXPOSE_REP2)</p>
-<p>This code stores a reference to an externally mutable object into the internal representation of the object.  If instances are accessed by untrusted code, and unchecked changes to the mutable object would compromise security or other important properties, you will need to do something different. Storing a copy of the object is better approach in many situations.</p>
-<p>报的是这种比如 Date 类型的字段的 getter 和 setter 方法：</p>
-<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs1.png"></p>
-<p>这里的警告意思是，在进行 get 或者 set 时候，因为 Java 是引用传递，对象之间赋值，可能会导致其他对象的修改，所以建议的做法是，把对象的克隆对象赋值给需要赋值的对象。</p>
-<p>首先，该实体类要继承 Cloneable 接口，然后在对应的 getter 和 setter 方法更改如下即可：</p>
-<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs2.png"></p>
-<p>在一款优秀的 Java IDE —— IntellijIDEA 中，也可以安装对应的插件，来将这些问题扼杀在项目上线之前，避免不必要的麻烦。</p>
-<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs3.png"></p>
-<p>安装以后，右击要分析的 Java 文件，选择 Analyzed Files 即可</p>
-<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs4.png"></p>
-<p>分析之后，如果有 bugs，就会显示，然后根据提示来修正即可</p>
-<p><img src="http://p8bc1hri5.bkt.clouddn.com/findBugs5.png"></p>
+<p>最近为了朋友公司的团队组建，自己花了不少时间，感觉有点着急了，好像明天招不到就是世界末日了。碰到聊得来的就拼命的争取，还承诺了薪资，当时是自我感觉良好，可是和健叔沟通之后，才感觉自己太着急了，把自己放在了被动的局面。</p>
+<p>思考了一下，自己应该转变思路，要以老板的心态去面对拉人，比较我们拉他过来是给他发薪水的，而且也并不是非他不可的，主动权要掌握在自己手里。</p>
  
       <!-- reward -->
       
@@ -214,12 +172,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2016/05/06/findbugs/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/11/24/a-learning-a-day-21-11-24/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WikiKnowledge/" rel="tag">WikiKnowledge</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/A-Learning-A-Day/" rel="tag">A Learning A Day</a></li></ul>
 
     </footer>
   </div>
@@ -227,19 +185,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2016/06/15/the-normal-characteristic-of-angular-1/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            AngularJS 的常用特性 (一)
-          
-        </div>
-      </a>
     
-    
-      <a href="/2016/04/05/strong-your-heart/" class="article-nav-link">
+      <a href="/2018/12/25/java-reference/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">拿什么来强大你的内心——M 叔的人格魅力</div>
+        <div class="article-nav-title">强软弱虚——Java中的引用类型</div>
       </a>
     
   </nav>

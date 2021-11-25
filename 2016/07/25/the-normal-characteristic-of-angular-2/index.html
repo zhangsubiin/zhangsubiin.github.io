@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">885</span>
+            <span class="post-count">890</span>
         </span>
     </span>
 
@@ -107,7 +107,9 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>3、列表、表格以及其他迭代型元素</p>
+  <p>AngularJS常用特性</p>
+<span id="more"></span>
+<p>3、列表、表格以及其他迭代型元素</p>
 <p>ng-repeat 可能是最有用的 Angular 指令了，它可以根据集合中的项目一次创建一组元素的多份拷贝。</p>
 <p>比如一个学生名册系统需要从服务器上获取学生信息，目前先把模型之间定义在 JavaScript 代码里面：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> students = [&#123;<span class="attr">name</span>: <span class="string">&#x27;Mary&#x27;</span>, <span class="attr">id</span>: <span class="string">&#x27;1&#x27;</span>&#125;,</span><br><span class="line"></span><br><span class="line">                &#123;<span class="attr">name</span>: <span class="string">&#x27;Jack&#x27;</span>, <span class="attr">id</span>: <span class="string">&#x27;2&#x27;</span>&#125;,</span><br><span class="line"></span><br><span class="line">                &#123;<span class="attr">name</span>: <span class="string">&#x27;Jill&#x27;</span>, <span class="attr">id</span>: <span class="string">&#x27;3&#x27;</span>&#125;];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StudentListController</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">　　$scope.students = students;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
