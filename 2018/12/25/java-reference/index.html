@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-强软弱虚——Java中的引用类型"
+  id="post-java-reference"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -73,7 +73,7 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2018/12/25/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E2%80%94%E2%80%94Java%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="article-date">
+      <a href="/2018/12/25/java-reference/" class="article-date">
   <time datetime="2018-12-25T02:56:18.000Z" itemprop="datePublished">2018-12-25</time>
 </a>   
 <div class="word_count">
@@ -116,31 +116,25 @@
 <p>一旦经过垃圾回收，立即会被回收到；</p>
 <p>应用在ThreadLocal中；</p>
 <p>Spring中的事务，为了保证多个方法也要在同一个数据库连接池的连接，就是要用一个ThreadLocal去实现；</p>
-<img src="/2018/12/25/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E2%80%94%E2%80%94Java%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/933917e60e9c68a03f28ee612a4d7d5c.png" class="" title="This is an image">
-<p><img src="/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E2%80%94%E2%80%94Java%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/933917e60e9c68a03f28ee612a4d7d5c.png"></p>
+<img src="/2018/12/25/java-reference/933917e60e9c68a03f28ee612a4d7d5c.png" class="" title="This is an image">
+<p><img src="/java-reference/933917e60e9c68a03f28ee612a4d7d5c.png"></p>
 <p>一旦线程结束的时候，线程里边的tl对象也会被回收，如果key是一个强引用，则ThreadLocal则不会被回收，只有是一个弱引用，才会被回收；</p>
 <p>但是key被回收了，key变成null，但是其对应的value没法被回收，必须手动执行tl.remove()操作，不然还会产生内存泄漏；</p>
 <p>为什么同时要有弱引用和remove方法，因为这两个是不同的对象，一个是ThreadLocal，另一个是Entry对象；</p>
-<img src="/2018/12/25/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E2%80%94%E2%80%94Java%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/6bed4b777eff5f7e47c650b7267c4808.png" class="" title="This is an image">
-<p><img src="/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E2%80%94%E2%80%94Java%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/6bed4b777eff5f7e47c650b7267c4808.png"></p>
+<img src="/2018/12/25/java-reference/6bed4b777eff5f7e47c650b7267c4808.png" class="" title="This is an image">
+<p><img src="/java-reference/6bed4b777eff5f7e47c650b7267c4808.png"></p>
 <p>WeakHashMap也是弱引用的引用；</p>
 <h2 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;M&gt; QUEUE = new ReferenceQueue();</span><br><span class="line">PhantomReference&lt;M&gt; phantomReference = new PhantomReference&lt;&gt;(new M(), QUEUE);</span><br><span class="line">System.out.println(phantomReference.get());</span><br></pre></td></tr></table></figure>
 
 <p>无法通过get方法获得值；</p>
 <p>虚引用的作用是用于管理对外内存；</p>
 <p>NIO中的直接内存管理，直接管理对外的内存，叫做Zero-Copy；</p>
-<img src="/2018/12/25/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E2%80%94%E2%80%94Java%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/755d13b0cfe23f4d0f12cf8490c41388.png" class="" title="This is an image">
-<p><img src="/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E2%80%94%E2%80%94Java%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/755d13b0cfe23f4d0f12cf8490c41388.png"></p>
+<img src="/2018/12/25/java-reference/755d13b0cfe23f4d0f12cf8490c41388.png" class="" title="This is an image">
+<p><img src="/java-reference/755d13b0cfe23f4d0f12cf8490c41388.png"></p>
 <p>DirectByteBuffer一旦被回收，对应的堆外内存也要被回收，否则会出现内存泄漏问题；</p>
 <p>凡是这样的对象，给它挂一个虚引用，只要这个对象被回收，则会设置一个信息到一个队列里边，这样JVM就只需监听这个队列就可以回收对应到堆外内存；</p>
  
       <!-- reward -->
-      
-      <div id="reword-out">
-        <div id="reward-btn">
-          打赏
-        </div>
-      </div>
       
     </div>
     
@@ -203,7 +197,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2018/12/25/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E2%80%94%E2%80%94Java%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2018/12/25/java-reference/" alt="微信分享二维码">
     </div>
 </div>
 
