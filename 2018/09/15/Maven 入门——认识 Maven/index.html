@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>Maven 入门—— Maven 安装和配置 |  少平沉思录</title>
+      <title>Maven 入门——认识 Maven |  少平沉思录</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-Maven-入门——-Maven-安装和配置"
+  id="post-Maven 入门——认识 Maven"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Maven 入门—— Maven 安装和配置
+  Maven 入门——认识 Maven
 </h1>
  
 
@@ -73,15 +73,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2018/07/19/Maven-%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94-Maven-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" class="article-date">
-  <time datetime="2018-07-19T15:16:56.000Z" itemprop="datePublished">2018-07-19</time>
+      <a href="/2018/09/15/Maven%20%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86%20Maven/" class="article-date">
+  <time datetime="2018-09-14T19:17:02.000Z" itemprop="datePublished">2018-09-15</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">560</span>
+            <span class="post-count">1.1k</span>
         </span>
     </span>
 
@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">2 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
@@ -105,25 +105,31 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="二、Maven-的安装和配置"><a href="#二、Maven-的安装和配置" class="headerlink" title="二、Maven 的安装和配置"></a>二、Maven 的安装和配置</h2><h3 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h3><p><strong>Windows 环境</strong></p>
-<ul>
-<li>Maven 官网下载安装文件</li>
-<li>解压到指定目录</li>
-<li>配置环境变量（M2_HOME）</li>
-<li>cmd 输入 <code>mvn -v</code></li>
-</ul>
-<p><strong>Mac环境</strong></p>
-<ul>
-<li><code>brew install mvn</code></li>
-<li>配置环境变量 </li>
-<li>export <code>M2\_HOME=/usr/local/Cellar/maven/3.5.4</code>，</li>
-<li>export <code>PATH=$PATH:$M2\_HOME/bin</code></li>
-<li>终端输入：<code>mvn -v</code><br><img src="http://p8bc1hri5.bkt.clouddn.com/Maven%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE1.png"><h3 id="2、配置"><a href="#2、配置" class="headerlink" title="2、配置"></a>2、配置</h3></li>
-<li>Eclipse：<strong>m2eclipse</strong></li>
-<li>IDEA：自带+辅助插件<br><img src="http://p8bc1hri5.bkt.clouddn.com/Maven%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE2.png"><h3 id="3、最佳实践"><a href="#3、最佳实践" class="headerlink" title="3、最佳实践"></a>3、最佳实践</h3><h4 id="1、设置-MAVEN-OPTS-环境变量"><a href="#1、设置-MAVEN-OPTS-环境变量" class="headerlink" title="1、设置 MAVEN_OPTS 环境变量"></a>1、设置 MAVEN_OPTS 环境变量</h4>运行 mvn 命令实际上是执行了 Java 命令，那么 Java 命令可用的参数同样可用在运行 mvn 命令时可用。<br>通常需要设置 MAVEN_OPTS 的值为 -Xms128m -Xmx512m（堆内存的初始值和最大值），因为 Java 默认的最大可用内存往往不够满足 Maven 运行的需要，比如在项目较大时，使用 Maven 生成项目站点需要占用大量的内存，如果没有该配置，很容易得到 <code>java.lang.OutOfMemeoryError</code>，因此，最好提前配置该变量。<br>设置方式建议参考 <strong>M2_HOME</strong> 变量的配置方式，不要直接更改安装目录下的文件，不然版本更新以后还要重新配置该变量。<h4 id="2、配置用户范围-settings-xml"><a href="#2、配置用户范围-settings-xml" class="headerlink" title="2、配置用户范围 settings.xml"></a>2、配置用户范围 settings.xml</h4>Maven 用户可以选择配置 <code>$M2\_HOME/conf/settings.xml</code> 或者 <code>~/.m2/settings.xml</code>，前者是全局范围的，后者是用户范围的，推荐使用用户范围的 settings.xml，主要是为了避免影响其他的用户，而且配置用户范围的 settings.xml 文件还便于 Maven 升级，升级时不会影响到 Maven 的安装文件，也不会影响到使用。因为使用有个加载顺序的，先加载用户的配置文件，没有匹配再加载系统的配置文件：<br><img src="http://p8bc1hri5.bkt.clouddn.com/Maven%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE3.png"><h4 id="3、不用使用-IDE-内嵌的-Maven"><a href="#3、不用使用-IDE-内嵌的-Maven" class="headerlink" title="3、不用使用 IDE 内嵌的 Maven"></a>3、不用使用 IDE 内嵌的 Maven<img src="/var/folders/3g/9x_v6q3n61g8sffb0712wl3h0000gn/T/abnerworks.Typora/image-20180720005349463.png" alt="image-20180720005349463"></h4></li>
-</ul>
-<p><img src="http://p8bc1hri5.bkt.clouddn.com/markdown/20180720010533.png" alt="markdown/20180720010533.png"></p>
-<p>无论 Eclipse 还是 IDEA，当集成 Maven 时，都会安装上一个内嵌的 Maven，这个内嵌的 Maven 通常会比较新，但是不一定稳定，而且往往也会和在命令行使用的 Maven 不是同一个版本。这样就有可能因为版本不同的原因出现某些问题，所以建议还是用本地安装的 Maven 版本，而本地安装的版本也应该与服务器上安装的版本一致。<br><img src="http://p8bc1hri5.bkt.clouddn.com/Maven%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE4.png"></p>
+  <h2 id="认识-Maven"><a href="#认识-Maven" class="headerlink" title="认识 Maven"></a>认识 Maven</h2><p>Maven /ˈmāvən/ ，可以翻译成“专家”，是一款来自 Apache 组织的开源项目，用于项目管理。主要服务于基于 Java 平台的项目构建、依赖管理和项目信息管理。<br>构建（build）是每一位程序员每天都在做的事情，每天都有相当一部分时间花在编译、运行单元测试、生成文档、打包和部署等工作上，这些就是构建。而这一切，Maven 都可以帮我们自动完成，提高工作效率。</p>
+<h3 id="1、Ant-vs-Maven"><a href="#1、Ant-vs-Maven" class="headerlink" title="1、Ant vs Maven"></a>1、Ant vs Maven</h3><p>Ant 只能算作一个构建工具，而 Maven 是一个项目管理工具，更正式的定义为：Maven 是一个项目管理工具，它包含了一个项目对象模型 (Project Object Model)，一组标准集合，一个项目生命周期 (Project Lifecycle)，一个依赖管理系统 (Dependency Management System)，和用来运行定义在生命周期阶段 (phase) 中插件 (plugin) 目标 (goal) 的逻辑。（Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project’s build, reporting and documentation from a central piece of information.）</p>
+<p>Apache Ant<br>1，Ant 没有正式的约定如一个一般项目的目录结构，你必须明确的告诉 Ant 哪里去找源代码，哪里放置输出。随着时间的推移，非正式的约定出现了，但是它们还没有在产品中模式化。<br>2，Ant 是程序化的，你必须明确的告诉 Ant 做什么，什么时候做。你必须告诉它去编译，然后复制，然后压缩。<br>3，Ant 没有生命周期，你必须定义目标和目标之间的依赖。你必须手工为每个目标附上一个任务序列。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">name</span>=<span class="string">&quot;Hello&quot;</span> <span class="attr">default</span>=<span class="string">&quot;compile&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">&quot;compile&quot;</span> <span class="attr">description</span>=<span class="string">&quot;compile the Java source code to class files&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">&quot;classes&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">javac</span> <span class="attr">srcdir</span>=<span class="string">&quot;.&quot;</span> <span class="attr">destdir</span>=<span class="string">&quot;classes&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">&quot;jar&quot;</span> <span class="attr">depends</span>=<span class="string">&quot;compile&quot;</span> <span class="attr">description</span>=<span class="string">&quot;create a Jar file&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">jar</span> <span class="attr">dstfile</span>=<span class="string">&quot;hello.jar&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">&quot;classes&quot;</span> <span class="attr">includes</span>=<span class="string">&quot;* * / *.class&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;<span class="name">mainfest</span>&gt;</span></span><br><span class="line"></span><br><span class="line">				<span class="tag">&lt;<span class="name">attribute</span> <span class="attr">name</span>=<span class="string">&quot;Main-Class&quot;</span> <span class="attr">value</span>=<span class="string">&quot;HelloProgram&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">			<span class="tag">&lt;/<span class="name">mainfest</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;/<span class="name">jar</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>Apache Maven<br>1，Maven 拥有约定，因为你遵循了约定，它已经知道你的源代码在哪里。它把字节码放到  target/classes ，然后在  target 生成一个 JAR 文件。<br>2，Maven 是声明式的。你需要做的只是创建一个 pom.xml 文件然后将源代码放到默认的目录。Maven 会帮你处理其它的事情。<br>3，Maven 有一个生命周期，当你运行 mvn install 的时候被调用。这条命令告诉 Maven 执行一系列的有序的步骤，直到到达你指定的生命周期。遍历生命周期旅途中的一个影响就是，Maven 运行了许多默认的插件目标，这些目标完成了像编译和创建一个 JAR 文件这样的工作。</p>
+<h3 id="2、被误解的-Maven"><a href="#2、被误解的-Maven" class="headerlink" title="2、被误解的 Maven"></a>2、被误解的 Maven</h3><p>C++ 之父 Bjarne Stroustrup 说过一句话：“只有两类计算机语言，一类语言天天被人骂，还有一类没人用”。<br>用户最多的 Java 得到的骂声就不绝于耳，Maven 的用户也提出了很多质疑：</p>
+<blockquote>
+<p>“Maven 对于 IDE 的支持较差，bug 多，而且不稳定”</p>
+</blockquote>
+<p>Maven 最高效的方式永远是命令行，IDE 在自动化构建方面有天生的缺陷。</p>
+<blockquote>
+<p>“Maven 采用了一种糟糕的插件系统来执行构建，新的、破损的插件会让你的构建莫名其妙地失败”</p>
+</blockquote>
+<p>自 Maven 2.0.9 开始，所有核心的插件都设定了稳定版本，Maven 社区也提倡为你使用的任何插件设定稳定的版本，从 Maven 3 开始，如果你使用插件时未设定版本，会看到警告信息。</p>
+<blockquote>
+<p>“Maven 的仓库十分混乱，当无法从仓库中得到需要的类库时，我需要手动下载复制到本地仓库中”</p>
+</blockquote>
+<p>Maven 的中央仓库确实不完美，你也许会发现某个 jar 包出现在两个不同的路径下，而这是开源项目本身改变了自身的坐标，假设一下没有中央仓库，你需要从开源项目首页寻找下载链接，这个反而是更痛苦的事情。</p>
+<blockquote>
+<p>“缺乏文档是理解和使用 Maven 的一个主要障碍”</p>
+</blockquote>
+<p>这是事实， Maven 官方站点的文档十分凌乱，各种插件的文档更是需要费力寻找。</p>
  
       <!-- reward -->
       
@@ -194,7 +200,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2018/07/19/Maven-%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94-Maven-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2018/09/15/Maven%20%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86%20Maven/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -207,19 +213,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2018/07/23/Maven-%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86Maven%E7%BB%93%E6%9E%84/" class="article-nav-link">
+      <a href="/2018/10/20/Maven-%E8%BF%9B%E9%98%B6/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            Maven 入门——认识Maven结构
+            Maven 进阶
           
         </div>
       </a>
     
     
-      <a href="/2018/07/15/Maven%20%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86%20Maven/" class="article-nav-link">
+      <a href="/2018/08/01/Maven-%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94-Maven-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Maven 入门——认识 Maven</div>
+        <div class="article-nav-title">Maven 入门—— Maven 安装和配置</div>
       </a>
     
   </nav>

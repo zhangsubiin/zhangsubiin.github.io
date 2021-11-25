@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>spring-transactional |  少平沉思录</title>
+      <title>Spring中的事务使用注意事项 |  少平沉思录</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  spring-transactional
+  Spring中的事务使用注意事项
 </h1>
  
 
@@ -73,8 +73,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2021/11/25/spring-transactional/" class="article-date">
-  <time datetime="2021-11-25T02:23:44.000Z" itemprop="datePublished">2021-11-25</time>
+      <a href="/2018/11/10/spring-transactional/" class="article-date">
+  <time datetime="2018-11-10T02:23:44.000Z" itemprop="datePublished">2018-11-10</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
@@ -118,8 +118,7 @@
 
 
 <p><strong>@Transactional 生效原则 2，必须通过代理过的类从外部调用目标方法才能生效</strong></p>
-<p><img src="/images/b077c033fa394353309fbb4f8368e46c_20211125100250916.jpg"><br><img src="images/b077c033fa394353309fbb4f8368e46c_20211125100250916.jpg" width="50%" height="50%" title="test." alt="test."/></p>
-
+<img src="/2018/11/10/spring-transactional/b077c033fa394353309fbb4f8368e46c_20211125100250916.jpg" class="" title="This is an image">
 
 
 <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="事务即便生效也不一定能回滚"><a href="#事务即便生效也不一定能回滚" class="headerlink" title="事务即便生效也不一定能回滚"></a>事务即便生效也不一定能回滚</h3><p>通过 AOP 实现事务处理可以理解为，使用 try…catch…来包裹标记了 @Transactional 注解的方法，<strong>当方法出现了异常并且满足一定条件的时候</strong>，在 catch 里面我们可以设置事务回滚，没有异常则直接提交事务。</p>
@@ -240,11 +239,13 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/11/25/spring-transactional/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2018/11/10/spring-transactional/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
     </footer>
   </div>
 
@@ -252,7 +253,7 @@
   <nav class="article-nav">
     
     
-      <a href="/2018/07/24/Maven-%E8%BF%9B%E9%98%B6/" class="article-nav-link">
+      <a href="/2018/10/20/Maven-%E8%BF%9B%E9%98%B6/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
         <div class="article-nav-title">Maven 进阶</div>
       </a>
