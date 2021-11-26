@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Dubbo中的IoC与AOP |  少平沉思录</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-dubbo-IoC-AOP"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Dubbo中的IoC与AOP
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2019/01/26/dubbo-IoC-AOP/" class="article-date">
+  <time datetime="2019-01-26T02:29:43.000Z" itemprop="datePublished">2019-01-26</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>聊一下IoC和AOP原理在Dubbo中的应用。</p>
+<span id="more"></span>
+<h1 id="1、回顾与复习："><a href="#1、回顾与复习：" class="headerlink" title="1、回顾与复习："></a>1、回顾与复习：</h1><h3 id="1-1、dubbo的基本设计原则"><a href="#1-1、dubbo的基本设计原则" class="headerlink" title="1.1、dubbo的基本设计原则"></a>1.1、dubbo的基本设计原则</h3><p>采用 Microkernel + Plugin 模式，Microkernel 只负责组装 Plugin，Dubbo 自身的功能也是通过扩展点实现的，也就是 Dubbo 的所有功能点都可被用户自定义扩展所替换。</p>
+<p>采用 URL 作为配置信息的统一格式，所有扩展点都通过传递 URL 携带配置信息。</p>
+<h3 id="1-2、Dubbo中的增强SPI"><a href="#1-2、Dubbo中的增强SPI" class="headerlink" title="1.2、Dubbo中的增强SPI"></a>1.2、Dubbo中的增强SPI</h3><p>Dubbo的扩展点加载机制是基于JDK标准的SPI扩展机制增强而来的，Dubbo解决了JDK标准的SPI的以下问题：</p>
+<ul>
+<li>JDK标准的SPI会一次性实例化扩展点的所有实现，如果有些扩展实现初始化很耗时，但又没用上，那么加载就很浪费资源。</li>
+<li>如果扩展点加载失败，是不会友好地向用户通知具体异常的，没有显示的指名失败原因。</li>
+<li>增加了对扩展点IoC和AOP的支持，一个扩展点可以直接使用setter（）方法注入其他扩展点，也可以对扩展点使用Wrapper类进行功能增强。</li>
+</ul>
+<h3 id="1-3、扩展实践案例"><a href="#1-3、扩展实践案例" class="headerlink" title="1.3、扩展实践案例"></a>1.3、扩展实践案例</h3><p><strong>扩展接口</strong></p>
+<p>org.apache.dubbo.common.compiler.Compiler</p>
+<p><strong>现有扩展</strong></p>
+<ul>
+<li><code>org.apache.dubbo.common.compiler.support.JdkCompiler</code></li>
+<li><code>org.apache.dubbo.common.compiler.support.JavassistCompiler</code></li>
+</ul>
+<p><strong>扩展式例</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">`src`</span><br><span class="line"> `|-main`</span><br><span class="line">    `|-java`</span><br><span class="line">        `|-com`</span><br><span class="line">            `|-xxx`</span><br><span class="line">                `|-XxxCompiler.java (实现Compiler接口)`</span><br><span class="line">    `|-resources`</span><br><span class="line">        `|-META-INF`</span><br><span class="line">            `|-dubbo`</span><br><span class="line">                `|-org.apache.dubbo.common.compiler.Compiler (纯文本文件，内容为：xxx=com.xxx.XxxCompiler)`</span><br><span class="line"></span><br><span class="line">`package com.xxx;`</span><br><span class="line">`import org.apache.dubbo.common.compiler.Compiler;`</span><br><span class="line">`public class XxxCompiler implements Compiler &#123;`</span><br><span class="line">    `public Object getExtension(Class&lt;?&gt; type, String name) &#123;`</span><br><span class="line">        `// ...`</span><br><span class="line">    `&#125;`</span><br><span class="line">`&#125;`</span><br><span class="line"></span><br><span class="line">`xxx=com.xxx.XxxCompiler`</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2、Dubbo中的IoC："><a href="#2、Dubbo中的IoC：" class="headerlink" title="2、Dubbo中的IoC："></a>2、Dubbo中的IoC：</h2><h3 id="2-1、Spring-中的-IoC"><a href="#2-1、Spring-中的-IoC" class="headerlink" title="2.1、Spring 中的 IoC"></a>2.1、Spring 中的 IoC</h3><p><strong>控制反转</strong>（Inversion of Control，简称 IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。其中最常见的方式叫做<strong>依赖注入</strong>（Dependency Injection，简称 DI），还有一种方式叫“<strong>依赖查找</strong>”（Dependency Lookup）。</p>
+<p>通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体，将其所依赖的对象的引用传递(注入)给它。</p>
+<p><strong>两种实现：依赖查找（DL）和依赖注入（DI）。</strong></p>
+<p><strong>IOC 和 DI 、DL 的关系：</strong></p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103438001.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103438001.png"></p>
+<p><strong>Spring IoC容器实现对象的创建与依赖：</strong></p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103453655.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103453655.png"></p>
+<h3 id="2-2、Dubbo中-的-IoC"><a href="#2-2、Dubbo中-的-IoC" class="headerlink" title="2.2、Dubbo中 的 IoC"></a>2.2、Dubbo中 的 IoC</h3><p>Dubbo IOC 是通过 setter 方法注入依赖。</p>
+<p>Dubbo 首先会通过反射获取到实例的所有方法，然后再遍历方法列表，检测方法名是否具有 setter 方法特征。</p>
+<p>若有，则通过 ObjectFactory 获取依赖对象，最后通过反射调用 setter 方法将依赖设置到目标对象中。</p>
+<p>整个过程对应的代码如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">`private T injectExtension(T instance) &#123;`</span><br><span class="line">    `try &#123;`</span><br><span class="line">        `if (objectFactory != null) &#123;`</span><br><span class="line">            `// 遍历目标类的所有方法`</span><br><span class="line">            `for (Method method : instance.getClass().getMethods()) &#123;`</span><br><span class="line">                `// 检测方法是否以 set 开头，且方法仅有一个参数，且方法访问级别为 public`</span><br><span class="line">                `if (method.getName().startsWith(&quot;set&quot;)`</span><br><span class="line">                    `&amp;&amp; method.getParameterTypes().length == 1`</span><br><span class="line">                    `&amp;&amp; Modifier.isPublic(method.getModifiers())) &#123;`</span><br><span class="line">                    `// 获取 setter 方法参数类型`</span><br><span class="line">                    `Class&lt;?&gt; pt = method.getParameterTypes()[0];`</span><br><span class="line">                    `try &#123;`</span><br><span class="line">                        `// 获取属性名，比如 setName 方法对应属性名 name`</span><br><span class="line">                        `String property = method.getName().length() &gt; 3 ?`</span><br><span class="line">                            `method.getName().substring(3, 4).toLowerCase() +`</span><br><span class="line">                                `method.getName().substring(4) : &quot;&quot;;`</span><br><span class="line">                        `// 从 ObjectFactory 中获取依赖对象`</span><br><span class="line">                        `Object object = objectFactory.getExtension(pt, property);`</span><br><span class="line">                        `if (object != null) &#123;`</span><br><span class="line">                            `// 通过反射调用 setter 方法设置依赖`</span><br><span class="line">                            `method.invoke(instance, object);`</span><br><span class="line">                        `&#125;`</span><br><span class="line">                    `&#125; catch (Exception e) &#123;`</span><br><span class="line">                        `logger.error(&quot;fail to inject via method...&quot;);`</span><br><span class="line">                    `&#125;`</span><br><span class="line">                `&#125;`</span><br><span class="line">            `&#125;`</span><br><span class="line">        `&#125;`</span><br><span class="line">    `&#125; catch (Exception e) &#123;`</span><br><span class="line">        `logger.error(e.getMessage(), e);`</span><br><span class="line">    `&#125;`</span><br><span class="line">    `return instance;`</span><br><span class="line">`&#125;`</span><br></pre></td></tr></table></figure>
+
+<p>在上面代码中，objectFactory 变量的类型为 AdaptiveExtensionFactory，AdaptiveExtensionFactory 内部维护了一个 ExtensionFactory 列表，用于存储其他类型的 ExtensionFactory。</p>
+<p>Dubbo 目前提供了两种 ExtensionFactory，分别是 SpiExtensionFactory 和 SpringExtensionFactory。前者用于创建自适应的拓展，后者是用于从 Spring 的 IOC 容器中获取所需的拓展。</p>
+<p>Dubbo IOC 目前仅支持 setter 方式注入。</p>
+<h2 id="3、Dubbo中的AOP："><a href="#3、Dubbo中的AOP：" class="headerlink" title="3、Dubbo中的AOP："></a>3、Dubbo中的AOP：</h2><h3 id="3-1、Spring-中的-AOP"><a href="#3-1、Spring-中的-AOP" class="headerlink" title="3.1、Spring 中的 AOP"></a>3.1、Spring 中的 AOP</h3><p><strong>业务效果：</strong></p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103510488.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103510488.png"></p>
+<p><strong>框架实现：</strong></p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103522577.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103522577.png"></p>
+<h3 id="3-2、Dubbo-中的-AOP"><a href="#3-2、Dubbo-中的-AOP" class="headerlink" title="3.2、Dubbo 中的 AOP"></a>3.2、Dubbo 中的 AOP</h3><p>在Spring AOP中，我们可以使用多个切面对指定类的方法进行增强，在Dubbo中也提供了类似的功能。在Dubbo中你可以指定多个Wrapper类对指定的扩展点的实现类的方法进行增强。</p>
+<p><strong>Wrapper类如何使用</strong></p>
+<ul>
+<li>先定义warpper类， 这个类必须实现SPI接口</li>
+<li>warpper类的构造方法必须传入SPI接口的参数</li>
+<li>wrapper类必须加入META-INF/dubbo目录下的SPI接口的实现文件中</li>
+<li>wrapper类方法的调用顺序是根据META-INF/dubbo目录下的SPI接口的实现文件中顺序配置来的。 在文件上面的先调用，后面的后调用</li>
+</ul>
+<p>定义一个SPI接口和默认实现类：</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103544972.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103544972.png"></p>
+<p>定义两个wrapper拦截器：</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103608404.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103608404.png"></p>
+<p>配置好拦截器和SPI实现类：</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126104303514.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126104303514.png"></p>
+<p>在目录 META-INF/dubbo/internal 下增加SPI接口命名的文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">`mytst=org.apache.dubbo.common.extension.wrapper.impl.MyTestImpl`</span><br><span class="line"></span><br><span class="line">`wrapper1=org.apache.dubbo.common.extension.wrapper.MyTest1Wrapper`</span><br><span class="line"></span><br><span class="line">`wrapper2=org.apache.dubbo.common.extension.wrapper.MyTest2Wrapper`</span><br></pre></td></tr></table></figure>
+
+<p>调用SPI接口的实现类测试：</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103620037.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103620037.png"></p>
+<p>运行结果如下：</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103632981.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103632981.png"></p>
+<p><strong>实现原理</strong></p>
+<p>1、加载wrapper类</p>
+<p>wrapper类也是实现了SPI的接口类，会被SPI机制加载到缓存中。</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103653270.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103653270.png"></p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103704989.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103704989.png"></p>
+<p>2、获取代理类</p>
+<p>获取接口的适配器类，具体使用哪个SPI的实现还是看我们传入的URL参数中定义的实现类，如果URL中参数没有定义，就会使用SPI的默认实现类。</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103717208.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103717208.png"></p>
+<p>3、获取真实的扩展类</p>
+<p>extensionLoader.getExtension(“mytst”);</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103728645.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103728645.png"></p>
+<p>逻辑很简单， 就是前面校验缓存中是否已经有这个SPI扩展类的，如果没有就创建。</p>
+<p><strong>createExtension</strong>方法：</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103739593.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103739593.png"></p>
+<p>上面的代码遍历了所有Wrapper类，并使用injectExtension一层层对扩展实现类进行功能增强。</p>
+<h2 id="4、Dubbo与Spring的整合："><a href="#4、Dubbo与Spring的整合：" class="headerlink" title="4、Dubbo与Spring的整合："></a>4、Dubbo与Spring的整合：</h2><h3 id="4-1、Spring-自定义配置"><a href="#4-1、Spring-自定义配置" class="headerlink" title="4.1、Spring 自定义配置"></a>4.1、Spring 自定义配置</h3><p>完成一个Spring的自定义配置一般需要5步：</p>
+<ol>
+<li>设计配置属性和JavaBean</li>
+<li>编写XSD(XML Schema)文件,它就是一个校验XML，定义了一些列的语法来规范XML</li>
+<li>编写NameSpaceHandler和BeanDefinitionParser完成解析工作</li>
+<li>编写spring。handlers和spring.schemas串联起所有部件</li>
+<li>在Bean文件中应用</li>
+</ol>
+<p>具体demo参见：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/huan30/p/12790406.html">https://www.cnblogs.com/huan30/p/12790406.html</a></p>
+<h3 id="4-2、Dubbo-实现-Spring-自定义配置"><a href="#4-2、Dubbo-实现-Spring-自定义配置" class="headerlink" title="4.2、Dubbo 实现 Spring 自定义配置"></a>4.2、Dubbo 实现 Spring 自定义配置</h3><img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103754545.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103754545.png"></p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103803507.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103803507.png"></p>
+<h3 id="4-3、Dubbo-与-Spring-的整合"><a href="#4-3、Dubbo-与-Spring-的整合" class="headerlink" title="4.3、Dubbo 与 Spring 的整合"></a>4.3、Dubbo 与 Spring 的整合</h3><img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103819551.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103819551.png"></p>
+<p>AdaptiveExtensionFactory持有了所有的具体工厂实现，它的getExtesion方法中只是遍历了它持有的所有工厂，最终还是调动SPI或Spring工厂实现的getExtesion方法：</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103829647.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103829647.png"></p>
+<p>具体在SpringExtensionFactory中，通过在Spring容器中通过name找到bean：</p>
+<img src="/2019/01/26/dubbo-IoC-AOP/image-20211126103838594.png" class="" title="This is an image">
+<p><img src="/dubbo-IoC-AOP/image-20211126103838594.png"></p>
+<p><strong>参考链接：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?src=11&timestamp=1622721717&ver=3108&signature=arFswO5GtWE50sQ3yHkuQX9USuLSGrZYyRyiVAAo1VHo*mGkTOGYjARZ*3uVe4bPw*85THwcljOWlsiFraft34RsnsE9EFsXrL-oGP6HAHN7-JCDryHmmaqWcHgcvhby&new=1">Spring IOC 知识点总结，写得太好了！</a></p>
+<p><a target="_blank" rel="noopener" href="https://dubbo.apache.org/zh/docs/v2.7/dev/source/dubbo-spi/">Dubbo SPI</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.toutiao.com/a6965453857132462596/?channel=&source=search_tab">实现一个简易版的 Spring之如何实现 AOP</a></p>
+<p><a target="_blank" rel="noopener" href="https://weread.qq.com/web/appreader/ba53238071bc6e98ba52203?wfrom=app&wtheme=white&wvid=20014178&sence=bottomSheetShare">深入剖析ApacheDubbo核心技术内幕</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leisurelen/article/details/108114769">Dubbo的Wrapper类原理接口 – 实现类似AOP的效果</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cold___play/article/details/107024429">Dubbo——ExtensionFactory的实现原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_34976604/article/details/86757638">Dubbo源码解析-ExtensionFactory</a></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2019/01/26/dubbo-IoC-AOP/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dubbo/" rel="tag">Dubbo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/11/24/a-learning-a-day-21-11-24/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            思路的转变
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/12/25/java-reference/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">强软弱虚——Java中的引用类型</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "3TOGtSWyn8KKXFjY1x3Dsh8c-gzGzoHsz",
+    app_key: "z3xLd7CvMvqMzi7IMltjEoDQ",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="少平沉思录"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
